@@ -383,15 +383,16 @@ moveItItem.prototype.update = function(scrollTop){
 $decalage = -30;
 if(this.el.offset().top - $(window).scrollTop() < $decalage){
     $height = $decalage;
+    $opacite = 1 + (this.el.offset().top - $(window).scrollTop())/this.el.height();
 }
 else if(this.el.offset().top - $(window).scrollTop() > $(window).height()){
     $height = -$decalage;
+    $opacite = ($(window).scrollTop()+$(window).height()-this.el.offset().top)/this.el.height();
 }
 else{
     $height = 0;
 }
 this.el.css('transform','translateY('+ $height + 'px)');
-$opacite = 1 + (this.el.offset().top - $(window).scrollTop())/this.el.height();
 this.el.css('opacity',$opacite);
 };
 // Initialization

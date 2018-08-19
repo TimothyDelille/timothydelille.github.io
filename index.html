@@ -387,10 +387,10 @@ if(this.el.offset().top - $(window).scrollTop() < $decalage){
 }
 else if(this.el.offset().top - $(window).scrollTop() > $(window).height()){
     $height = -$decalage;
-    $opacite = ($(window).scrollTop()+$(window).height()-this.el.offset().top)/this.el.height();
 }
 else{
     $height = 0;
+    $opacite = ($(window).scrollTop()+$(window).height()-this.el.offset().top)/this.el.height();
 }
 this.el.css('transform','translateY('+ $height + 'px)');
 this.el.css('opacity',$opacite);

@@ -237,35 +237,32 @@
         font-family:'Work Sans',sans-serif;
     }
     body{
-	cursor:default;
-	margin:0;
-	overflow-x:hidden;
+	   cursor:default;
+	   margin:0;
+	   overflow-x:hidden;
         height:100%;
-        width:100%;
+        width:100vw;
         display:grid;
-        grid-template-columns:1fr;
+        grid-template-columns:100%;
         justify-content: center;
         transition:500ms cubic-bezier(.64,0,.34,1.06);
         grid-gap:20px;
     }
     .title{
-	max-width:800px;
-	justify-self:center;
-	color:black;
-	text-decoration:none;
-	margin:0 15px 30px 0;
+	   max-width:800px;
+	   justify-self:center;
+	   color:black;
+	   text-decoration:none;
+	   margin:0 15px 30px 0;
     }
     .title h1{
         display:grid;
         grid-template-columns:max-content auto;
         justify-content: center;
-        text-align: justify;
-        margin:0 15px 30px 0;
-        max-width:800px;
-        justify-self:center;
     }
     body p, body ul li {
         font-family:'Roboto', sans-serif;
+        font-size:1em;
     }
     ul{
         margin: 15px 0;
@@ -326,8 +323,8 @@
         display:flex;
         justify-content: space-around;
         align-items:center;
-	overflow:hidden;
-	height:40px;
+	   overflow:hidden;
+	   height:40px;
 	}
     .nav > a, .footer > a {
         color:darkgrey;
@@ -349,6 +346,15 @@
         height:80px;
         overflow:hidden;
         font-family: 'Quicksand', sans-serif;
+    }
+    
+    @media all and (max-width: 700px) {
+        .instructor_headshots{
+            grid-template-columns: 1fr 1fr;
+        }
+        .title h1{
+            font-size:1.3em;
+        }
     }
 </style>
 <script> 

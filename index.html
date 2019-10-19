@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Fontawesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+        
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Lexend+Deca|Noto+Sans:600|Work+Sans:400,500|Playfair+Display+SC:700&display=swap" rel="stylesheet">
+    
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+         <!-- Functions script-->
+        <script src='utils/functions.js?v=<?=time();?>'></script>
+        <script src='upload-beat/upload-beat.js?v=<?=time();?>'></script>
+        
+        <!-- CSS sheets -->
+        <link rel="stylesheet" href="style/index.css?v=<?=time();?>" type="text/css"/>
+		<title>Timothy Delille</title>
+	</head>
+    <body class='bg-light'>
+        <nav class="navbar navbar-expand-lg navbar-light scroll-fade">
+          <img class='ml-5 mr-5' src='Delille_Timothy.jpg' style='width:3rem;border-radius:50%;'/>
+          <h3><a href='index.html'>Timothy Delille</a></h3>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="index.html">Work <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Resume</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <div class='container-fluid p-5 projects'>
+            <div class='row'>
+                <h1 class='col bold ml-5 mb-5 scroll-fade d-none d-lg-block'>
+                    Hi, I'm Timothy.
+                    <br>
+                    Student at <span class='bold' style='color:darkblue;'>UC Berkeley</span>.
+                    <br>
+                    Masters in <span class='bold' style='color:orange'>Computer Science</span>.
+                </h1>
+                <h3 class='col bold ml-5 mb-5 scroll-fade d-none d-md-block d-lg-none'>
+                    Hi, I'm Timothy.
+                    <br>
+                    Student at <span class='bold' style='color:darkblue;'>UC Berkeley</span>.
+                    <br>
+                    Masters in <span class='bold' style='color:orange'>Computer Science</span>.
+                </h3>
+                <h4 class='col bold ml-5 mb-5 scroll-fade d-sm-block d-md-none'>
+                    Hi, I'm Timothy.
+                    <br>
+                    Student at <span class='bold' style='color:darkblue;'>UC Berkeley</span>.
+                    <br>
+                    Masters in <span class='bold' style='color:orange'>Computer Science</span>.
+                </h4>
+                <div id="particles-js" class='col d-none d-md-block' style='height:10rem;'></div>
+            </div>
+            <div class='container col-lg-8 col-sm-12 mt-5 project' onclick="location.href='#'">
+                <h2>A.I. and Blockchain </h2>
+                <h4 class='m-0'>Training Machine Learning Models on the Blockchain to Preserve Data Privacy</h4>
+                <small class="text-muted">under the supervision of <a href='https://en.wikipedia.org/wiki/Dawn_Song'>Prof. Dawn Song</a></small>
+                <p class='mt-3 text-justify'>Blockchains and smart contracts have created new exciting opportunities for building highly resilient applications with integrity, liveness, and correctness guarantees. The goal of this project is to apply secure computation and blockchains to train machine learning models on large-scale data sets, while preserving data privacy. By running training and prediction on a blockchain, we can develop private smart contracts that continually learn over time...</p>
+            </div>
+            <div class='container col-lg-8 col-sm-12 mt-5 project' onclick="location.href='#'">
+                <h2>Pairs Trading Strategies</h2>
+                <h4 class='m-0'>Constructing Market Neutral Portfolios in the French Construction Sector</h4>
+                <p class='mt-3 text-justify'>blablabla</p>
+            </div>
+            <div class='container col-lg-8 col-sm-12 project' onclick="location.href='https://github.com/TimothyDelille/YOLOv3-tensorflow2.0'">
+                <h2 class='m-0'>YOLOv3: a Tensorflow 2.0 Implementation</h2>
+                <p class='mt-3 text-justify'>I propose an implementation of YOLOv3 on Tensorflow 2.0 using the hyperparameters set in the original publication and a 416x416 input size. Ideally, one should perform k-means clustering on the training dataset to find the proper anchors. For example purposes, I use the Penn-Fudan Database for Pedestrian Detection and Segmentation...</p>
+            </div>
+            <!--
+            <div class='container col-lg-8 col-sm-12 project' onclick="location.href='#'">
+                <h2>Hackathon First Prize</h2>
+                <h4 class='m-0'>Using A.I. to predict dangerous situations on building sites</h4>
+                <small class="text-muted">organized by <a href='https://www.eurovia.com/en'>Eurovia</a> and <a href='https://www.bemyapp.com/'>BeMyApp</a></small>
+                <p class='mt-3 text-justify'>blablabla</p>
+            </div>
+            -->
+            <div class='container col-lg-8 col-sm-12 project' onclick="location.href='dassault-uav-challenge/dassault-uav-challenge.html'">
+                <h2>Dassault UAV Challenge</h2>
+                <h4 class='m-0'>Teaching a drone to detect targets on artificially generated training data</h4>
+                <small class="text-muted">under the supervision of Prof. Nazih Mechbal and Prof. Marc Rébillat</small>
+                <p class='mt-3 text-justify'>The <a href='https://www.dassault-aviation.com/en/group/news/dassault-uav-challenge-2019/'>Dassault UAV Challenge</a> is an annual competition between top engineering schools in Europe, during which a drone has to complete several missions in complete autonomy. The final objective is for the drone to autonomously explore a bounded area, detect targets of interest and deliver a package on the corresponding targets. In addition, the drone must deliver an accurate map of the explored area (see figure below). During the year 2018-2019, I was in charge of the team responsible for autonomous flight and target detection. The solution we proposed consisted in training a <span>deep neural network</span> (Google's Inception v2 in particular) on <span>artificially generated training images</span>. We mainly used the Tensorflow framework as well as the Open CV library throughout the project...</p>
+            </div>
+            <div class='container mt-5'>
+                <div class='row'>
+                    <p class='col'>Feel free to contact me at <a href='mailto:timothydelille@berkeley.edu'>timothydelille@berkeley.edu</a>.</p>
+                    <a href='https://linkedin.com/in/timothydelille'>
+                        <i class="fab fa-linkedin fa-2x"></i>
+                    </a>
+                    <a class='ml-2' href='https://github.com/TimothyDelille'>
+                        <i class="fab fa-github fa-2x"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+</html>
+
+<!-- scripts particles-->
+<script src="js/particles.js"></script>
+<script src="js/app.js"></script>
+
+<style>
+    *{
+        font-family:Work Sans, Verdana;
+        font-weight:400;
+        color:black;
+    }
+    .bold{
+        font-weight:500;
+    }
+    .project{
+        transition:300ms ease-out;
+    }
+    .project:hover{
+        transform:scale(1.015,1.015);
+        background:white;
+        opacity:0.7;
+        cursor: pointer;
+    }
+    .project a:hover{
+        text-decoration:none;
+    }
+    .playfair-display{
+        font-family: Playfair Display SC, Verdana;
+    }
+</style>
+
+<script> 
+/*-----SCROLLING EFFECT-----*/   
+$.fn.moveIt = function(){
+  var $window = $(window);
+  var instances = [];
+  
+  $(this).each(function(){
+    instances.push(new moveItItem($(this)));
+  });
+  
+  window.addEventListener('scroll', function(){
+    var scrollTop = $window.scrollTop();
+    instances.forEach(function(inst){
+      inst.update(scrollTop);
+    });
+  }, {passive: true});
+}
+
+var moveItItem = function(el){
+  this.el = $(el);
+};
+
+moveItItem.prototype.update = function(scrollTop){
+$decalage = -30;
+if(this.el.offset().top - $(window).scrollTop() < $decalage){
+    $height = $decalage;
+    $opacite = 1 + (this.el.offset().top - $(window).scrollTop())/this.el.height();
+}
+else if(this.el.offset().top - $(window).scrollTop() > $(window).height()){
+    $height = -$decalage;
+}
+else{
+    $height = 0;
+    $opacite = ($(window).scrollTop()+$(window).height()-this.el.offset().top)/this.el.height();
+}
+this.el.css('transform','translateY('+ $height + 'px)');
+this.el.css('opacity',$opacite);
+};
+// Initialization
+$(function(){
+  $('.scroll-fade').moveIt();
+});
+// ne pas mettre overflow:hidden dans le .html sinon ne fonctionne pas
+$('.scroll-fade').css('transition','300ms ease-out');
+</script>

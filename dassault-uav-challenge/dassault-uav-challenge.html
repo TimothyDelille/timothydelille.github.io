@@ -47,7 +47,7 @@
           </div>
         </nav>
         <div id="particles-js" class='col d-none d-md-block' style='height:10rem;'></div>
-        <div class='container col-lg-8 col-sm-12 p-5 projects'>
+        <div class='container col-lg-8 col-sm-12 projects'>
             <h1 class='m-0'>Dassault UAV Challenge</h1>
             <small class="text-muted">Under the supervision of Prof. Nazih Mechbal and Prof. Marc Rébillat</small>
             <h2 class='m-0'>Teaching a drone to detect targets on artificially generated training data</h2>
@@ -55,7 +55,7 @@
             <h2 class='mt-3'>Introduction</h2>
             <p class='mt-3 text-justify'>The <a href='https://www.dassault-aviation.com/en/group/news/dassault-uav-challenge-2019/'>Dassault UAV Challenge</a> is an annual competition between top engineering schools in Europe, during which a drone has to complete several missions in complete autonomy. The final objective is for the drone to autonomously explore a bounded area, detect targets of interest and deliver a package on the corresponding targets. In addition, the drone must deliver an accurate map of the explored area (see figure below). During the year 2018-2019, I was in charge of the team responsible for autonomous flight and target detection. The solution we proposed consisted in training a <span>deep neural network</span> (Google's Inception v2 in particular) on <span>artificially generated training images</span>. We mainly used the Tensorflow framework as well as the Open CV library throughout the project.</p>
             <p align="center">
-                <img src="images/search_area.png" width="250"/>
+                <img src="images/search_area.png" width="200rem"/>
             </p>
             <p class='font-italic w-50 mx-auto text-center'><span>Figure:</span> Search Area (T: Takeoff, L: Landing)<br>Three packages (red, yellow and blue) must each be delivered onto the corresponding cross, rectangles are lures</p>
             
@@ -75,11 +75,11 @@
 
             <div class='row' align="center">
                 <div class='col'>
-                    <img src="images/blue_cross_training.png" width="200"/>
+                    <img src="images/blue_cross_training.png" width="200rem"/>
                     <p class='font-italic text-center mx-auto'>Blue Cross in its corresponding Bounding Box (little Gaussian Noise)</p>
                 </div>
                 <div class='col'>
-                    <img src="images/red_rectangle_training.png" width="200"/>
+                    <img src="images/red_rectangle_training.png" width="200rem"/>
                     <p class='font-italic text-center mx-auto'>Red Rectangle in its corresponding Bounding Box (important Gaussian Noise in background)</p>
                 </div>
             </div>
@@ -94,42 +94,42 @@
             
             <div class='row' align='center'>
                 <div class='col'>
-                    <img align="center" src="images/yellow_cross_inference.png" width="250"/>
+                    <img align="center" src="images/yellow_cross_inference.png" width="250rem"/>
                 </div>
                 <div class='col'>
-                    <img align="center" src="images/partial_yellow_cross.png" width="250"/>
+                    <img align="center" src="images/partial_yellow_cross.png" width="250rem"/>
                 </div>
             </div>
             
             <div class='row mt-4' align='center'>
                 <div class='col'>
-                    <img align="center" src="images/blue_cross_inference.png" width="250"/>
+                    <img align="center" src="images/blue_cross_inference.png" width="250rem"/>
                 </div>
                 <div class='col'>
-                    <img align="center" src="images/partial_blue_cross.png" width="250"/>
+                    <img align="center" src="images/partial_blue_cross.png" width="250rem"/>
                 </div>
             </div>
             <p class='font-italic text-center mx-auto mt-4'>The model detects partially visible targets</p>
             
             <div class='row mt-4' align='center'>
                 <div class='col'>
-                    <img align="center" src="images/red_rectangle_inference.png" width="200"/>
+                    <img align="center" src="images/red_rectangle_inference.png" width="200rem"/>
                 </div>
                 <div class='col'>
-                    <img align="center" src="images/blue_rectangle_inference.png" width="200"/>
+                    <img align="center" src="images/blue_rectangle_inference.png" width="200rem"/>
                 </div>
             </div>
             <p class='font-italic text-center mx-auto mt-4'>The model can tell lines from crosses</p>
 
             <p align="center">
-                <img align="center" src="images/partial_blue_and_red_cross.png" width="250"/>  
+                <img align="center" src="images/partial_blue_and_red_cross.png" width="250rem"/>  
             </p>
             <p class='font-italic text-center mx-auto mt-4'>Even in case of poor visibility, the model can detect crosses</p>
 
             <p class='mt-3 text-justify'>In automated flight, we do not want to miss targets, but most importantly, we do not want to deliver a package on something else than the corresponding target. That is, we want to minimize the number of <span>false positives</span>. In order to do so, we compute a <span>moving average on the \(k\) last images</span>. If the moving average crosses a threshhold we fix at \(0.8\), we can safely assume we rightfully detected a target.</p>
 
             <p align = "center">
-                <img align="center" src="images/moving_average.png" width="350"/>
+                <img align="center" src="images/moving_average.png" width="350rem"/>
             </p>
             <p class='font-italic text-center mx-auto mt-4'>Figure: Plot of the moving average of detections we compute for each class during the flight</p>
 

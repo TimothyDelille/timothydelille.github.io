@@ -161,10 +161,12 @@
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Modeling-Stock-Prices">Modeling Stock Prices<a class="anchor-link" href="#Modeling-Stock-Prices">&#182;</a></h2><p>If we denote $X_t$ the price of some stock $X$ at time $t \geq 0$, the multiplicative returns are given by $\frac{X_{t+1}-X_{t}}{X_t}$.</p>
+<h2 class='m-0 mt-3 d-none d-lg-block' id="Modeling-Stock-Prices">Modeling Stock Prices<a class="anchor-link" href="#Modeling-Stock-Prices">&#182;</a></h2>
+<h4 class='m-0 mt-3 d-sm-block d-lg-none' id="Modeling-Stock-Prices">Modeling Stock Prices<a class="anchor-link" href="#Modeling-Stock-Prices">&#182;</a></h3>
+<p>If we denote $X_t$ the price of some stock $X$ at time $t \geq 0$, the multiplicative returns are given by $\frac{X_{t+1}-X_{t}}{X_t}$.</p>
 <p>The model we will assume for stock price movement is the log-normal process, meaning, the logarithm of the stock price is assumed to exhibit a random walk.</p>
-<p>We can model the price as a continuously compounded return:
-$$X_t = e^{r_t t}$$</p>
+<p>We can model the price as a continuously compounded interest rate:
+$$X_t = X_0 e^{r_t t}$$</p>
 <p>Thus, the multiplicative return between two time steps $t$ and $t+1$ is given by:
 $$\frac{X_{t+1}-X_t}{X_t} = \frac{e^{r_{t+1} (t+1)} - e^{r_t t}}{e^{r_t t}} = e^{r_{t+1} (t+1) - r_t t} - 1 \underbrace{=}_{\text{Taylor expansion}} r_{t+1} (t+1) - r_t t + O(t^2)$$</p>
 <p>Moreover:

@@ -25,3 +25,6 @@ nav a:hover{
 .playfair-display{
     font-family: Playfair Display SC, Verdana;
 }
+strong{
+    font-weight:bold;
+}

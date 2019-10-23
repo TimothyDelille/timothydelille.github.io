@@ -12,11 +12,7 @@
     
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        
-         <!-- Functions script-->
-        <script src='utils/functions.js?v=<?=time();?>'></script>
-        <script src='upload-beat/upload-beat.js?v=<?=time();?>'></script>
-        
+
         <!-- Mathjax -->
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
         <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -56,11 +52,11 @@
             <h5 class='m-0 mt-2 d-block d-sm-none'>Teaching a drone to detect targets on artificially generated training data</h6>
             <p class='mt-3 text-justify'>Please find the complete code on my <a href="https://github.com/TimothyDelille/Teaching-a-Drone-to-Detect-Target-on-Artificially-Generated-Data">GitHub Repository</a>.</p>
             <h2 class='mt-3'>Introduction</h2>
-            <p class='mt-3 text-justify'>The <a href='https://www.dassault-aviation.com/en/group/news/dassault-uav-challenge-2019/'>Dassault UAV Challenge</a> is an annual competition between top engineering schools in Europe, during which a drone has to complete several missions in complete autonomy. The final objective is for the drone to autonomously explore a bounded area, detect targets of interest and deliver a package on the corresponding targets. In addition, the drone must deliver an accurate map of the explored area (see figure below). During the year 2018-2019, I was in charge of the team responsible for autonomous flight and target detection. The solution we proposed consisted in training a <span>deep neural network</span> (Google's Inception v2 in particular) on <span>artificially generated training images</span>. We mainly used the Tensorflow framework as well as the Open CV library throughout the project.</p>
+            <p class='mt-3 text-justify'>The <a href='https://www.dassault-aviation.com/en/group/news/dassault-uav-challenge-2019/'>Dassault UAV Challenge</a> is an annual competition between top engineering schools in Europe, during which a drone has to complete several missions in complete autonomy. The final objective is for the drone to autonomously explore a bounded area, detect targets of interest and deliver a package on the corresponding targets. In addition, the drone must deliver an accurate map of the explored area (see figure below). During the year 2018-2019, I was in charge of the team responsible for autonomous flight and target detection. The solution we proposed consisted in training a <strong>deep neural network</strong> (Google's Inception v2 in particular) on <strong>artificially generated training images</strong>. We mainly used the Tensorflow framework as well as the Open CV library throughout the project.</p>
             <p align="center">
                 <img src="images/search_area.png" class='img-fluid' width="200rem"/>
             </p>
-            <p class='font-italic w-50 mx-auto text-center'><span>Figure:</span> Search Area (T: Takeoff, L: Landing)<br>Three packages (red, yellow and blue) must each be delivered onto the corresponding cross, rectangles are lures</p>
+            <p class='font-italic w-50 mx-auto text-center'><strong>Figure:</strong> Search Area (T: Takeoff, L: Landing)<br>Three packages (red, yellow and blue) must each be delivered onto the corresponding cross, rectangles are lures</p>
             
             
             <h2 class='mt-3'>Generating Training Images</h2>
@@ -87,13 +83,13 @@
                 </div>
             </div>
 
-            <p class='mt-3 text-justify'>Another great aspect of this methods is that it allows us to <span>automatically label the training data</span> (since we know where we generated the targets).
+            <p class='mt-3 text-justify'>Another great aspect of this methods is that it allows us to <strong>automatically label the training data</strong> (since we know where we generated the targets).
             <br><br>
-            It might seem strange that we would deliberately add noise to our training data. <span>How can adding noise make learning more reliable?</span> Intuitively, the reason is that this added noise destroys inadvertent conspiracies. Thing is, overfitting happens because the learning algorithm sees some degree of conspiracies between the observed training labels and the input features. By adding noise into our images, many of these conspiracies will be masked because they are fundamentally sensitive to small details. <span>Adding our own noise allows us to exploit variance reduction and helps generalization performance.</span></p>
+            It might seem strange that we would deliberately add noise to our training data. <strong>How can adding noise make learning more reliable?</strong> Intuitively, the reason is that this added noise destroys inadvertent conspiracies. Thing is, overfitting happens because the learning algorithm sees some degree of conspiracies between the observed training labels and the input features. By adding noise into our images, many of these conspiracies will be masked because they are fundamentally sensitive to small details. <strong>Adding our own noise allows us to exploit variance reduction and helps generalization performance.</strong></p>
 
             <h2 class='mt-3'>Training Inception v2</h2>
 
-            <p class='mt-3 text-justify'>We trained and cross-validated an implementation of Inception v2 on Tensorflow, using 9000 generated images (1500 for each class). It seems that the trained model performs pretty well on real world data, even in case of <span>incomplete / partially hidden classes</span>. It somehow messes up colors sometimes and seems to display a certain imbalance for yellow shapes but, this could be resolved during the post-processing phase, using a simple averaging of pixel values inside the detected shape.</p>
+            <p class='mt-3 text-justify'>We trained and cross-validated an implementation of Inception v2 on Tensorflow, using 9000 generated images (1500 for each class). It seems that the trained model performs pretty well on real world data, even in case of <strong>incomplete / partially hidden classes</strong>. It somehow messes up colors sometimes and seems to display a certain imbalance for yellow shapes but, this could be resolved during the post-processing phase, using a simple averaging of pixel values inside the detected shape.</p>
             
             <div class='row' align='center'>
                 <div class='col'>
@@ -129,7 +125,7 @@
             </p>
             <p class='font-italic text-center mx-auto mt-4'>Even in case of poor visibility, the model can detect crosses</p>
 
-            <p class='mt-3 text-justify'>In automated flight, we do not want to miss targets, but most importantly, we do not want to deliver a package on something else than the corresponding target. That is, we want to minimize the number of <span>false positives</span>. In order to do so, we compute a <span>moving average on the \(k\) last images</span>. If the moving average crosses a threshhold we fix at \(0.8\), we can safely assume we rightfully detected a target.</p>
+            <p class='mt-3 text-justify'>In automated flight, we do not want to miss targets, but most importantly, we do not want to deliver a package on something else than the corresponding target. That is, we want to minimize the number of <strong>false positives</strong>. In order to do so, we compute a <strong>moving average on the \(k\) last images</strogn>. If the moving average crosses a threshhold we fix at \(0.8\), we can safely assume we rightfully detected a target.</p>
 
             <p align = "center">
                 <img align="center" src="images/moving_average.png" class='img-fluid' width="350rem"/>
@@ -228,8 +224,3 @@
 <!-- scripts particles-->
 <script src="../js/particles.js"></script>
 <script src="../js/app.js"></script>
-<style>
-    span{
-        font-weight:bold;
-    }
-</style>

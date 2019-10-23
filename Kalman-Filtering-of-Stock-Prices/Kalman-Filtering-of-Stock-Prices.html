@@ -1,0 +1,732 @@
+<head>
+  <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Fontawesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Lexend+Deca|Noto+Sans:600|Work+Sans:400,500|Playfair+Display+SC:700&display=swap" rel="stylesheet">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- CSS sheets -->
+<link rel="stylesheet" href="../style/index.css?v=<?=time();?>" type="text/css"/>
+<title>Timothy Delille</title>
+
+  <style type="text/css">
+    .highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mb { color: #666666 } /* Literal.Number.Bin */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sa { color: #BA2121 } /* Literal.String.Affix */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #0000FF } /* Name.Function.Magic */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .vm { color: #19177C } /* Name.Variable.Magic */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
+      
+      
+#notebook-container {
+    padding: 15px;
+    background-color: #fff;
+    min-height: 0;
+    -webkit-box-shadow: 0px 0px 12px 1px rgba(87, 87, 87, 0.2);
+    box-shadow: 0px 0px 12px 1px rgba(87, 87, 87, 0.2);
+  }
+      .input_prompt{
+          display:none;
+      }
+  </style>
+  
+
+  <!-- Loading mathjax macro -->
+  <!-- Load mathjax -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_HTML"></script>
+    <!-- MathJax configuration -->
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        // Center justify equations in code and markdown cells. Elsewhere
+        // we use CSS to left justify single line equations in code cells.
+        displayAlign: 'center',
+        "HTML-CSS": {
+            styles: {'.MathJax_Display': {"margin": 0}},
+            linebreaks: { automatic: true }
+        }
+    });
+    </script>
+    <!-- End of mathjax configuration -->
+</head>
+<html>
+<body class='bg-light'>
+<nav class="navbar navbar-expand-lg navbar-light scroll-fade">
+  <img class='mx-auto' src='../Delille_Timothy.jpg' style='width:3rem;border-radius:50%;'/>
+  <h3 class='ml-2'><a href='../index.html'>Timothy Delille</a></h3>
+  <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="../index.html">Work <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Resume</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div id="particles-js" class='col d-none d-md-block' style='height:10rem;'></div>
+    
+  <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 class='m-0 mt-3 d-none d-lg-block' id="Kalman-Filtering-of-Stock-Prices">Kalman Filtering of Stock Prices<a class="anchor-link" href="#Kalman-Filtering-of-Stock-Prices">&#182;</a></h1>
+<h2 class='m-0 mt-3 d-sm-block d-lg-none' id="Kalman-Filtering-of-Stock-Prices">Kalman Filtering of Stock Prices<a class="anchor-link" href="#Kalman-Filtering-of-Stock-Prices">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Modeling-Stock-Prices">Modeling Stock Prices<a class="anchor-link" href="#Modeling-Stock-Prices">&#182;</a></h2><p>If we denote $X_t$ the price of some stock $X$ at time $t \geq 0$, the multiplicative returns are given by $\frac{X_{t+1}-X_{t}}{X_t}$.</p>
+<p>The model we will assume for stock price movement is the log-normal process, meaning, the logarithm of the stock price is assumed to exhibit a random walk.</p>
+<p>We can model the price as a continuously compounded return:
+$$X_t = e^{r_t t}$$</p>
+<p>Thus, the multiplicative return between two time steps $t$ and $t+1$ is given by:
+$$\frac{X_{t+1}-X_t}{X_t} = \frac{e^{r_{t+1} (t+1)} - e^{r_t t}}{e^{r_t t}} = e^{r_{t+1} (t+1) - r_t t} - 1 \underbrace{=}_{\text{Taylor expansion}} r_{t+1} (t+1) - r_t t + O(t^2)$$</p>
+<p>Moreover:
+$$log(X_{t+1}) - log(X_t) = log(e^{r_{t+1} (t+1)}) - log(e^{r_t t}) = r_{t+1}(t+1) - r_t$$</p>
+<p>Meaning, we can consider that:
+$$log(X_{t+1}) - log(X_t) \approx \frac{X_{t+1}-X_t}{X_t}$$</p>
+<p>If the returns $\frac{X_{t+1}-X_t}{X_t}$ follow a normal distribution, since we can approximate it by $log(X_{t+1}) - log(X_t)$ it means the increments of the logarithm of the prices are drawing from a normal distribution. Therefore, we can model the returns as a white noise process and the logarithm of the stock price will exhibit a random walk.</p>
+<p>In order to gauge the plausibility of this assumption, let us plot a Q-Q plot of Google (GOOGL) returns against a normal distribution.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First, we query the returns using <em>quantopian's research</em> library:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">quantopian.research</span> <span class="kn">import</span> <span class="n">returns</span><span class="p">,</span> <span class="n">symbols</span>
+
+<span class="n">period_start</span> <span class="o">=</span> <span class="s1">&#39;2018-01-01&#39;</span>
+<span class="n">period_end</span> <span class="o">=</span> <span class="s1">&#39;2019-01-01&#39;</span>
+
+<span class="n">googl_returns</span> <span class="o">=</span> <span class="n">returns</span><span class="p">(</span>
+    <span class="n">assets</span><span class="o">=</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;GOOG_L&#39;</span><span class="p">),</span>
+    <span class="n">start</span><span class="o">=</span><span class="n">period_start</span><span class="p">,</span>
+    <span class="n">end</span><span class="o">=</span><span class="n">period_end</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Then, plot the Q-Q plot using the <em>statsmodel</em> library:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="kn">as</span> <span class="nn">sm</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">sm</span><span class="o">.</span><span class="n">qqplot</span><span class="p">(</span><span class="n">googl_returns</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="s1">&#39;45&#39;</span><span class="p">,</span> <span class="n">fit</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;QQ-plot of Google returns against a normal distribution&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<p align="center">
+    <img src="output_5_0.png" class='img-fluid' width="600rem"/>
+</p>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The closer the points are to the straight line, the more the actual distribution behaves like a normal distribution.
+Let us now plot the distribution of Google's returns against a normal distribution with same mean and variance.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="n">googl_returns</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">std</span> <span class="o">=</span> <span class="n">googl_returns</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+
+<span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="mi">50000</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">googl_returns</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Google</span><span class="se">\&#39;</span><span class="s1">s returns&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">norm</span><span class="p">,</span> <span class="n">hist</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;True Normal Distribution&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Superposition of Google</span><span class="se">\&#39;</span><span class="s1">s returns distribution with a normal distribution&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<p align="center">
+    <img src="output_7_0.png" class='img-fluid' width="600rem"/>
+</p>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>From these plots, we can see our assumption that stock prices follow a log-normal distribution has certain limitations.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Filtering-the-stock-prices">Filtering the stock prices<a class="anchor-link" href="#Filtering-the-stock-prices">&#182;</a></h2><p>We consider the stock price at each time step as the equlibrium price at which supply meets demand. During this time interval, this price is subject to certain variations due to market microstructure.</p>
+<p>Our goal is thus to use <strong>Kalman filtering to uncover the underlying truth value of the stock returns</strong> given the observed data. Let us denote $\{x_k\}_{k\in [0,n]}$ the set of state variables we wish to discover and $\{y_k\}_{k\in [0,n]}$ the set of measurements. Both process and measurement equations are linear (since we assume the stock returns to exhibit a random walk, the process has a linear form) and given by:</p>
+$$x_{n+1} = x_n + \epsilon_{n+1} \text{ with } \epsilon_{n+1} \underbrace{\sim}_{\text{i.i.d.}} \mathcal{N} (0, \sigma_{\epsilon}^2)$$$$y_n = x_n + e_n \text{ with } e_{n+1} \underbrace{\sim}_{\text{i.i.d.}} \mathcal{N} (0, \sigma_{e}^2)$$<p>We assume our measurements have no systematic bias, that is $\mathbb{E} [\beta] = 0$</p>
+<p>A detailed <strong>Bayesian derivation of the Kalman Filter</strong> equations can be found <a href="https://adamsc.mycpanel.princeton.edu/documents/KalmanFilterBayesDerivation.pdf">here</a>.</p>
+<p>In order to use a Kalman filter, we need to give it transition and observation matrices, transition and observation covariance matrices, and the initial state.</p>
+<p>Given our problem, we are filtering a scalar and will therefore work with scalar parameters. 
+<br>
+We denote $\{\hat{x_k}\}_{k\in [0,n]}$ our estimate for $\{x_k\}$ with variance $p_k$. The transition variance is given by $\sigma_{\epsilon}^2$ and the observation variance is given by $\sigma_{e}^2$.</p>
+<p>Given the Kalman Filter equations, we have:
+$$\hat{x}_{n|n-1} = \hat{x}_{n-1}$$
+$$p_{n|n-1} = p_{n-1} + \sigma_{\epsilon}^2$$
+$$\hat{x}_n = \hat{x}_{n|n-1} + K_n (y_n - \hat{x}_{n|n-1})$$
+$$K_n = \frac{p_{n|n-1}}{\sigma_{e}^2 + p_{n|n-1}}$$
+$$p_n = p_{n|n-1}(1-K_n)$$</p>
+<ul>
+<li><p>Moreover, given that we begin filtering the stock returns at time $t &gt; 0$, we can estimate $p_0$ as the <em>historical volatility</em> that is the variance of the stock returns up to $t$.</p>
+</li>
+<li><p>Furthermore, we can estimate the transition variance $\sigma_{\epsilon}$ as the variance of the increments between the log returns up to $t$.</p>
+</li>
+<li><p>Finally, we can estimate the observation variance $\sigma_{e}$ as the volatility of the stock return in the time period, characterized by the highs and lows of the stock. <a href="https://projecteuclid.org/download/pdf_1/euclid.aoap/1177005835">L. Rogers and S. Satchell</a> provide an estimator for $\sigma_{e}$ given the high, low and close price of a stock during a certain time step. 
+<br>Indeed, denoting the high $S_t = sup(X_k, k \leq t)$ and the low $I_t = inf(X_k, k \leq t)$ as well as the close price $X_t$, we have:
+$$\hat{\sigma_e}^2 = S_1 (S_1 - X_1) + I_1 (I_1 - X_1)$$
+<br>
+The paper proves that: $\mathbb{E}[S_t (S_t - X_t) + I_t (I_t - X_t)] = \sigma_e^2 t$
+<br>
+$\sigma_e$ represents the variance in the measurements of $x_k$ and we will estimate it by averaging the estimated $\hat{\sigma_e}$ up to the time we begin the filtering.</p>
+</li>
+<li><p>Our initial estimate $\hat{x}_0$ will be the close price at the time we begin filtering.</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Given that we want to start filtering on Jan 1st 2018, let us estimating all those parameters using data prior to that date. We first create a pipeline containing US equities during the timeframe of interest and then filter the equity we are interested in (GOOGL).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[127]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">quantopian.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">quantopian.pipeline.data</span> <span class="kn">import</span> <span class="n">EquityPricing</span>
+<span class="kn">from</span> <span class="nn">quantopian.pipeline.domain</span> <span class="kn">import</span> <span class="n">US_EQUITIES</span>
+<span class="kn">from</span> <span class="nn">quantopian.research</span> <span class="kn">import</span> <span class="n">run_pipeline</span>
+
+<span class="n">yesterday_open</span> <span class="o">=</span> <span class="n">EquityPricing</span><span class="o">.</span><span class="n">open</span><span class="o">.</span><span class="n">latest</span>
+<span class="n">yesterday_close</span> <span class="o">=</span> <span class="n">EquityPricing</span><span class="o">.</span><span class="n">close</span><span class="o">.</span><span class="n">latest</span>
+<span class="n">yesterday_high</span> <span class="o">=</span> <span class="n">EquityPricing</span><span class="o">.</span><span class="n">high</span><span class="o">.</span><span class="n">latest</span>
+<span class="n">yesterday_low</span> <span class="o">=</span> <span class="n">EquityPricing</span><span class="o">.</span><span class="n">low</span><span class="o">.</span><span class="n">latest</span>
+
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;open&#39;</span><span class="p">:</span> <span class="n">yesterday_open</span><span class="p">,</span>
+        <span class="s1">&#39;close&#39;</span><span class="p">:</span> <span class="n">yesterday_close</span><span class="p">,</span>
+        <span class="s1">&#39;high&#39;</span><span class="p">:</span> <span class="n">yesterday_high</span><span class="p">,</span>
+        <span class="s1">&#39;low&#39;</span><span class="p">:</span> <span class="n">yesterday_low</span>
+    <span class="p">},</span>
+    <span class="n">domain</span><span class="o">=</span><span class="n">US_EQUITIES</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">run_pipeline</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="s1">&#39;2017-10-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2018-01-01&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+
+ 
+ 
+<div id="65b06361-34f6-4861-b2ce-82dc72082b40"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#65b06361-34f6-4861-b2ce-82dc72082b40');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "", "version_minor": 0, "version_major": 2}
+</script>
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<b>Pipeline Execution Time:</b> 0.86 Seconds
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                                                 close    high     low    open
+2017-10-02 00:00:00+00:00 Equity(2 [ARNC])       24.88   26.04   24.55   26.04
+                          Equity(21 [AAME])       3.25    3.25    3.15    3.25
+                          Equity(24 [AAPL])     154.03  154.13  152.00  153.21
+                          Equity(25 [ARNC_PR])     NaN     NaN     NaN     NaN
+                          Equity(31 [ABAX])      44.64   44.78   44.00   44.41
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[128]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">IndexSlice</span>
+<span class="n">df_googl</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">[:,</span> <span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;GOOG_L&#39;</span><span class="p">)],</span> <span class="p">:]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;level_1&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;level_0&#39;</span><span class="p">:</span><span class="s1">&#39;date&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">)</span>
+<span class="n">df_googl</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can then estimate $p_0$, $\sigma_\epsilon$ and $\sigma_e$:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[129]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">p_0</span> <span class="o">=</span> <span class="n">df_googl</span><span class="o">.</span><span class="n">close</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;p_0 = {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p_0</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>p_0 = 928.655637956
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[146]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">eps</span> <span class="o">=</span> <span class="n">df_googl</span><span class="o">.</span><span class="n">close</span><span class="o">.</span><span class="n">diff</span><span class="p">()</span><span class="o">/</span><span class="n">df_googl</span><span class="o">.</span><span class="n">close</span>
+<span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">sigma_eps_squared</span> <span class="o">=</span> <span class="n">eps</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;sigma_eps^2 = {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sigma_eps_squared</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>sigma_eps^2 = 9.68760813222e-05
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[145]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">df_googl</span><span class="o">.</span><span class="n">high</span> <span class="o">/</span> <span class="n">df_googl</span><span class="p">[</span><span class="s1">&#39;open&#39;</span><span class="p">])</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">df_googl</span><span class="o">.</span><span class="n">low</span> <span class="o">/</span> <span class="n">df_googl</span><span class="p">[</span><span class="s1">&#39;open&#39;</span><span class="p">])</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">df_googl</span><span class="o">.</span><span class="n">close</span> <span class="o">/</span> <span class="n">df_googl</span><span class="p">[</span><span class="s1">&#39;open&#39;</span><span class="p">])</span>
+<span class="n">e</span> <span class="o">=</span> <span class="n">H</span><span class="o">*</span><span class="p">(</span><span class="n">H</span><span class="o">-</span><span class="n">S</span><span class="p">)</span><span class="o">+</span><span class="n">L</span><span class="o">*</span><span class="p">(</span><span class="n">L</span><span class="o">-</span><span class="n">S</span><span class="p">)</span>
+<span class="n">sigma_e_squared</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;sigma_e^2 = {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>sigma_e^2 = 9.42824910717e-05
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can now import the log prices of GOOGL and set up the filter using the library <em>KalmanFilter</em>:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[156]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">quantopian.research</span> <span class="kn">import</span> <span class="n">log_prices</span><span class="p">,</span> <span class="n">symbols</span>
+
+<span class="n">period_start</span> <span class="o">=</span> <span class="s1">&#39;2018-01-01&#39;</span>
+<span class="n">period_end</span> <span class="o">=</span> <span class="s1">&#39;2018-05-01&#39;</span>
+
+<span class="n">googl_log_prices</span> <span class="o">=</span> <span class="n">log_prices</span><span class="p">(</span>
+    <span class="n">assets</span><span class="o">=</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;GOOG_L&#39;</span><span class="p">),</span>
+    <span class="n">start</span><span class="o">=</span><span class="n">period_start</span><span class="p">,</span>
+    <span class="n">end</span><span class="o">=</span><span class="n">period_end</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[157]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">x_0</span> <span class="o">=</span> <span class="n">googl_log_prices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[158]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">pykalman</span> <span class="kn">import</span> <span class="n">KalmanFilter</span>
+<span class="n">kf</span> <span class="o">=</span> <span class="n">KalmanFilter</span><span class="p">(</span><span class="n">n_dim_obs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_dim_state</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                  <span class="n">initial_state_mean</span><span class="o">=</span><span class="n">x_0</span><span class="p">,</span>
+                  <span class="n">initial_state_covariance</span><span class="o">=</span><span class="n">p_0</span><span class="p">,</span>
+                  <span class="n">transition_matrices</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                  <span class="n">observation_matrices</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                  <span class="n">observation_covariance</span><span class="o">=</span><span class="n">sigma_e_squared</span><span class="p">,</span>
+                  <span class="n">transition_covariance</span><span class="o">=</span><span class="n">sigma_eps_squared</span><span class="p">,</span>
+                  <span class="n">transition_offsets</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[159]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">state_means</span><span class="p">,</span> <span class="n">state_covs</span> <span class="o">=</span> <span class="n">kf</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">googl_log_prices</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[161]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">googl_log_prices</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">state_means</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Filter estimate&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">googl_log_prices</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;actual&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;log(X)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Filtering Google</span><span class="se">\&#39;</span><span class="s1">s log prices&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<p align="center">
+    <img src="output_22_0.png" class='img-fluid' width="600rem"/>
+</p>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Moreover, the confidence in the estimate increases with time:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[169]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">googl_log_prices</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">state_covs</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Variance of the estimate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Variance&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<p align="center">
+    <img src="output_24_0.png" class='img-fluid' width="600rem"/>
+</p>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can see that Kalman Filtering allows us to construct better smoothers than moving averages, which tend to lag when there are sharp changes in price movement.
+To achieve varying degrees of smoothness using the Kalman filter, we can sample the random walk sequence at multiple frequencies (resulting in a new random walk sequence with different parameters).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><ul>
+<li>Ganapathy Vidyamurthy - Pairs Trading: Quantitative Methods and Analysis (2004, Wiley)</li>
+<li>Rogers, L. and S. Satchell. “Estimating Variance from High Low and Closing Prices.” Annals of Applied Probability 1, no. 4 (1991): 504–512.</li>
+<li>Rogers, L., S. Satchell and Y. Yoon. “Estimating the Volatility of Stock Prices: A Comparison of Methods That Use High and Low Prices.” Applied Financial Economics 4 (1994): 241–247.</li>
+</ul>
+
+</div>
+</div>
+</div>
+    </div>
+  </div>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        
+        </body>
+</html>
+<script src='../scroll-fade.js'></script>
+<!-- scripts particles-->
+<script src="../js/particles.js"></script>
+<script src="../js/app.js"></script>

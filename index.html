@@ -28,19 +28,16 @@
 		<title>Timothy Delille</title>
 	</head>
     <body class='bg-light'>
-        <nav class="navbar navbar-expand-lg navbar-light scroll-fade">
-          <img class='mx-auto' src='Delille_Timothy.jpg' style='width:3rem;border-radius:50%;'/>
-          <h3 class='ml-2'><a href='index.html'>Timothy Delille</a></h3>
+        <nav class="navbar navbar-expand-lg navbar-light scroll-fade border-bottom">
+          <img class='ml-5' src='Delille_Timothy.jpg' style='width:4rem;border-radius:50%;'/>
+          <h5 class='ml-2'><a style='color:#505050' href='index.html'>Timothy Delille</a></h5>
           <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="index.html">Work <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="about.html">About</a>
+                <a class="nav-link" href="index.html">Projects<span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="Resume - Timothy Delille.pdf">Resume</a>
@@ -48,6 +45,7 @@
             </ul>
           </div>
         </nav>
+
         <div class='container-fluid projects'>
             <div class='row'>
                 <h1 class='col bold ml-5 mb-5 mt-3 scroll-fade d-none d-lg-block'>
@@ -66,42 +64,137 @@
                 </h3>
                 <div id="particles-js" class='col-sm-12 col-md-6' style='height:10rem;'></div>
             </div>
-            <div class='container col-lg-8 col-sm-12 mt-5 project' onclick="location.href='Neural-Machine-Translation/Neural-Machine-Translation.html'">
-                <h2>Neural Machine Translation (NLP Project)</h2>
-                <small class="text-muted">University of California, Berkeley</small>
-                <p class='mt-3 text-justify'>We build a neural machine translation system using modern techniques for sequence-to-sequence modeling. We first implement a baseline encoder-decoder architecture, then improve upon the baseline by adding an attention mechanism and implementing beam search. The end result is a fully functional translation system capable of translating simple German sentences into English. This project is part of the <a href='https://cal-cs288.github.io/sp20/'>CS288 - AI for Natural Language Processing</a> class at University of California, Berkeley.
+ 
+            <div class='row'>
+            <div class='d-none d-md-block col-md-3 col-lg-3 col-xl-3 justify-content-end'>
+                <nav class="navbar navbar-light sticky-top rounded-right rounded-bottom rounded-top rounded-left p-0 pt-3", style='z-index:1000;'>
+                  <nav class="nav nav-pills flex-column" style='background-color: #e8ecf1;'>
+                    <a class="nav-link text-muted" href="#item-1">Natural Language Processing</a>
+                    <a class="nav-link text-muted" href="#item-2">Optimization</a>
+                    <a class="nav-link text-muted" href="#item-3">Quantitative Finance</a>
+                    <a class="nav-link text-muted" href="#item-4">Interpretability in Machine Learning</a>
+                    <a class="nav-link text-muted" href="#item-5">Computer Vision</a>
+                  </nav>
+                </nav>
+            </div>
+
+            <div class='container-fluid align-items-center col-lg-8 col-md-8 col-sm-12 pt-3' data-spy="scroll" data-target="#navbar-example3" data-offset="0">
+
+              <!-- NATURAL LANGUAGE PROCESSING -->
+
+              <h4 id="item-1" class='container text-muted font-weight-light'>Natural Language Processing</h4>
+              <div class='container mt-2 project' onclick="location.href=#">
+                <h2>Semantic Parsing</h2>
+                <small class="text-muted">@ University of California, Berkeley</small>
+                <p class='mt-2 text-justify'>
+                    Implementation of a neural semantic parser for the GeoQA dataset. This project is implemented on <span class='text-muted'>pytorch</span>.
                 </p>
-            </div>
-            <div class='container col-lg-8 col-sm-12 mt-5 project' onclick="location.href='#'">
-                <h2>A.I. and Blockchain (Ongoing Project)</h2>
-                <h4 class='m-0'>Training Machine Learning Models on the Blockchain to Preserve Data Privacy</h4>
+              </div>
+
+
+              <div class='container mt-2 project' onclick="location.href=#">
+                <h2>Constituency parsing and Transformers</h2>
+                <small class="text-muted">@ University of California, Berkeley</small>
+                <p class='mt-2 text-justify'>
+                    First, I implement a Transformer encoder, using a part-of-speech tagging task.  Then, I implement a Transformer-based constituency parser trained to classify span labels. Finally, I implement the CKY algorithm to turn the predictions into trees. This project is implemented on <span class='text-muted'>pytorch</span>.
+                </p>
+              </div>
+
+              <div class='container mt-2 project' onclick="location.href='https://github.com/TimothyDelille/Neural-Machine-Translation'">
+                <h2>Neural Machine Translation</h2>
+                <small class="text-muted">@ University of California, Berkeley</small>
+                <p class='mt-2 text-justify'>
+                    Implementation of a neural machine translation system using an <span class = "font-weight-bold">encoder-decoder architecture</span> with an <span class = "font-weight-bold">attention mechanism</span> for sequence-to-sequence modeling to translate German sentences into English. This project is implemented on <span class='text-muted'>pytorch</span>.
+                </p>
+              </div>
+
+              <div class='container mt-2 project' onclick="location.href=#">
+                <h2>Language Modeling</h2>
+                <small class="text-muted">@ University of California, Berkeley</small>
+                <p class='mt-2 text-justify'>
+                    Implementation of three models: N-Gram with Kneyser-Ney smoothing and Backoff, Neural N-Gram, LSTM language model on the WikiText2 language modeling dataset. This project is implemented on <span class='text-muted'>pytorch</span>.
+                </p>
+              </div>
+
+              <!-- OPTIMIZATION -->
+
+              <h4 id="item-2" class='container mt-5 text-muted font-weight-light'>Optimization</h4>
+              <div class='container mt-2 project' onclick="location.href=#">
+                <h2>Federated Learning with Communication Compression</h2>
                 <small class="text-muted">under the supervision of <a href='https://en.wikipedia.org/wiki/Dawn_Song'>Prof. Dawn Song</a></small>
-                <p class='mt-3 text-justify'>Blockchains and smart contracts have created new exciting opportunities for building highly resilient applications with integrity, liveness, and correctness guarantees. The goal of this project is to apply secure computation and blockchains to train machine learning models on large-scale data sets, while preserving data privacy. By running training and prediction on a blockchain, we can develop private smart contracts that continually learn over time...</p>
-            </div>
-            <div class='container col-lg-8 col-sm-12 mt-5 project' onclick="location.href='Stock-Price-Estimation-using-Kalman-Filtering/Stock-Price-Estimation-using-Kalman-Filtering.html'">
+                <p class='mt-2 text-justify'>
+                    Federated Learning is an emerging paradigm of distributed learning which allows multiple users (companies, mobile devices, ...) to jointly train a single machine learning, beneffiting from other user's data without revealing their own. We propose a new <span class='text-muted'>FedAvg</span>-style federated learning algorithm that <span class='font-weight-bold'>compresses both uplinks and downlinks communications</span>. I then incorporate a binomial mechanism to make the algorithm differentially private.
+                </p>
+              </div>
+
+              <div class='container mt-2 project' onclick="location.href='https://github.com/TimothyDelille/CS227C-Final-Project/blob/master/CS227C_Project.pdf'">
+                <h2>Distributed Optimization</h2>
+                <small class="text-muted">@ Univertsity of California, Berkeley</small>
+                <p class='mt-2 text-justify'>
+                    This report presents a survey of consensus optimization and federated learning methods. Moreover, we introduce the <span class = 'text-muted'>Double Squeeze<span> algorithm as a robust way to cut communications cost. We then compare global consensus optimization and general consensus optimization to a baseline gradient descent with backtracking line search applied to the multiclass logistic regression problem on the MNIST dataset. This report was written with <a href="https://people.eecs.berkeley.edu/~theophile/">Théophile Cabannes</a> as part of the <span class='text-muted'>CS227C - Convex Optimization</span> class.
+                </p>
+              </div>
+
+              <!-- QUANTITATIVE FINANCE -->
+              
+              <h4 id="item-3" class='container mt-5 text-muted font-weight-light'>Quantitative Finance</h4>
+              <div class='container mt-2 project' onclick="location.href='https://github.com/TimothyDelille/TimothyDelille.github.io/blob/master/IEOR222_Project.pdf'">
+                <h2>Optimal Placement in a Limit Order Book</h2>
+                <small class="text-muted">@ Univertsity of California, Berkeley</small>
+                <p class='mt-2 text-justify'>
+                    Review of the paper <span class='text-muted'>Optimal Placement in a Limit Order Book</span> by Guo et al. The Optimal Placement Problem is closely related to the well studied Optimal Execution Problem. However, their distinctions come from the different time scales and order volumes at which algorithmic trading operates. In the Optimal Execution Problem, one wants to slice up big orders on a daily/weekly basis in order to minimize their price impact on the market while in the Optimal Placement Problem, one is interested in optimally placing smaller orders within seconds. This report was written as part of the <span class='text-muted'>IEOR222 - Financial Engineering Systems I</span> class.
+                </p>
+              </div>
+
+              <div class='container mt-2 project' onclick="location.href='Stock-Price-Estimation-using-Kalman-Filtering/Stock-Price-Estimation-using-Kalman-Filtering.html'">
                 <h2>Stock Price Estimation Using Kalman Filtering</h2>
-                <p class='mt-3 text-justify'>By considering the logarithm of the stock prices as a random walk, we can derive Kalman Filtering equations from Bayesian Maximum A Posteriori Estimation and use standard libraries to filter Google's stock prices...</p>
-            </div>
-            <div class='container col-lg-8 col-sm-12 project' onclick="location.href='yolov3-tensorflow-2.0/yolov3-tensorflow-2.0.html'">
+                <p class='mt-3 text-justify'>By modeling log prices as a random walk and using high/low price as a measure of the stock's intraday volatility, I filter Google's stock price using Kalman Filtering.</p>
+              </div>
+
+              <!-- INTERPRETATBILITY IN MACHINE LEARNING -->
+
+              <h4 id="item-4" class='container mt-5 text-muted font-weight-light'>Interpretability in Machine Learning</h4>
+              <div class='container mt-2 project' onclick="location.href='https://github.com/TimothyDelille/LIME/tree/master/LIME_for_Language_Modeling#lime-for-language-modeling'">
+                <h2>LIME for Language Modeling</h2>
+                <p class='mt-2 text-justify'>
+                    Implementation of the paper by Ribeiro et al., <a href="https://arxiv.org/abs/1602.04938">Why should I trust you?: Explaining the predictions of any classifier" (2016)</a>, presenting Local Interpretable Model-agnostic Explanations (LIME) as a way to interpret black-box model predictions by approximating local behavior with interpretable models. This notebook focuses on language modeling tasks.
+                </p>
+              </div>
+
+              <div class='container mt-2 project' onclick="location.href='https://github.com/TimothyDelille/LIME/tree/master/LIME_for_Image_Classification#local-interpretable-model-agnostic-explanations-lime-for-image-classification'">
+                <h2>LIME for Image Classification</h2>
+                <p class='mt-2 text-justify'>
+                    Implementation of the paper by Ribeiro et al., <a href="https://arxiv.org/abs/1602.04938">Why should I trust you?: Explaining the predictions of any classifier" (2016)</a>, presenting Local Interpretable Model-agnostic Explanations (LIME) as a way to interpret black-box model predictions by approximating local behavior with interpretable models. This notebook focuses on image classification tasks.
+                </p>
+              </div>
+
+              <!-- COMPUTER VISION -->
+              <h4 id="item-5" class='container mt-5 text-muted font-weight-light'>Computer Vision</h4>
+              <div class='container project' onclick="location.href='https://github.com/TimothyDelille/YOLOv3-tensorflow2.0#yolov3-a-tensorflow-20-implementation'">
                 <h2 class='m-0'>YOLOv3: a Tensorflow 2.0 Implementation</h2>
+                <small class="text-muted">@ <a href="https://www.eurovia.com/en">Eurovia</a></small>
                 <p class='mt-3 text-justify'>I propose an implementation of YOLOv3 on Tensorflow 2.0 using the hyperparameters set in the original publication and a 416x416 input size. Ideally, one should perform k-means clustering on the training dataset to find the proper anchors. For example purposes, I use the Penn-Fudan Database for Pedestrian Detection and Segmentation...</p>
-            </div>
-            <!--
-            <div class='container col-lg-8 col-sm-12 project' onclick="location.href='#'">
+              </div>
+              <!--
+              <div class='container col-lg-8 col-sm-12 project' onclick="location.href='#'">
                 <h2>Hackathon First Prize</h2>
                 <h4 class='m-0'>Using A.I. to predict dangerous situations on building sites</h4>
                 <small class="text-muted">organized by <a href='https://www.eurovia.com/en'>Eurovia</a> and <a href='https://www.bemyapp.com/'>BeMyApp</a></small>
                 <p class='mt-3 text-justify'>blablabla</p>
-            </div>
-            -->
-            <div class='container col-lg-8 col-sm-12 project' onclick="location.href='dassault-uav-challenge/dassault-uav-challenge.html'">
+              </div>
+              -->
+              <div class='container project' onclick="location.href='dassault-uav-challenge/dassault-uav-challenge.html'">
                 <h2>Dassault UAV Challenge</h2>
+                <small class="text-muted">@ Arts et Métiers ParisTech, Paris</small>
                 <h4 class='m-0'>Teaching a drone to detect targets on artificially generated training data</h4>
                 <small class="text-muted">under the supervision of Prof. Nazih Mechbal and Prof. Marc Rébillat</small>
                 <p class='mt-3 text-justify'>The <a href='https://www.dassault-aviation.com/en/group/news/dassault-uav-challenge-2019/'>Dassault UAV Challenge</a> is an annual competition between top engineering schools in Europe, during which a drone has to complete several missions in complete autonomy. The final objective is for the drone to autonomously explore a bounded area, detect targets of interest and deliver a package on the corresponding targets. In addition, the drone must deliver an accurate map of the explored area (see figure below). During the year 2018-2019, I was in charge of the team responsible for autonomous flight and target detection. The solution we proposed consisted in training a <strong>deep neural network</strong> (Google's Inception v2 in particular) on <strong>artificially generated training images</strong>. We mainly used the Tensorflow framework as well as the Open CV library throughout the project...</p>
+              </div>
+
+              <p class='container'>Feel free to contact me at <a href='mailto:timothydelille@berkeley.edu'>timothydelille@berkeley.edu</a>.</p>
             </div>
+
             <div class='container mt-5'>
-                <p>Feel free to contact me at <a href='mailto:timothydelille@berkeley.edu'>timothydelille@berkeley.edu</a>.</p>
                 <div class='row text-center w-25 mx-auto'>
                     <a class='col'href='https://linkedin.com/in/timothydelille'>
                         <i class="fab fa-linkedin fa-2x"></i>
@@ -111,6 +204,7 @@
                     </a>
                 </div>
             </div>
+        </div>
         </div>
         
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Detecting data drift | Timothy Delille</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Detecting data drift" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I’m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts. I hold a Masters in Computer Science from UC Berkeley. Trying to uncover the truth in our world without creating unnecessary entropy. “What is not brought to consciousness comes to us as fate.”" />
+<meta property="og:description" content="I’m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts. I hold a Masters in Computer Science from UC Berkeley. Trying to uncover the truth in our world without creating unnecessary entropy. “What is not brought to consciousness comes to us as fate.”" />
+<link rel="canonical" href="https://timothydelille.github.io/content/detecting_data_drift.html" />
+<meta property="og:url" content="https://timothydelille.github.io/content/detecting_data_drift.html" />
+<meta property="og:site_name" content="Timothy Delille" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-06-13T15:59:23-04:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Detecting data drift" />
+<script type="application/ld+json">
+{"url":"https://timothydelille.github.io/content/detecting_data_drift.html","headline":"Detecting data drift","dateModified":"2021-06-13T15:59:23-04:00","datePublished":"2021-06-13T15:59:23-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://timothydelille.github.io/content/detecting_data_drift.html"},"description":"I’m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts. I hold a Masters in Computer Science from UC Berkeley. Trying to uncover the truth in our world without creating unnecessary entropy. “What is not brought to consciousness comes to us as fate.”","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!--<link rel="stylesheet" href="/assets/main.css">--><link type="application/atom+xml" rel="alternate" href="https://timothydelille.github.io/feed.xml" title="Timothy Delille" /><!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <!-- Fontawesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+
+  <!-- handle markdown images -->
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body><nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <div class="container-fluid">
+    <!--<img src="../assets/img/profile_pic.jpg" alt="" class="d-inline-block align-text-center rounded" width="30">-->
+    <a class="navbar-brand" href="/">Timothy Delille</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav"><li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/about/">About</a>
+          </li></ul>
+    </div>
+  </div>
+</nav><!--<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <p class="display-5" itemprop="name headline">Detecting data drift</p></p>
+
+<ul id="markdown-toc">
+  <li><a href="#types" id="markdown-toc-types">Types</a></li>
+  <li><a href="#causes" id="markdown-toc-causes">Causes</a></li>
+  <li><a href="#how-to-detect-data-drift" id="markdown-toc-how-to-detect-data-drift">How to detect data drift?</a>    <ul>
+      <li><a href="#population-stability-index-psi" id="markdown-toc-population-stability-index-psi">Population Stability Index (PSI)</a></li>
+      <li><a href="#kullback-leibler-divergence" id="markdown-toc-kullback-leibler-divergence">Kullback-Leibler divergence</a></li>
+      <li><a href="#jensen-shannon-divergence" id="markdown-toc-jensen-shannon-divergence">Jensen-Shannon divergence</a></li>
+      <li><a href="#kolmogorov-smirnov-test" id="markdown-toc-kolmogorov-smirnov-test">Kolmogorov-Smirnov test</a></li>
+    </ul>
+  </li>
+  <li><a href="#frameworks" id="markdown-toc-frameworks">Frameworks</a></li>
+  <li><a href="#papers-to-read" id="markdown-toc-papers-to-read">Papers to read</a></li>
+</ul>
+
+<h2 id="types">Types</h2>
+<p>Four types of drift:</p>
+<ul>
+  <li><strong>concept drift</strong>: change in \(P(y\vert x)\), shift in relationship between input and <em>target</em> output. If we have real-time ground truth labels, change in performance is the strongest indicator</li>
+  <li><strong>prediction drift</strong>: change in \(P(\hat{y}\vert x)\)</li>
+  <li><strong>label drift</strong>: change in \(P(y)\), shift in ground truth distribution</li>
+  <li><strong>feature drift</strong>: change in \(P(X)\)</li>
+</ul>
+
+<p>“Virtual concept drift” has no influence on performance:
+<img src="../assets/img/concept_drift.png" alt="concept drift" /></p>
+
+<h2 id="causes">Causes</h2>
+<ul>
+  <li><strong>externalities</strong> cause real change in data distribution</li>
+  <li><strong>data integrity issues</strong> due to data engineering or data collection</li>
+</ul>
+
+<h2 id="how-to-detect-data-drift">How to detect data drift?</h2>
+
+<p>No ground truth during inference, therefore cannot use performance metrics like AUC, precision, recall, etc…</p>
+
+<h3 id="population-stability-index-psi">Population Stability Index (PSI)</h3>
+<p>Mostly used in the financial industry</p>
+
+<p>One training population and one scoring population. Divide each in say \(n\) equal buckets, denoted \(\{B_1^\mathcal{D}, \dots, B_n^\mathcal{D}\}\) where \(\mathcal{D}\) is either the training or scoring dataset. For bucket \(i\), let’s denote \(P_i^t\) the percentage of training data in bucket \(B_i^\text{training}\) and \(P_i^s\) the percentage of training data in bucket \(B_i^\text{scoring}\).</p>
+
+\[\text{PSI} = \sum_{1 \leq i \leq n} (P_i^s - P_i^t)\cdot \ln \frac{P_i^s}{P_i^t}\]
+
+<ul>
+  <li>PSI &lt; 0.1: no significant population change</li>
+  <li>0.1 &lt; PSI &lt; 0.2: slight population change</li>
+  <li>PSI &gt;= 0.2: significant population change</li>
+</ul>
+
+<h3 id="kullback-leibler-divergence">Kullback-Leibler divergence</h3>
+<p>Average number of bits wasted by encodings events from \(P\) based on \(Q\).
+\(D_{KL}(P\Vert Q) = \sum_{x\in \chi} P(x) \log \frac{P(x)}{Q(x)}\)
+Standard values?</p>
+
+<h3 id="jensen-shannon-divergence">Jensen-Shannon divergence</h3>
+<p>Based on KL divergence, except it is symmetric and always has a finite value</p>
+
+\[JSD(P \Vert Q) = \frac{1}{2}D_{KL}(P\Vert M) + \frac{1}{2}D_{KL}(Q\Vert M), M=\frac{1}{2}(P+Q)\]
+
+<h3 id="kolmogorov-smirnov-test">Kolmogorov-Smirnov test</h3>
+<p>Nonparametric test (does not assume a specific distribution)</p>
+
+<p>Largest absolute difference between two distributions functions:</p>
+
+\[D = \sup_x \lvert F_\text{training}(x) - F_\text{scoring}(x)\rvert\]
+
+<p>where the empirical distribution function for \(n\) i.i.d. samples is given by:
+\(F = \sum_{x} \mathbb{I}_{X_i \in (\infty, x]}\)</p>
+
+<p>If the scoring distribution comes from the reference distribution: \(D \to 0\) almost surely as \(n\to \infty\)</p>
+
+<p>Recall: sequence \(X_n\) converges almost surely towards \(X\) if \(P(\lim_{n\to \infty} X_n = X) = 1\)</p>
+
+<h2 id="frameworks">Frameworks</h2>
+<p><a href="https://scikit-multiflow.readthedocs.io/en/stable/index.html">scikit-multiflow</a> for streaming data.</p>
+
+<h2 id="papers-to-read">Papers to read</h2>
+<ul>
+  <li>https://arxiv.org/pdf/1010.4784.pdf</li>
+  <li>https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.144.2279&amp;rep=rep1&amp;type=pdf</li>
+  <li>https://link.springer.com/chapter/10.1007/978-3-540-28645-5_29</li>
+</ul>
+<a class="u-url" href="/content/detecting_data_drift.html" hidden></a>
+      </div>
+    </main>--><div class='container-fluid bg-transparent'>
+      <div class='row'>
+        <div class="col-lg-6 offset-lg-3 col-sm-8 offset-sm-2 col-xs-12 bg-body border-start border-end p-5">
+          <p class="display-5" itemprop="name headline">Detecting data drift</p></p>
+
+<ul id="markdown-toc">
+  <li><a href="#types" id="markdown-toc-types">Types</a></li>
+  <li><a href="#causes" id="markdown-toc-causes">Causes</a></li>
+  <li><a href="#how-to-detect-data-drift" id="markdown-toc-how-to-detect-data-drift">How to detect data drift?</a>    <ul>
+      <li><a href="#population-stability-index-psi" id="markdown-toc-population-stability-index-psi">Population Stability Index (PSI)</a></li>
+      <li><a href="#kullback-leibler-divergence" id="markdown-toc-kullback-leibler-divergence">Kullback-Leibler divergence</a></li>
+      <li><a href="#jensen-shannon-divergence" id="markdown-toc-jensen-shannon-divergence">Jensen-Shannon divergence</a></li>
+      <li><a href="#kolmogorov-smirnov-test" id="markdown-toc-kolmogorov-smirnov-test">Kolmogorov-Smirnov test</a></li>
+    </ul>
+  </li>
+  <li><a href="#frameworks" id="markdown-toc-frameworks">Frameworks</a></li>
+  <li><a href="#papers-to-read" id="markdown-toc-papers-to-read">Papers to read</a></li>
+</ul>
+
+<h2 id="types">Types</h2>
+<p>Four types of drift:</p>
+<ul>
+  <li><strong>concept drift</strong>: change in \(P(y\vert x)\), shift in relationship between input and <em>target</em> output. If we have real-time ground truth labels, change in performance is the strongest indicator</li>
+  <li><strong>prediction drift</strong>: change in \(P(\hat{y}\vert x)\)</li>
+  <li><strong>label drift</strong>: change in \(P(y)\), shift in ground truth distribution</li>
+  <li><strong>feature drift</strong>: change in \(P(X)\)</li>
+</ul>
+
+<p>“Virtual concept drift” has no influence on performance:
+<img src="../assets/img/concept_drift.png" alt="concept drift" /></p>
+
+<h2 id="causes">Causes</h2>
+<ul>
+  <li><strong>externalities</strong> cause real change in data distribution</li>
+  <li><strong>data integrity issues</strong> due to data engineering or data collection</li>
+</ul>
+
+<h2 id="how-to-detect-data-drift">How to detect data drift?</h2>
+
+<p>No ground truth during inference, therefore cannot use performance metrics like AUC, precision, recall, etc…</p>
+
+<h3 id="population-stability-index-psi">Population Stability Index (PSI)</h3>
+<p>Mostly used in the financial industry</p>
+
+<p>One training population and one scoring population. Divide each in say \(n\) equal buckets, denoted \(\{B_1^\mathcal{D}, \dots, B_n^\mathcal{D}\}\) where \(\mathcal{D}\) is either the training or scoring dataset. For bucket \(i\), let’s denote \(P_i^t\) the percentage of training data in bucket \(B_i^\text{training}\) and \(P_i^s\) the percentage of training data in bucket \(B_i^\text{scoring}\).</p>
+
+\[\text{PSI} = \sum_{1 \leq i \leq n} (P_i^s - P_i^t)\cdot \ln \frac{P_i^s}{P_i^t}\]
+
+<ul>
+  <li>PSI &lt; 0.1: no significant population change</li>
+  <li>0.1 &lt; PSI &lt; 0.2: slight population change</li>
+  <li>PSI &gt;= 0.2: significant population change</li>
+</ul>
+
+<h3 id="kullback-leibler-divergence">Kullback-Leibler divergence</h3>
+<p>Average number of bits wasted by encodings events from \(P\) based on \(Q\).
+\(D_{KL}(P\Vert Q) = \sum_{x\in \chi} P(x) \log \frac{P(x)}{Q(x)}\)
+Standard values?</p>
+
+<h3 id="jensen-shannon-divergence">Jensen-Shannon divergence</h3>
+<p>Based on KL divergence, except it is symmetric and always has a finite value</p>
+
+\[JSD(P \Vert Q) = \frac{1}{2}D_{KL}(P\Vert M) + \frac{1}{2}D_{KL}(Q\Vert M), M=\frac{1}{2}(P+Q)\]
+
+<h3 id="kolmogorov-smirnov-test">Kolmogorov-Smirnov test</h3>
+<p>Nonparametric test (does not assume a specific distribution)</p>
+
+<p>Largest absolute difference between two distributions functions:</p>
+
+\[D = \sup_x \lvert F_\text{training}(x) - F_\text{scoring}(x)\rvert\]
+
+<p>where the empirical distribution function for \(n\) i.i.d. samples is given by:
+\(F = \sum_{x} \mathbb{I}_{X_i \in (\infty, x]}\)</p>
+
+<p>If the scoring distribution comes from the reference distribution: \(D \to 0\) almost surely as \(n\to \infty\)</p>
+
+<p>Recall: sequence \(X_n\) converges almost surely towards \(X\) if \(P(\lim_{n\to \infty} X_n = X) = 1\)</p>
+
+<h2 id="frameworks">Frameworks</h2>
+<p><a href="https://scikit-multiflow.readthedocs.io/en/stable/index.html">scikit-multiflow</a> for streaming data.</p>
+
+<h2 id="papers-to-read">Papers to read</h2>
+<ul>
+  <li>https://arxiv.org/pdf/1010.4784.pdf</li>
+  <li>https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.144.2279&amp;rep=rep1&amp;type=pdf</li>
+  <li>https://link.springer.com/chapter/10.1007/978-3-540-28645-5_29</li>
+</ul>
+<a class="u-url" href="/content/detecting_data_drift.html" hidden></a>
+        </div>
+      </div>
+    </div><!--<footer class="site-footer h-card">-->
+  <!--<data class="u-url" href="/"></data>-->
+
+  <div class="container-fluid p-3 bg-light border-top">
+    <div class="row">
+      <div class="col-4">
+        <p class="lead">Timothy Delille</p>
+      </div>
+      <div class="col-4">
+        <!--<a class="u-email" href="mailto:timothydelille at aol dot com">timothydelille at aol dot com</a>-->
+        <p>timothydelille at aol dot com</p>
+        <br>
+        <a href='https://github.com/TimothyDelille' style="text-decoration:None;">
+          <i class="fab fa-github"></i> timothydelille
+        </a>
+        <br>
+        <a href='https://linkedin.com/in/timothydelille' style="text-decoration:None;">
+          <i class="fab fa-linkedin"></i> timothydelille
+        </a>
+      </div>
+
+    <div class="col-4">
+      <p class="text-justify">I&#39;m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts.  I hold a Masters in Computer Science from UC Berkeley.  Trying to uncover the truth in our world without creating unnecessary entropy.  &quot;What is not brought to consciousness comes to us as fate.&quot;</p>
+    </div>
+
+    </div>
+
+  </div>
+
+<!--</footer>-->
+<!-- Mathjax -->
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- scripts particles-->
+    <script src="../particles/particles.js"></script>
+    <script src="../particles/app.js"></script>
+  </body>
+
+</html>
+

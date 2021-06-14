@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Self-supervised learning - Yann LeCun (03/04/2021) | Timothy Delille</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Self-supervised learning - Yann LeCun (03/04/2021)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Self-supervised learning: the dark matter of intelligence Yann LeCun – 03/04/2021" />
+<meta property="og:description" content="Self-supervised learning: the dark matter of intelligence Yann LeCun – 03/04/2021" />
+<link rel="canonical" href="https://timothydelille.github.io/content/self_supervised_learning_Yann_Lecun.html" />
+<meta property="og:url" content="https://timothydelille.github.io/content/self_supervised_learning_Yann_Lecun.html" />
+<meta property="og:site_name" content="Timothy Delille" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-06-13T15:59:23-04:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Self-supervised learning - Yann LeCun (03/04/2021)" />
+<script type="application/ld+json">
+{"url":"https://timothydelille.github.io/content/self_supervised_learning_Yann_Lecun.html","headline":"Self-supervised learning - Yann LeCun (03/04/2021)","dateModified":"2021-06-13T15:59:23-04:00","datePublished":"2021-06-13T15:59:23-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://timothydelille.github.io/content/self_supervised_learning_Yann_Lecun.html"},"description":"Self-supervised learning: the dark matter of intelligence Yann LeCun – 03/04/2021","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!--<link rel="stylesheet" href="/assets/main.css">--><link type="application/atom+xml" rel="alternate" href="https://timothydelille.github.io/feed.xml" title="Timothy Delille" /><!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <!-- Fontawesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+
+  <!-- handle markdown images -->
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body><nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <div class="container-fluid">
+    <!--<img src="../assets/img/profile_pic.jpg" alt="" class="d-inline-block align-text-center rounded" width="30">-->
+    <a class="navbar-brand" href="/">Timothy Delille</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav"><li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/about/">About</a>
+          </li></ul>
+    </div>
+  </div>
+</nav><!--<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <p class="display-5" itemprop="name headline">Self-supervised learning - Yann LeCun (03/04/2021)</p></p>
+
+<h1 id="self-supervised-learning-the-dark-matter-of-intelligence">Self-supervised learning: the dark matter of intelligence</h1>
+<p>Yann LeCun – 03/04/2021</p>
+
+<h2 id="overview">Overview</h2>
+<ul>
+  <li>Supervised learning is a bottleneck for building more intelligent generalist models that can do multiple tasks and acquire new skills without massive amounts of labeled data</li>
+  <li>generalized knowledge about the world, or common sense, forms the bulk of biological intelligence in both humans and animals. In a way, common sense is the dark matter of artificial intelligence. (dark matter is implied by calculations showing that many galaxies would fly apart if they did not contain a large amount of unseen matter)</li>
+  <li>Common sense helps people learn new skills without requiring massive amounts of teaching for every single task.</li>
+</ul>
+
+<p>We believe that self-supervised learning (SSL) is one of the most promising ways to build such background knowledge and approximate a form of common sense in AI systems.</p>
+
+<h2 id="history-in-nlp">History in NLP</h2>
+<p>The term “self-supervised learning” is more accepted than the previously used term “unsupervised learning.” Unsupervised learning is an ill-defined and misleading term that suggests that the learning uses no supervision at all. In fact, self-supervised learning is not unsupervised, as it uses far more feedback signals than standard supervised and reinforcement learning methods do.</p>
+
+<p>Self-supervised learning has long had great success in advancing the field of natural language processing (NLP):</p>
+<ul>
+  <li><a href="https://ronan.collobert.com/pub/matos/2008_nlp_icml.pdf">Collobert-Weston 2008 model</a></li>
+  <li><a href="https://arxiv.org/pdf/1301.3781.pdf">Word2Vec</a></li>
+  <li><a href="https://nlp.stanford.edu/pubs/glove.pdf">GloVE</a></li>
+  <li><a href="https://arxiv.org/pdf/1607.01759.pdf">fastText</a></li>
+  <li><a href="https://arxiv.org/pdf/1810.04805.pdf">BERT</a></li>
+  <li><a href="https://arxiv.org/pdf/1907.11692.pdf">RoBERTa</a></li>
+  <li><a href="https://ai.facebook.com/blog/-xlm-r-state-of-the-art-cross-lingual-understanding-through-self-supervision/">XLM-R</a></li>
+</ul>
+
+<p>NLP systems use contrastive methods by masking or substituting input words. The goal is to reconstruct the original version of a corrupted text. The general technique of training a model to restore a corrupted version of an input is called a <strong>denoising auto-encoder</strong>.</p>
+
+<p>These techniques cannot be easily extended to CV: it is considerably more difficult to represent uncertainty in the prediction for images than it is for words. We cannot list all possible video frames and compute a prediction score (after softmax layer) to each of them, because there is an infinite number of them (high dimensional continuous object vs discrete outcome).</p>
+
+<p>New techniques such as SwAV are starting to beat accuracy records in vision tasks: latest research project <a href="https://ai.facebook.com/blog/seer-the-start-of-a-more-powerful-flexible-and-accessible-era-for-computer-vision">SEER</a> leverages SwAV and other methods to pretrain a large network on a billion random unlabeled images, showing that self-supervised learning can excel at computer vision tasks as well.</p>
+
+<p>FAIR released a model family called https://arxiv.org/abs/2003.13678 RegNets that are ConvNets capable of scaling to billions (potentially even trillions) of parameters and can be optimized to fit different runtime and memory limitations.</p>
+
+<h2 id="energy-based-models">Energy-based models</h2>
+<ul>
+  <li>Trainable system that measures the compatibility between an observation x and a proposed prediction y.</li>
+  <li>If x and y are compatible, the energy is a small number; if they are incompatible, the energy is a large number.</li>
+</ul>
+
+<p>Training an EBM consists of two parts:</p>
+<ol>
+  <li>Training it to produce low energy for compatible x and y</li>
+  <li><strong>Finding a way to ensure that for a particular x, the y values that are incompatible with x produce a higher energy than those that are compatible with x</strong></li>
+</ol>
+
+<p>The second point is where the difficulty lies</p>
+
+<p>A well-suited architecture is <strong>Siamese networks</strong> or joint embedding architecture:</p>
+<ul>
+  <li>two identical copies of the same network</li>
+  <li>ine network is fed with x and the other with y and they produce an embedding for x and y respectively</li>
+  <li>a third module computes the energy as the distance between the two embedding vectors</li>
+</ul>
+
+<p>Without a specific way to ensure that the networks produce high energy when x and y differ, the two networks could collapse to always produce identical output embeddings.</p>
+
+<p>Two categories of techniques to avoid collapse: <strong>contrastive methods</strong> (method used in NLP) and <strong>regularization methods</strong>.</p>
+
+<p>Another interesting avenue is <strong>latent-variable predictive models</strong>:</p>
+<ul>
+  <li>given an observation x the model produces a set of multiple compatible predictions</li>
+  <li>as a latent-variable z varies within a set, the output varies over the set of plausible predictions</li>
+</ul>
+
+<p>Latent-variable models can be trained with contrastive methods. A good example is a generative adversarial network:</p>
+<ul>
+  <li>the critic (or discriminator) can be seen as computing an energy indicating whether the input y looks good</li>
+  <li>the generator network is trained to produce contrastive samples to which the critic is trained to associate high energy.</li>
+</ul>
+
+<p>Contrastive methods have a major issue: they are very inefficient to train. In high-dimensional spaces such as images, there are many ways one image can be different from another.</p>
+
+<p><strong>“Happy families are all alike; every unhappy family is unhappy in its own way”</strong></p>
+<ul>
+  <li>Leo Tolstoy in Anna Karenina</li>
+</ul>
+
+<h2 id="non-contrastive-energy-based-ssl">Non-contrastive energy-based SSL</h2>
+<p>Non-contrastive methods applied to joint embedding architectures is the hottest topic in SSL for vision:</p>
+<ul>
+  <li><a href="https://openaccess.thecvf.com/content_ICCV_2019/html/Caron_Unsupervised_Pre-Training_of_Image_Features_on_Non-Curated_Data_ICCV_2019_paper.html">DeeperCluster</a></li>
+  <li><a href="https://arxiv.org/abs/1912.03330">ClusterFit</a></li>
+  <li><a href="https://arxiv.org/abs/2003.04297">MoCo-v2</a></li>
+  <li><a href="https://arxiv.org/abs/2006.09882">SwAV</a></li>
+  <li><a href="https://arxiv.org/abs/2011.10566">SimSiam</a></li>
+  <li>Barlow Twins</li>
+  <li><a href="https://arxiv.org/abs/2006.07733">BYOL</a> from DeepMind</li>
+</ul>
+
+<p>They use various tricks, such as:</p>
+<ul>
+  <li>computing virtual target embeddings for groups of similar images (DeeperCluster, SwAV, SimSiam)</li>
+  <li>making the two joint embedding architectures slightly different through the architecture or the parameter vector (BYOL, MoCo)</li>
+  <li>Barlow Twins tries to minimize the redundancy between the individual components of the embedding vectors.</li>
+</ul>
+
+<p>Perhaps a better alternative in the long run will be to devise non-contrastive methods with latent-variable predictive models.
+The main obstacle is that they require a way to minimize the capacity of the latent variable:</p>
+<ul>
+  <li>the volume of the set over which the latent variable can vary limits the volume of outputs that take low energy</li>
+  <li>by minimizing this volume, one automatically shapes the energy in the right way</li>
+</ul>
+
+<p>A successful example of such a method is the <a href="https://arxiv.org/abs/1312.6114">Variational Auto-Encoder</a> (VAE), in which the latent variable is made “fuzzy”, which limits its capacity. But VAE have not yet been shown to produce good representations for downstream visual tasks.</p>
+
+<p>Another successful example is <a href="https://www.nature.com/articles/381607a0">sparse modeling</a> but its use has been limited to simple architectures. No perfect recipe seems to exist to limit the capacity of latent variables.</p>
+
+<a class="u-url" href="/content/self_supervised_learning_Yann_Lecun.html" hidden></a>
+      </div>
+    </main>--><div class='container-fluid bg-transparent'>
+      <div class='row'>
+        <div class="col-lg-6 offset-lg-3 col-sm-8 offset-sm-2 col-xs-12 bg-body border-start border-end p-5">
+          <p class="display-5" itemprop="name headline">Self-supervised learning - Yann LeCun (03/04/2021)</p></p>
+
+<h1 id="self-supervised-learning-the-dark-matter-of-intelligence">Self-supervised learning: the dark matter of intelligence</h1>
+<p>Yann LeCun – 03/04/2021</p>
+
+<h2 id="overview">Overview</h2>
+<ul>
+  <li>Supervised learning is a bottleneck for building more intelligent generalist models that can do multiple tasks and acquire new skills without massive amounts of labeled data</li>
+  <li>generalized knowledge about the world, or common sense, forms the bulk of biological intelligence in both humans and animals. In a way, common sense is the dark matter of artificial intelligence. (dark matter is implied by calculations showing that many galaxies would fly apart if they did not contain a large amount of unseen matter)</li>
+  <li>Common sense helps people learn new skills without requiring massive amounts of teaching for every single task.</li>
+</ul>
+
+<p>We believe that self-supervised learning (SSL) is one of the most promising ways to build such background knowledge and approximate a form of common sense in AI systems.</p>
+
+<h2 id="history-in-nlp">History in NLP</h2>
+<p>The term “self-supervised learning” is more accepted than the previously used term “unsupervised learning.” Unsupervised learning is an ill-defined and misleading term that suggests that the learning uses no supervision at all. In fact, self-supervised learning is not unsupervised, as it uses far more feedback signals than standard supervised and reinforcement learning methods do.</p>
+
+<p>Self-supervised learning has long had great success in advancing the field of natural language processing (NLP):</p>
+<ul>
+  <li><a href="https://ronan.collobert.com/pub/matos/2008_nlp_icml.pdf">Collobert-Weston 2008 model</a></li>
+  <li><a href="https://arxiv.org/pdf/1301.3781.pdf">Word2Vec</a></li>
+  <li><a href="https://nlp.stanford.edu/pubs/glove.pdf">GloVE</a></li>
+  <li><a href="https://arxiv.org/pdf/1607.01759.pdf">fastText</a></li>
+  <li><a href="https://arxiv.org/pdf/1810.04805.pdf">BERT</a></li>
+  <li><a href="https://arxiv.org/pdf/1907.11692.pdf">RoBERTa</a></li>
+  <li><a href="https://ai.facebook.com/blog/-xlm-r-state-of-the-art-cross-lingual-understanding-through-self-supervision/">XLM-R</a></li>
+</ul>
+
+<p>NLP systems use contrastive methods by masking or substituting input words. The goal is to reconstruct the original version of a corrupted text. The general technique of training a model to restore a corrupted version of an input is called a <strong>denoising auto-encoder</strong>.</p>
+
+<p>These techniques cannot be easily extended to CV: it is considerably more difficult to represent uncertainty in the prediction for images than it is for words. We cannot list all possible video frames and compute a prediction score (after softmax layer) to each of them, because there is an infinite number of them (high dimensional continuous object vs discrete outcome).</p>
+
+<p>New techniques such as SwAV are starting to beat accuracy records in vision tasks: latest research project <a href="https://ai.facebook.com/blog/seer-the-start-of-a-more-powerful-flexible-and-accessible-era-for-computer-vision">SEER</a> leverages SwAV and other methods to pretrain a large network on a billion random unlabeled images, showing that self-supervised learning can excel at computer vision tasks as well.</p>
+
+<p>FAIR released a model family called https://arxiv.org/abs/2003.13678 RegNets that are ConvNets capable of scaling to billions (potentially even trillions) of parameters and can be optimized to fit different runtime and memory limitations.</p>
+
+<h2 id="energy-based-models">Energy-based models</h2>
+<ul>
+  <li>Trainable system that measures the compatibility between an observation x and a proposed prediction y.</li>
+  <li>If x and y are compatible, the energy is a small number; if they are incompatible, the energy is a large number.</li>
+</ul>
+
+<p>Training an EBM consists of two parts:</p>
+<ol>
+  <li>Training it to produce low energy for compatible x and y</li>
+  <li><strong>Finding a way to ensure that for a particular x, the y values that are incompatible with x produce a higher energy than those that are compatible with x</strong></li>
+</ol>
+
+<p>The second point is where the difficulty lies</p>
+
+<p>A well-suited architecture is <strong>Siamese networks</strong> or joint embedding architecture:</p>
+<ul>
+  <li>two identical copies of the same network</li>
+  <li>ine network is fed with x and the other with y and they produce an embedding for x and y respectively</li>
+  <li>a third module computes the energy as the distance between the two embedding vectors</li>
+</ul>
+
+<p>Without a specific way to ensure that the networks produce high energy when x and y differ, the two networks could collapse to always produce identical output embeddings.</p>
+
+<p>Two categories of techniques to avoid collapse: <strong>contrastive methods</strong> (method used in NLP) and <strong>regularization methods</strong>.</p>
+
+<p>Another interesting avenue is <strong>latent-variable predictive models</strong>:</p>
+<ul>
+  <li>given an observation x the model produces a set of multiple compatible predictions</li>
+  <li>as a latent-variable z varies within a set, the output varies over the set of plausible predictions</li>
+</ul>
+
+<p>Latent-variable models can be trained with contrastive methods. A good example is a generative adversarial network:</p>
+<ul>
+  <li>the critic (or discriminator) can be seen as computing an energy indicating whether the input y looks good</li>
+  <li>the generator network is trained to produce contrastive samples to which the critic is trained to associate high energy.</li>
+</ul>
+
+<p>Contrastive methods have a major issue: they are very inefficient to train. In high-dimensional spaces such as images, there are many ways one image can be different from another.</p>
+
+<p><strong>“Happy families are all alike; every unhappy family is unhappy in its own way”</strong></p>
+<ul>
+  <li>Leo Tolstoy in Anna Karenina</li>
+</ul>
+
+<h2 id="non-contrastive-energy-based-ssl">Non-contrastive energy-based SSL</h2>
+<p>Non-contrastive methods applied to joint embedding architectures is the hottest topic in SSL for vision:</p>
+<ul>
+  <li><a href="https://openaccess.thecvf.com/content_ICCV_2019/html/Caron_Unsupervised_Pre-Training_of_Image_Features_on_Non-Curated_Data_ICCV_2019_paper.html">DeeperCluster</a></li>
+  <li><a href="https://arxiv.org/abs/1912.03330">ClusterFit</a></li>
+  <li><a href="https://arxiv.org/abs/2003.04297">MoCo-v2</a></li>
+  <li><a href="https://arxiv.org/abs/2006.09882">SwAV</a></li>
+  <li><a href="https://arxiv.org/abs/2011.10566">SimSiam</a></li>
+  <li>Barlow Twins</li>
+  <li><a href="https://arxiv.org/abs/2006.07733">BYOL</a> from DeepMind</li>
+</ul>
+
+<p>They use various tricks, such as:</p>
+<ul>
+  <li>computing virtual target embeddings for groups of similar images (DeeperCluster, SwAV, SimSiam)</li>
+  <li>making the two joint embedding architectures slightly different through the architecture or the parameter vector (BYOL, MoCo)</li>
+  <li>Barlow Twins tries to minimize the redundancy between the individual components of the embedding vectors.</li>
+</ul>
+
+<p>Perhaps a better alternative in the long run will be to devise non-contrastive methods with latent-variable predictive models.
+The main obstacle is that they require a way to minimize the capacity of the latent variable:</p>
+<ul>
+  <li>the volume of the set over which the latent variable can vary limits the volume of outputs that take low energy</li>
+  <li>by minimizing this volume, one automatically shapes the energy in the right way</li>
+</ul>
+
+<p>A successful example of such a method is the <a href="https://arxiv.org/abs/1312.6114">Variational Auto-Encoder</a> (VAE), in which the latent variable is made “fuzzy”, which limits its capacity. But VAE have not yet been shown to produce good representations for downstream visual tasks.</p>
+
+<p>Another successful example is <a href="https://www.nature.com/articles/381607a0">sparse modeling</a> but its use has been limited to simple architectures. No perfect recipe seems to exist to limit the capacity of latent variables.</p>
+
+<a class="u-url" href="/content/self_supervised_learning_Yann_Lecun.html" hidden></a>
+        </div>
+      </div>
+    </div><!--<footer class="site-footer h-card">-->
+  <!--<data class="u-url" href="/"></data>-->
+
+  <div class="container-fluid p-3 bg-light border-top">
+    <div class="row">
+      <div class="col-4">
+        <p class="lead">Timothy Delille</p>
+      </div>
+      <div class="col-4">
+        <!--<a class="u-email" href="mailto:timothydelille at aol dot com">timothydelille at aol dot com</a>-->
+        <p>timothydelille at aol dot com</p>
+        <br>
+        <a href='https://github.com/TimothyDelille' style="text-decoration:None;">
+          <i class="fab fa-github"></i> timothydelille
+        </a>
+        <br>
+        <a href='https://linkedin.com/in/timothydelille' style="text-decoration:None;">
+          <i class="fab fa-linkedin"></i> timothydelille
+        </a>
+      </div>
+
+    <div class="col-4">
+      <p class="text-justify">I&#39;m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts.  I hold a Masters in Computer Science from UC Berkeley.  Trying to uncover the truth in our world without creating unnecessary entropy.  &quot;What is not brought to consciousness comes to us as fate.&quot;</p>
+    </div>
+
+    </div>
+
+  </div>
+
+<!--</footer>-->
+<!-- Mathjax -->
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- scripts particles-->
+    <script src="../particles/particles.js"></script>
+    <script src="../particles/app.js"></script>
+  </body>
+
+</html>
+

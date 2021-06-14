@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>MLOps | Timothy Delille</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="MLOps" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Apply DevOps principles to ML systems (MLOps)" />
+<meta property="og:description" content="Apply DevOps principles to ML systems (MLOps)" />
+<link rel="canonical" href="https://timothydelille.github.io/content/ml_ops.html" />
+<meta property="og:url" content="https://timothydelille.github.io/content/ml_ops.html" />
+<meta property="og:site_name" content="Timothy Delille" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-06-13T15:59:23-04:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="MLOps" />
+<script type="application/ld+json">
+{"url":"https://timothydelille.github.io/content/ml_ops.html","headline":"MLOps","dateModified":"2021-06-13T15:59:23-04:00","datePublished":"2021-06-13T15:59:23-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://timothydelille.github.io/content/ml_ops.html"},"description":"Apply DevOps principles to ML systems (MLOps)","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!--<link rel="stylesheet" href="/assets/main.css">--><link type="application/atom+xml" rel="alternate" href="https://timothydelille.github.io/feed.xml" title="Timothy Delille" /><!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <!-- Fontawesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+
+  <!-- handle markdown images -->
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body><nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <div class="container-fluid">
+    <!--<img src="../assets/img/profile_pic.jpg" alt="" class="d-inline-block align-text-center rounded" width="30">-->
+    <a class="navbar-brand" href="/">Timothy Delille</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav"><li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/about/">About</a>
+          </li></ul>
+    </div>
+  </div>
+</nav><!--<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <p class="display-5" itemprop="name headline">MLOps</p></p>
+
+<p>Apply DevOps principles to ML systems (MLOps)</p>
+
+<p>Pitfalls in operating ML-based systems in production: https://storage.googleapis.com/pub-tools-public-publication-data/pdf/43146.pdf</p>
+
+<p><a href="https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning">source</a></p>
+
+<h2 id="devops-versus-mlops">DevOps versus MLOps</h2>
+<p>DevOps: developing and deploying large-scale software. Shortening development cycles and dependable (reliable) releases</p>
+
+<ul>
+  <li><strong>continuous integration (CI)</strong>: frequently merging all developer’s branch onto master branch. used in combination with automated unit tests.</li>
+  <li><strong>continuous delivery (CD)</strong>: build, test, release software in incremental updates to increase frequency and reliability of release. Repeatable deployment process is needed (continuous <em>deployment</em> refers to automated deployment).</li>
+</ul>
+
+<p>Challenges of applying DevOps to ML:</p>
+<ul>
+  <li><strong>team</strong>: data scientists and ML researchers don’t have the skills to build production-class services</li>
+  <li><strong>development</strong>: ML is experimental in nature. Tracking results and maintaining reproducibility (while maximizing code reusability, i.e. building software knowledge for other projects).</li>
+  <li><strong>testing</strong>: typical unit and integration tests + data validation and model evaluation</li>
+  <li><strong>deployment</strong>: multi-step pipeline to automatically retrain and deploy model</li>
+  <li><strong>production</strong>: monitor data drift and online model performance.</li>
+</ul>
+
+<p>In MLOps:</p>
+<ul>
+  <li>CI is about testing code + testing data, data schemas and models.</li>
+  <li>CD is about an ML training pipeline deploying a model prediction service</li>
+  <li>CT (continuous training) is about automatically retraining and serving models</li>
+</ul>
+
+<h2 id="data-science-steps-for-ml">Data science steps for ML</h2>
+<p>After <strong>defining business use case and success criteria</strong>:
+data extraction, EDA, data prep, model training, model evaluation, model validation (adequate for deployment? performance better than baseline?), model serving (microservices with REST API to serve online predictions / embedded model to mobile device), model monitoring.</p>
+
+<p>Disconnect between ML and operations can lead to differences between inference and test performance due to different training and serving pipelines. It’s important to have the <strong>same pipeline for development and production</strong>.</p>
+<a class="u-url" href="/content/ml_ops.html" hidden></a>
+      </div>
+    </main>--><div class='container-fluid bg-transparent'>
+      <div class='row'>
+        <div class="col-lg-6 offset-lg-3 col-sm-8 offset-sm-2 col-xs-12 bg-body border-start border-end p-5">
+          <p class="display-5" itemprop="name headline">MLOps</p></p>
+
+<p>Apply DevOps principles to ML systems (MLOps)</p>
+
+<p>Pitfalls in operating ML-based systems in production: https://storage.googleapis.com/pub-tools-public-publication-data/pdf/43146.pdf</p>
+
+<p><a href="https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning">source</a></p>
+
+<h2 id="devops-versus-mlops">DevOps versus MLOps</h2>
+<p>DevOps: developing and deploying large-scale software. Shortening development cycles and dependable (reliable) releases</p>
+
+<ul>
+  <li><strong>continuous integration (CI)</strong>: frequently merging all developer’s branch onto master branch. used in combination with automated unit tests.</li>
+  <li><strong>continuous delivery (CD)</strong>: build, test, release software in incremental updates to increase frequency and reliability of release. Repeatable deployment process is needed (continuous <em>deployment</em> refers to automated deployment).</li>
+</ul>
+
+<p>Challenges of applying DevOps to ML:</p>
+<ul>
+  <li><strong>team</strong>: data scientists and ML researchers don’t have the skills to build production-class services</li>
+  <li><strong>development</strong>: ML is experimental in nature. Tracking results and maintaining reproducibility (while maximizing code reusability, i.e. building software knowledge for other projects).</li>
+  <li><strong>testing</strong>: typical unit and integration tests + data validation and model evaluation</li>
+  <li><strong>deployment</strong>: multi-step pipeline to automatically retrain and deploy model</li>
+  <li><strong>production</strong>: monitor data drift and online model performance.</li>
+</ul>
+
+<p>In MLOps:</p>
+<ul>
+  <li>CI is about testing code + testing data, data schemas and models.</li>
+  <li>CD is about an ML training pipeline deploying a model prediction service</li>
+  <li>CT (continuous training) is about automatically retraining and serving models</li>
+</ul>
+
+<h2 id="data-science-steps-for-ml">Data science steps for ML</h2>
+<p>After <strong>defining business use case and success criteria</strong>:
+data extraction, EDA, data prep, model training, model evaluation, model validation (adequate for deployment? performance better than baseline?), model serving (microservices with REST API to serve online predictions / embedded model to mobile device), model monitoring.</p>
+
+<p>Disconnect between ML and operations can lead to differences between inference and test performance due to different training and serving pipelines. It’s important to have the <strong>same pipeline for development and production</strong>.</p>
+<a class="u-url" href="/content/ml_ops.html" hidden></a>
+        </div>
+      </div>
+    </div><!--<footer class="site-footer h-card">-->
+  <!--<data class="u-url" href="/"></data>-->
+
+  <div class="container-fluid p-3 bg-light border-top">
+    <div class="row">
+      <div class="col-4">
+        <p class="lead">Timothy Delille</p>
+      </div>
+      <div class="col-4">
+        <!--<a class="u-email" href="mailto:timothydelille at aol dot com">timothydelille at aol dot com</a>-->
+        <p>timothydelille at aol dot com</p>
+        <br>
+        <a href='https://github.com/TimothyDelille' style="text-decoration:None;">
+          <i class="fab fa-github"></i> timothydelille
+        </a>
+        <br>
+        <a href='https://linkedin.com/in/timothydelille' style="text-decoration:None;">
+          <i class="fab fa-linkedin"></i> timothydelille
+        </a>
+      </div>
+
+    <div class="col-4">
+      <p class="text-justify">I&#39;m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts.  I hold a Masters in Computer Science from UC Berkeley.  Trying to uncover the truth in our world without creating unnecessary entropy.  &quot;What is not brought to consciousness comes to us as fate.&quot;</p>
+    </div>
+
+    </div>
+
+  </div>
+
+<!--</footer>-->
+<!-- Mathjax -->
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- scripts particles-->
+    <script src="../particles/particles.js"></script>
+    <script src="../particles/app.js"></script>
+  </body>
+
+</html>
+

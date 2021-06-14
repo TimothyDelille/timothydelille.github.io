@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Universal Sentence Encoder | Timothy Delille</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Universal Sentence Encoder" />
+<meta name="author" content="Google Research - 2018" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I’m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts. I hold a Masters in Computer Science from UC Berkeley. Trying to uncover the truth in our world without creating unnecessary entropy. “What is not brought to consciousness comes to us as fate.”" />
+<meta property="og:description" content="I’m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts. I hold a Masters in Computer Science from UC Berkeley. Trying to uncover the truth in our world without creating unnecessary entropy. “What is not brought to consciousness comes to us as fate.”" />
+<link rel="canonical" href="https://timothydelille.github.io/content/universal_sentence_encoder.html" />
+<meta property="og:url" content="https://timothydelille.github.io/content/universal_sentence_encoder.html" />
+<meta property="og:site_name" content="Timothy Delille" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-06-13T15:59:23-04:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Universal Sentence Encoder" />
+<script type="application/ld+json">
+{"url":"https://timothydelille.github.io/content/universal_sentence_encoder.html","headline":"Universal Sentence Encoder","dateModified":"2021-06-13T15:59:23-04:00","datePublished":"2021-06-13T15:59:23-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://timothydelille.github.io/content/universal_sentence_encoder.html"},"author":{"@type":"Person","name":"Google Research - 2018"},"description":"I’m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts. I hold a Masters in Computer Science from UC Berkeley. Trying to uncover the truth in our world without creating unnecessary entropy. “What is not brought to consciousness comes to us as fate.”","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!--<link rel="stylesheet" href="/assets/main.css">--><link type="application/atom+xml" rel="alternate" href="https://timothydelille.github.io/feed.xml" title="Timothy Delille" /><!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <!-- Fontawesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+
+  <!-- handle markdown images -->
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body><nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <div class="container-fluid">
+    <!--<img src="../assets/img/profile_pic.jpg" alt="" class="d-inline-block align-text-center rounded" width="30">-->
+    <a class="navbar-brand" href="/">Timothy Delille</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav"><li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/about/">About</a>
+          </li></ul>
+    </div>
+  </div>
+</nav><!--<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <p class="display-5" itemprop="name headline">Universal Sentence Encoder</p><p class="text-muted">Google Research - 2018</p></p>
+
+<ul id="markdown-toc">
+  <li><a href="#transformer-encoder" id="markdown-toc-transformer-encoder">Transformer Encoder</a></li>
+  <li><a href="#deep-averaging-network-dan" id="markdown-toc-deep-averaging-network-dan">Deep Averaging Network (DAN)</a></li>
+  <li><a href="#multi-task-learning" id="markdown-toc-multi-task-learning">Multi-task learning</a></li>
+  <li><a href="#transfer-learning" id="markdown-toc-transfer-learning">Transfer Learning</a></li>
+  <li><a href="#results" id="markdown-toc-results">Results</a></li>
+</ul>
+
+<ul>
+  <li>Encoding sentences into embedding vectors for transfer learning to other NLP tasks</li>
+  <li>Transfer learning using sentence embeddings tends to outperform word level transfer</li>
+</ul>
+
+<p>Two variants: <strong>transformer encoder</strong> and <strong>deep averaging network</strong></p>
+
+<h2 id="transformer-encoder">Transformer Encoder</h2>
+<ul>
+  <li>targets <strong>high accuracy</strong> at the cost of <strong>greater model complexity</strong></li>
+  <li>input is lowercased Penn Treebank tokenized string (see J&amp;M chap. 2.4)</li>
+  <li>compute context aware representations of words</li>
+  <li>compute element-wise sum at each word position to get fixed length sentence encoding vector</li>
+  <li>divide by square root of sentence length to mitigate length effects</li>
+  <li>time complexity is \(O(n^2)\) / space complexity is \(O(n^2)\)</li>
+</ul>
+
+<h2 id="deep-averaging-network-dan">Deep Averaging Network (DAN)</h2>
+<p>(Iyyer et al., 2015)</p>
+<ul>
+  <li>targets <strong>efficient inference</strong> with slightly <strong>reduced accuracy</strong></li>
+  <li>input embeddings for words and bi-grams are first averaged together</li>
+  <li>and then passed through a feedforward deep neural network to produce sentence embeddings</li>
+  <li>time complexity is \(O(n)\) / space complexity is \(O(1)\)</li>
+  <li>space complexity is dominated by the parameters used to store unigram and bigram embeddings (for short sentences, can be twice the memory usage of transformer model)</li>
+</ul>
+
+<h2 id="multi-task-learning">Multi-task learning</h2>
+<p>single encoding model used to feed multiple downstream tasks</p>
+<ul>
+  <li>skip-thought task (unsupervised from running text)</li>
+  <li>conversational input-response task</li>
+  <li>classification tasks (supervised)</li>
+</ul>
+
+<h2 id="transfer-learning">Transfer Learning</h2>
+<ul>
+  <li>For <em>sentence classification</em> transfer tasks, the output of the <em>transformer</em> and <em>DAN sentence encoders</em> are provided to a task specific deep neural net.</li>
+  <li>For <em>pairwise semantic similarity</em> task, compute cosine similarity of the sentence embeddings produced by <em>both</em> encoder variants and then apply arccos to convert into angular distance (performs better than raw cosine similarity) \(\text{sim}(u,v) = 1-\arccos \big( \frac{u\cdot v}{\lVert u\rVert \lVert v \rVert} \big)/\pi\)</li>
+</ul>
+
+<h2 id="results">Results</h2>
+<ul>
+  <li>hyperparemeters tuned using <a href="https://research.google/pubs/pub46180/">Google Vizier</a></li>
+  <li>assess bias in encoding models by evaluating strength of associations learned on WEAT word lists (Word Embeddings Association Test)</li>
+  <li>sentence-level + word-level (word2vec skip-gram embeddings) transfer &gt; sentence-level transfer only &gt; word-level transfer only</li>
+  <li>transfer learning is most critical when training data for a target task is limited</li>
+  <li>as training set size increases, marginal improvement of using transfer learning decreases</li>
+</ul>
+
+<p>Note: switching to <a href="https://github.com/google/sentencepiece">Sentence Piece</a> vocabulary instead of words significantly reduces vocabulary size, which is a major contributor of model sizes (good for on-device or browser-based implementations)</p>
+<a class="u-url" href="/content/universal_sentence_encoder.html" hidden></a>
+      </div>
+    </main>--><div class='container-fluid bg-transparent'>
+      <div class='row'>
+        <div class="col-lg-6 offset-lg-3 col-sm-8 offset-sm-2 col-xs-12 bg-body border-start border-end p-5">
+          <p class="display-5" itemprop="name headline">Universal Sentence Encoder</p><p class="text-muted">Google Research - 2018</p></p>
+
+<ul id="markdown-toc">
+  <li><a href="#transformer-encoder" id="markdown-toc-transformer-encoder">Transformer Encoder</a></li>
+  <li><a href="#deep-averaging-network-dan" id="markdown-toc-deep-averaging-network-dan">Deep Averaging Network (DAN)</a></li>
+  <li><a href="#multi-task-learning" id="markdown-toc-multi-task-learning">Multi-task learning</a></li>
+  <li><a href="#transfer-learning" id="markdown-toc-transfer-learning">Transfer Learning</a></li>
+  <li><a href="#results" id="markdown-toc-results">Results</a></li>
+</ul>
+
+<ul>
+  <li>Encoding sentences into embedding vectors for transfer learning to other NLP tasks</li>
+  <li>Transfer learning using sentence embeddings tends to outperform word level transfer</li>
+</ul>
+
+<p>Two variants: <strong>transformer encoder</strong> and <strong>deep averaging network</strong></p>
+
+<h2 id="transformer-encoder">Transformer Encoder</h2>
+<ul>
+  <li>targets <strong>high accuracy</strong> at the cost of <strong>greater model complexity</strong></li>
+  <li>input is lowercased Penn Treebank tokenized string (see J&amp;M chap. 2.4)</li>
+  <li>compute context aware representations of words</li>
+  <li>compute element-wise sum at each word position to get fixed length sentence encoding vector</li>
+  <li>divide by square root of sentence length to mitigate length effects</li>
+  <li>time complexity is \(O(n^2)\) / space complexity is \(O(n^2)\)</li>
+</ul>
+
+<h2 id="deep-averaging-network-dan">Deep Averaging Network (DAN)</h2>
+<p>(Iyyer et al., 2015)</p>
+<ul>
+  <li>targets <strong>efficient inference</strong> with slightly <strong>reduced accuracy</strong></li>
+  <li>input embeddings for words and bi-grams are first averaged together</li>
+  <li>and then passed through a feedforward deep neural network to produce sentence embeddings</li>
+  <li>time complexity is \(O(n)\) / space complexity is \(O(1)\)</li>
+  <li>space complexity is dominated by the parameters used to store unigram and bigram embeddings (for short sentences, can be twice the memory usage of transformer model)</li>
+</ul>
+
+<h2 id="multi-task-learning">Multi-task learning</h2>
+<p>single encoding model used to feed multiple downstream tasks</p>
+<ul>
+  <li>skip-thought task (unsupervised from running text)</li>
+  <li>conversational input-response task</li>
+  <li>classification tasks (supervised)</li>
+</ul>
+
+<h2 id="transfer-learning">Transfer Learning</h2>
+<ul>
+  <li>For <em>sentence classification</em> transfer tasks, the output of the <em>transformer</em> and <em>DAN sentence encoders</em> are provided to a task specific deep neural net.</li>
+  <li>For <em>pairwise semantic similarity</em> task, compute cosine similarity of the sentence embeddings produced by <em>both</em> encoder variants and then apply arccos to convert into angular distance (performs better than raw cosine similarity) \(\text{sim}(u,v) = 1-\arccos \big( \frac{u\cdot v}{\lVert u\rVert \lVert v \rVert} \big)/\pi\)</li>
+</ul>
+
+<h2 id="results">Results</h2>
+<ul>
+  <li>hyperparemeters tuned using <a href="https://research.google/pubs/pub46180/">Google Vizier</a></li>
+  <li>assess bias in encoding models by evaluating strength of associations learned on WEAT word lists (Word Embeddings Association Test)</li>
+  <li>sentence-level + word-level (word2vec skip-gram embeddings) transfer &gt; sentence-level transfer only &gt; word-level transfer only</li>
+  <li>transfer learning is most critical when training data for a target task is limited</li>
+  <li>as training set size increases, marginal improvement of using transfer learning decreases</li>
+</ul>
+
+<p>Note: switching to <a href="https://github.com/google/sentencepiece">Sentence Piece</a> vocabulary instead of words significantly reduces vocabulary size, which is a major contributor of model sizes (good for on-device or browser-based implementations)</p>
+<a class="u-url" href="/content/universal_sentence_encoder.html" hidden></a>
+        </div>
+      </div>
+    </div><!--<footer class="site-footer h-card">-->
+  <!--<data class="u-url" href="/"></data>-->
+
+  <div class="container-fluid p-3 bg-light border-top">
+    <div class="row">
+      <div class="col-4">
+        <p class="lead">Timothy Delille</p>
+      </div>
+      <div class="col-4">
+        <!--<a class="u-email" href="mailto:timothydelille at aol dot com">timothydelille at aol dot com</a>-->
+        <p>timothydelille at aol dot com</p>
+        <br>
+        <a href='https://github.com/TimothyDelille' style="text-decoration:None;">
+          <i class="fab fa-github"></i> timothydelille
+        </a>
+        <br>
+        <a href='https://linkedin.com/in/timothydelille' style="text-decoration:None;">
+          <i class="fab fa-linkedin"></i> timothydelille
+        </a>
+      </div>
+
+    <div class="col-4">
+      <p class="text-justify">I&#39;m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts.  I hold a Masters in Computer Science from UC Berkeley.  Trying to uncover the truth in our world without creating unnecessary entropy.  &quot;What is not brought to consciousness comes to us as fate.&quot;</p>
+    </div>
+
+    </div>
+
+  </div>
+
+<!--</footer>-->
+<!-- Mathjax -->
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- scripts particles-->
+    <script src="../particles/particles.js"></script>
+    <script src="../particles/app.js"></script>
+  </body>
+
+</html>
+

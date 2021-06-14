@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Transformers for Image Recognition at Scale (Vision Transformers) | Timothy Delille</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Transformers for Image Recognition at Scale (Vision Transformers)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Transformers for Image Recognition at Scale Google Research, Brain Team" />
+<meta property="og:description" content="Transformers for Image Recognition at Scale Google Research, Brain Team" />
+<link rel="canonical" href="https://timothydelille.github.io/content/vision_transformers.html" />
+<meta property="og:url" content="https://timothydelille.github.io/content/vision_transformers.html" />
+<meta property="og:site_name" content="Timothy Delille" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-06-13T15:59:23-04:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Transformers for Image Recognition at Scale (Vision Transformers)" />
+<script type="application/ld+json">
+{"url":"https://timothydelille.github.io/content/vision_transformers.html","headline":"Transformers for Image Recognition at Scale (Vision Transformers)","dateModified":"2021-06-13T15:59:23-04:00","datePublished":"2021-06-13T15:59:23-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://timothydelille.github.io/content/vision_transformers.html"},"description":"Transformers for Image Recognition at Scale Google Research, Brain Team","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!--<link rel="stylesheet" href="/assets/main.css">--><link type="application/atom+xml" rel="alternate" href="https://timothydelille.github.io/feed.xml" title="Timothy Delille" /><!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <!-- Fontawesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+
+  <!-- handle markdown images -->
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body><nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <div class="container-fluid">
+    <!--<img src="../assets/img/profile_pic.jpg" alt="" class="d-inline-block align-text-center rounded" width="30">-->
+    <a class="navbar-brand" href="/">Timothy Delille</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav"><li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/about/">About</a>
+          </li></ul>
+    </div>
+  </div>
+</nav><!--<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <p class="display-5" itemprop="name headline">Transformers for Image Recognition at Scale (Vision Transformers)</p></p>
+
+<h1 id="transformers-for-image-recognition-at-scale">Transformers for Image Recognition at Scale</h1>
+<p>Google Research, Brain Team</p>
+
+<h2 id="vision-transformer-vit">Vision Transformer (ViT)</h2>
+<ul>
+  <li><strong>2D image is reshaped into a sequence of flattened 2D patches.</strong></li>
+  <li>flattened patches are linearly projected to an embedding representation</li>
+  <li>1D learnable positional embeddings are added (as opposed to fixed positional encodings)</li>
+  <li>standard Transformer receives as input a 1D sequence of token embeddings</li>
+  <li>similar to BERT’s <code class="language-plaintext highlighter-rouge">[class]</code> token, prepend a learnable embedding \(z_0^0=x_{\text{class}}\) whose state at the output of the Transformer encoder \(z_L^0\) serves as the image representation \(y\).</li>
+  <li>a MLP classification head is attached to \(z_L^0\) (two layers with a GELU non-linearity)</li>
+</ul>
+
+<p><strong>Hybrid Architecture</strong>: Input sequence is formed from feature maps of a CNN with patch size of 1 “pixel”.</p>
+
+<h2 id="convolutional-inductive-bias">Convolutional Inductive Bias</h2>
+<p><strong>Transformers lack some of the inductive biases inherent to CNN</strong> (translation equivariance and locality) and do not generalize well when trained on insufficient amounts of data (i.e. ImageNet only).</p>
+
+<p>Current state-of-the-art is held by <em>Noisy Student</em> (Xie et al., 2020) for ImageNet and <em>Big Transfer</em> (BiT) (Kolesnikov et al.) for other reported datasets (VITAB, CIFAR, …)</p>
+
+<p>ViT model pre-trained on larger datasets (14M-300M images, e.g. JFT-300M) outperforms ResNet (BiT) (Kolesnikov et al.) (by a percentage point or less).</p>
+
+<p>When pre-trained on ImageNet, larger architectures underperform smaller architectures despite heavy regularization. Only with JFT-300M do we see the full benefit of larger models.</p>
+
+<h2 id="attention-distance">Attention distance</h2>
+<ul>
+  <li>for each pixel, compute distance with other pixels weighted by the attention weight</li>
+  <li>analogous to receptive field size in CNN (= filter size)</li>
+  <li>some heads attend to most of the image already in the lowest layers, showing ability to integrate information globally</li>
+  <li>other attention heads have small attention distances in the low layers (localized)</li>
+  <li>highly localized attention is less pronounced in hybrid models suggesting that it may serve a similar function as early convolutional layers in CNNs</li>
+</ul>
+
+<h2 id="computational-resources">Computational resources</h2>
+<p>Benefits from the efficient implementations on hardware accelerators (self-attention can be parallelized).</p>
+
+<p>ViT uses 2-4x less compute to attain same performance as ResNets.</p>
+
+<h2 id="self-supervision">Self-supervision</h2>
+<ul>
+  <li>masked patch prediction like BERT with masked language modeling</li>
+  <li>predict 3-bit, mean color (i.e. out of 512 colors in total) of corrupted patches</li>
+  <li>improves on training from scratch but still behind supervised pre-training (on ImageNet classification)</li>
+</ul>
+
+<h2 id="few-shot-learning-accuracy">Few-shot learning accuracy</h2>
+<p>Used for fast on-the-fly evaluation where fine-tuning would be too costly.</p>
+
+<ul>
+  <li>a subset of training images are labeled with \(\{-1, 1\}^K\) target vectors</li>
+  <li>representations of those images are frozen</li>
+  <li>goal is to solve a regularized linear regression model that maps the representations to the target vectors</li>
+  <li>I assume, the more discriminative the representations are, the better the accuracy of the learned linear model.</li>
+</ul>
+
+<h2 id="follow-up">Follow-up:</h2>
+<p>learned positional embeddings (as introduced in BERT) vs positional encodings?</p>
+<a class="u-url" href="/content/vision_transformers.html" hidden></a>
+      </div>
+    </main>--><div class='container-fluid bg-transparent'>
+      <div class='row'>
+        <div class="col-lg-6 offset-lg-3 col-sm-8 offset-sm-2 col-xs-12 bg-body border-start border-end p-5">
+          <p class="display-5" itemprop="name headline">Transformers for Image Recognition at Scale (Vision Transformers)</p></p>
+
+<h1 id="transformers-for-image-recognition-at-scale">Transformers for Image Recognition at Scale</h1>
+<p>Google Research, Brain Team</p>
+
+<h2 id="vision-transformer-vit">Vision Transformer (ViT)</h2>
+<ul>
+  <li><strong>2D image is reshaped into a sequence of flattened 2D patches.</strong></li>
+  <li>flattened patches are linearly projected to an embedding representation</li>
+  <li>1D learnable positional embeddings are added (as opposed to fixed positional encodings)</li>
+  <li>standard Transformer receives as input a 1D sequence of token embeddings</li>
+  <li>similar to BERT’s <code class="language-plaintext highlighter-rouge">[class]</code> token, prepend a learnable embedding \(z_0^0=x_{\text{class}}\) whose state at the output of the Transformer encoder \(z_L^0\) serves as the image representation \(y\).</li>
+  <li>a MLP classification head is attached to \(z_L^0\) (two layers with a GELU non-linearity)</li>
+</ul>
+
+<p><strong>Hybrid Architecture</strong>: Input sequence is formed from feature maps of a CNN with patch size of 1 “pixel”.</p>
+
+<h2 id="convolutional-inductive-bias">Convolutional Inductive Bias</h2>
+<p><strong>Transformers lack some of the inductive biases inherent to CNN</strong> (translation equivariance and locality) and do not generalize well when trained on insufficient amounts of data (i.e. ImageNet only).</p>
+
+<p>Current state-of-the-art is held by <em>Noisy Student</em> (Xie et al., 2020) for ImageNet and <em>Big Transfer</em> (BiT) (Kolesnikov et al.) for other reported datasets (VITAB, CIFAR, …)</p>
+
+<p>ViT model pre-trained on larger datasets (14M-300M images, e.g. JFT-300M) outperforms ResNet (BiT) (Kolesnikov et al.) (by a percentage point or less).</p>
+
+<p>When pre-trained on ImageNet, larger architectures underperform smaller architectures despite heavy regularization. Only with JFT-300M do we see the full benefit of larger models.</p>
+
+<h2 id="attention-distance">Attention distance</h2>
+<ul>
+  <li>for each pixel, compute distance with other pixels weighted by the attention weight</li>
+  <li>analogous to receptive field size in CNN (= filter size)</li>
+  <li>some heads attend to most of the image already in the lowest layers, showing ability to integrate information globally</li>
+  <li>other attention heads have small attention distances in the low layers (localized)</li>
+  <li>highly localized attention is less pronounced in hybrid models suggesting that it may serve a similar function as early convolutional layers in CNNs</li>
+</ul>
+
+<h2 id="computational-resources">Computational resources</h2>
+<p>Benefits from the efficient implementations on hardware accelerators (self-attention can be parallelized).</p>
+
+<p>ViT uses 2-4x less compute to attain same performance as ResNets.</p>
+
+<h2 id="self-supervision">Self-supervision</h2>
+<ul>
+  <li>masked patch prediction like BERT with masked language modeling</li>
+  <li>predict 3-bit, mean color (i.e. out of 512 colors in total) of corrupted patches</li>
+  <li>improves on training from scratch but still behind supervised pre-training (on ImageNet classification)</li>
+</ul>
+
+<h2 id="few-shot-learning-accuracy">Few-shot learning accuracy</h2>
+<p>Used for fast on-the-fly evaluation where fine-tuning would be too costly.</p>
+
+<ul>
+  <li>a subset of training images are labeled with \(\{-1, 1\}^K\) target vectors</li>
+  <li>representations of those images are frozen</li>
+  <li>goal is to solve a regularized linear regression model that maps the representations to the target vectors</li>
+  <li>I assume, the more discriminative the representations are, the better the accuracy of the learned linear model.</li>
+</ul>
+
+<h2 id="follow-up">Follow-up:</h2>
+<p>learned positional embeddings (as introduced in BERT) vs positional encodings?</p>
+<a class="u-url" href="/content/vision_transformers.html" hidden></a>
+        </div>
+      </div>
+    </div><!--<footer class="site-footer h-card">-->
+  <!--<data class="u-url" href="/"></data>-->
+
+  <div class="container-fluid p-3 bg-light border-top">
+    <div class="row">
+      <div class="col-4">
+        <p class="lead">Timothy Delille</p>
+      </div>
+      <div class="col-4">
+        <!--<a class="u-email" href="mailto:timothydelille at aol dot com">timothydelille at aol dot com</a>-->
+        <p>timothydelille at aol dot com</p>
+        <br>
+        <a href='https://github.com/TimothyDelille' style="text-decoration:None;">
+          <i class="fab fa-github"></i> timothydelille
+        </a>
+        <br>
+        <a href='https://linkedin.com/in/timothydelille' style="text-decoration:None;">
+          <i class="fab fa-linkedin"></i> timothydelille
+        </a>
+      </div>
+
+    <div class="col-4">
+      <p class="text-justify">I&#39;m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts.  I hold a Masters in Computer Science from UC Berkeley.  Trying to uncover the truth in our world without creating unnecessary entropy.  &quot;What is not brought to consciousness comes to us as fate.&quot;</p>
+    </div>
+
+    </div>
+
+  </div>
+
+<!--</footer>-->
+<!-- Mathjax -->
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- scripts particles-->
+    <script src="../particles/particles.js"></script>
+    <script src="../particles/app.js"></script>
+  </body>
+
+</html>
+

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Manifold Hypothesis | Timothy Delille</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Manifold Hypothesis" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Source: Colah’s blog post" />
+<meta property="og:description" content="Source: Colah’s blog post" />
+<link rel="canonical" href="https://timothydelille.github.io/content/manifold_hypothesis.html" />
+<meta property="og:url" content="https://timothydelille.github.io/content/manifold_hypothesis.html" />
+<meta property="og:site_name" content="Timothy Delille" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-06-13T15:59:23-04:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Manifold Hypothesis" />
+<script type="application/ld+json">
+{"url":"https://timothydelille.github.io/content/manifold_hypothesis.html","headline":"Manifold Hypothesis","dateModified":"2021-06-13T15:59:23-04:00","datePublished":"2021-06-13T15:59:23-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://timothydelille.github.io/content/manifold_hypothesis.html"},"description":"Source: Colah’s blog post","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!--<link rel="stylesheet" href="/assets/main.css">--><link type="application/atom+xml" rel="alternate" href="https://timothydelille.github.io/feed.xml" title="Timothy Delille" /><!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <!-- Fontawesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+
+  <!-- handle markdown images -->
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body><nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <div class="container-fluid">
+    <!--<img src="../assets/img/profile_pic.jpg" alt="" class="d-inline-block align-text-center rounded" width="30">-->
+    <a class="navbar-brand" href="/">Timothy Delille</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav"><li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/about/">About</a>
+          </li></ul>
+    </div>
+  </div>
+</nav><!--<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <p class="display-5" itemprop="name headline">Manifold Hypothesis</p></p>
+
+<p>Source: <a href="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/">Colah’s blog post</a></p>
+
+<p>Each layer creates a new representation by applying an affine transformation followed by a point-wise application of a monotone activation function.</p>
+
+<p>When doing binary classification for example, the network disentangles the two classes so that they are <strong>linearly separable by a hyperplane in the final representation</strong> (hyperplane = subspace of dimension \(n-1\) in a \(n\)-dimensional space). The size of the dimensional space is given by the number of parameters in the network (all taken to be orthogonal directions).</p>
+
+<p>Each layer stretches and squishes space but it never cuts, breaks, or folds it. Transformations that preserve <strong>topological properties</strong> are called <strong>homeomorphisms</strong>. They are bijections that are continuous functions both ways.</p>
+
+<p>Why a simple feedforward layer is a homeomorphism:</p>
+
+<p>Layers with \(N\) inputs and \(N\) outputs are homeomorphisms if the weight matrix \(W\) is non-singular (if \(W\) has rank \(N\) / non-zero determinant, it is a bijective linear function with linear inverse). Moreover, translations (bias) are homeomorphisms as well as the non-linearity (if we are careful about the domain and range we consider). This is true for sigmoid, tanh and softplus but not ReLU (discontinuity at 0).</p>
+
+<h2 id="example-topology-and-classification">Example: topology and classification</h2>
+<p>Consider two dimensional dataset with two classes \(A, B \subset \mathbb{R}^2\).</p>
+
+<p>\(A = \{x \vert d(x, 0)  &lt; 1/3 \}\)
+\(B = \{x\vert 2/3 &lt; d(x, 0) &lt; 1 \}\)</p>
+
+<p><img src="../assets/img/manifold_hypothesis_binary_dataset.png" alt="two dimensional dataset" /></p>
+
+<p><strong>Claim</strong>: it is impossible for a neural network to classify this dataset without having a layer that has 3 or more hidden units, regardless of depth.</p>
+
+<p><strong>Proof</strong>: either each layer is a homeomorphism or the layer’s weight matrix has determinant 0. If it is a homeomorphism, \(A\) is still surrounded by \(B\) and a line cannot separate them (if dimension 2 at most). Suppose it has determinant 0: the dataset gets collapsed on some zero volume hyperplane (in 2-dimensional case, an axis). Collapsing on any axis means points from \(A\) and \(B\) get mixed and cannot be linearly separated.</p>
+
+<p>Why? Let a parallelepiped in \(\mathbb{R}^n\) be the set of points \(\mathcal{P} = \{a_1 \vec{x_1} +\dots + a_n \vec{x_n} \vert 0 \leq a_1 \dots a_n \leq 1 \}\)</p>
+
+<p><img src="../assets/img/manifold_hypothesis_parallelepiped.png" alt="parallelepiped" /></p>
+
+<p>A parallelepiped has zero volume when it’s flat i.e. it is squashed into a <strong>lower</strong> dimension, that is when \(\{\vec{x_1}\dots\vec{x_n}\}\) are linearly dependent.</p>
+
+<p>Moreover its volume is given by the absolute value of the determinant of the matrix with rows \(\{\vec{x_1}\dots\vec{x_n}\}\).</p>
+
+<p>See https://textbooks.math.gatech.edu/ila/determinants-volumes.html.</p>
+
+<p>Adding a third hidden unit, the problem becomes trivial:</p>
+
+<p><img src="../assets/img/manifold_hypothesis_topology_3d.png" alt="topology 3D" /></p>
+
+<h2 id="the-manifold-hypothesis">The Manifold Hypothesis</h2>
+<p>Manifold hypothesis is that natural data forms lower-dimensional manifolds in its embedding space. There are theoretical and experimental reasons to believe this is true. Task of a claassification algorithm is fundamentally to <strong>separate tangled manifolds</strong> (for example, separate the “cat” manifold from the “dog” manifold in the space of images \(\in \mathbb{R}^{n\times n}\)).</p>
+
+<h2 id="links-and-homotopy">Links and homotopy</h2>
+<p>Consider two linked tori \(A\) and \(B\).
+<img src="../assets/img/manifold_hypothesis_link.png" alt="unlink" /></p>
+
+<p>Much like the previous dataset, this one cannot be separated without using \(n+1\) dimensions (i.e. 4 in this case)</p>
+
+<p><strong>Links</strong> are studied in <strong>knot theory</strong>, an area of topology. Is a link an unlink (i.e. separable by continuous deformation) or not.</p>
+
+<p>Example of an unlink:
+<img src="../assets/img/manifold_hypothesis_unlink.png" alt="unlink" /></p>
+
+<p>An <strong>ambient isotopy</strong> is a procedure for untangling links. Formally, an ambient isotopy between manifolds \(A\) and \(B\) is a continuous function \(F: [0,1]\times X\rightarrow Y\) such that each \(F(t)\) is a homeomorphism from $X\(to its range.\)F(0)\(is the identity and\)F1\(maps\)A\(to\)B\(.\)F\(continuously transitions from mapping\)A\(to itself to mapping\)A\(to\)B$$.</p>
+
+<p><strong>Theorem</strong>: There is an ambient isotopy between the input and a network layer’s representation if:</p>
+<ul>
+  <li>a) \(W\) isn’t singular</li>
+  <li>b) we are willing to permute the neurons in the hidden layer</li>
+  <li>c) there is more than 1 hidden unit</li>
+</ul>
+
+<p><strong>Proof</strong>:</p>
+<ol>
+  <li>Need \(W\) to have a positive determinant. We assume it is not zero and can flip the sign if it is negative by switching two hidden neurons (switching two rows of a matrix flips the sign of its determinant). The space of positive determinant matrices is <a href="https://en.wikipedia.org/wiki/Connected_space#Path_connectedness">path-connected</a> (a path can be drawn between any two points in the space). Therefore we can connect the identity to \(W\): there exits a path \(p: [0,1]\rightarrow GL_n(\mathbb{R})^5\) (general linear group of degree \(n\), set of invertible \(n\times n\) matrices) such that \(p(0) = Id\) and \(p(1) = W\). We can continually transition from the identity function to the \(W\) transformation with the function \(x \rightarrow p(t)x\).</li>
+  <li>We can continually transition from the identity function to the \(b\) translation (bias) with the function \(x \rightarrow x + tb\).</li>
+  <li>We can continually transition from the identity function to the pointwise use of \(\sigma\) with the function: \(x \rightarrow (1-t)x + t\sigma(x)\).</li>
+</ol>
+
+<p>Determining if knots are trivial is NP.
+Links and knots are \(1\)-dimensional manifolds but we need 4 dimensions to untangle them. **All \(n\)-dimensional manifolds can be untangled in  \(2n + 2\) dimensions.</p>
+
+<p>The natural thing for a neural net to do is to pull the manifolds apart naively and stretch the parts that are tangled as thin as possible (can achieve high classification accuracy). This would present high gradients on the regions it is trying to stretch near-discontinuities. Contractive penalties, penalizing the derivatives of the layers at data points is a way to fight this.</p>
+
+<h2 id="next-steps">Next steps</h2>
+<p>Read MIT’s paper: <a href="http://www.mit.edu/~mitter/publications/121_Testing_Manifold.pdf">Testing the Manifold Hypothesis</a></p>
+
+<p>http://www.iro.umontreal.ca/~lisa/pointeurs/ICML2011_explicit_invariance.pdf
+https://paperswithcode.com/paper/facenet-a-unified-embedding-for-face</p>
+<a class="u-url" href="/content/manifold_hypothesis.html" hidden></a>
+      </div>
+    </main>--><div class='container-fluid bg-transparent'>
+      <div class='row'>
+        <div class="col-lg-6 offset-lg-3 col-sm-8 offset-sm-2 col-xs-12 bg-body border-start border-end p-5">
+          <p class="display-5" itemprop="name headline">Manifold Hypothesis</p></p>
+
+<p>Source: <a href="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/">Colah’s blog post</a></p>
+
+<p>Each layer creates a new representation by applying an affine transformation followed by a point-wise application of a monotone activation function.</p>
+
+<p>When doing binary classification for example, the network disentangles the two classes so that they are <strong>linearly separable by a hyperplane in the final representation</strong> (hyperplane = subspace of dimension \(n-1\) in a \(n\)-dimensional space). The size of the dimensional space is given by the number of parameters in the network (all taken to be orthogonal directions).</p>
+
+<p>Each layer stretches and squishes space but it never cuts, breaks, or folds it. Transformations that preserve <strong>topological properties</strong> are called <strong>homeomorphisms</strong>. They are bijections that are continuous functions both ways.</p>
+
+<p>Why a simple feedforward layer is a homeomorphism:</p>
+
+<p>Layers with \(N\) inputs and \(N\) outputs are homeomorphisms if the weight matrix \(W\) is non-singular (if \(W\) has rank \(N\) / non-zero determinant, it is a bijective linear function with linear inverse). Moreover, translations (bias) are homeomorphisms as well as the non-linearity (if we are careful about the domain and range we consider). This is true for sigmoid, tanh and softplus but not ReLU (discontinuity at 0).</p>
+
+<h2 id="example-topology-and-classification">Example: topology and classification</h2>
+<p>Consider two dimensional dataset with two classes \(A, B \subset \mathbb{R}^2\).</p>
+
+<p>\(A = \{x \vert d(x, 0)  &lt; 1/3 \}\)
+\(B = \{x\vert 2/3 &lt; d(x, 0) &lt; 1 \}\)</p>
+
+<p><img src="../assets/img/manifold_hypothesis_binary_dataset.png" alt="two dimensional dataset" /></p>
+
+<p><strong>Claim</strong>: it is impossible for a neural network to classify this dataset without having a layer that has 3 or more hidden units, regardless of depth.</p>
+
+<p><strong>Proof</strong>: either each layer is a homeomorphism or the layer’s weight matrix has determinant 0. If it is a homeomorphism, \(A\) is still surrounded by \(B\) and a line cannot separate them (if dimension 2 at most). Suppose it has determinant 0: the dataset gets collapsed on some zero volume hyperplane (in 2-dimensional case, an axis). Collapsing on any axis means points from \(A\) and \(B\) get mixed and cannot be linearly separated.</p>
+
+<p>Why? Let a parallelepiped in \(\mathbb{R}^n\) be the set of points \(\mathcal{P} = \{a_1 \vec{x_1} +\dots + a_n \vec{x_n} \vert 0 \leq a_1 \dots a_n \leq 1 \}\)</p>
+
+<p><img src="../assets/img/manifold_hypothesis_parallelepiped.png" alt="parallelepiped" /></p>
+
+<p>A parallelepiped has zero volume when it’s flat i.e. it is squashed into a <strong>lower</strong> dimension, that is when \(\{\vec{x_1}\dots\vec{x_n}\}\) are linearly dependent.</p>
+
+<p>Moreover its volume is given by the absolute value of the determinant of the matrix with rows \(\{\vec{x_1}\dots\vec{x_n}\}\).</p>
+
+<p>See https://textbooks.math.gatech.edu/ila/determinants-volumes.html.</p>
+
+<p>Adding a third hidden unit, the problem becomes trivial:</p>
+
+<p><img src="../assets/img/manifold_hypothesis_topology_3d.png" alt="topology 3D" /></p>
+
+<h2 id="the-manifold-hypothesis">The Manifold Hypothesis</h2>
+<p>Manifold hypothesis is that natural data forms lower-dimensional manifolds in its embedding space. There are theoretical and experimental reasons to believe this is true. Task of a claassification algorithm is fundamentally to <strong>separate tangled manifolds</strong> (for example, separate the “cat” manifold from the “dog” manifold in the space of images \(\in \mathbb{R}^{n\times n}\)).</p>
+
+<h2 id="links-and-homotopy">Links and homotopy</h2>
+<p>Consider two linked tori \(A\) and \(B\).
+<img src="../assets/img/manifold_hypothesis_link.png" alt="unlink" /></p>
+
+<p>Much like the previous dataset, this one cannot be separated without using \(n+1\) dimensions (i.e. 4 in this case)</p>
+
+<p><strong>Links</strong> are studied in <strong>knot theory</strong>, an area of topology. Is a link an unlink (i.e. separable by continuous deformation) or not.</p>
+
+<p>Example of an unlink:
+<img src="../assets/img/manifold_hypothesis_unlink.png" alt="unlink" /></p>
+
+<p>An <strong>ambient isotopy</strong> is a procedure for untangling links. Formally, an ambient isotopy between manifolds \(A\) and \(B\) is a continuous function \(F: [0,1]\times X\rightarrow Y\) such that each \(F(t)\) is a homeomorphism from $X\(to its range.\)F(0)\(is the identity and\)F1\(maps\)A\(to\)B\(.\)F\(continuously transitions from mapping\)A\(to itself to mapping\)A\(to\)B$$.</p>
+
+<p><strong>Theorem</strong>: There is an ambient isotopy between the input and a network layer’s representation if:</p>
+<ul>
+  <li>a) \(W\) isn’t singular</li>
+  <li>b) we are willing to permute the neurons in the hidden layer</li>
+  <li>c) there is more than 1 hidden unit</li>
+</ul>
+
+<p><strong>Proof</strong>:</p>
+<ol>
+  <li>Need \(W\) to have a positive determinant. We assume it is not zero and can flip the sign if it is negative by switching two hidden neurons (switching two rows of a matrix flips the sign of its determinant). The space of positive determinant matrices is <a href="https://en.wikipedia.org/wiki/Connected_space#Path_connectedness">path-connected</a> (a path can be drawn between any two points in the space). Therefore we can connect the identity to \(W\): there exits a path \(p: [0,1]\rightarrow GL_n(\mathbb{R})^5\) (general linear group of degree \(n\), set of invertible \(n\times n\) matrices) such that \(p(0) = Id\) and \(p(1) = W\). We can continually transition from the identity function to the \(W\) transformation with the function \(x \rightarrow p(t)x\).</li>
+  <li>We can continually transition from the identity function to the \(b\) translation (bias) with the function \(x \rightarrow x + tb\).</li>
+  <li>We can continually transition from the identity function to the pointwise use of \(\sigma\) with the function: \(x \rightarrow (1-t)x + t\sigma(x)\).</li>
+</ol>
+
+<p>Determining if knots are trivial is NP.
+Links and knots are \(1\)-dimensional manifolds but we need 4 dimensions to untangle them. **All \(n\)-dimensional manifolds can be untangled in  \(2n + 2\) dimensions.</p>
+
+<p>The natural thing for a neural net to do is to pull the manifolds apart naively and stretch the parts that are tangled as thin as possible (can achieve high classification accuracy). This would present high gradients on the regions it is trying to stretch near-discontinuities. Contractive penalties, penalizing the derivatives of the layers at data points is a way to fight this.</p>
+
+<h2 id="next-steps">Next steps</h2>
+<p>Read MIT’s paper: <a href="http://www.mit.edu/~mitter/publications/121_Testing_Manifold.pdf">Testing the Manifold Hypothesis</a></p>
+
+<p>http://www.iro.umontreal.ca/~lisa/pointeurs/ICML2011_explicit_invariance.pdf
+https://paperswithcode.com/paper/facenet-a-unified-embedding-for-face</p>
+<a class="u-url" href="/content/manifold_hypothesis.html" hidden></a>
+        </div>
+      </div>
+    </div><!--<footer class="site-footer h-card">-->
+  <!--<data class="u-url" href="/"></data>-->
+
+  <div class="container-fluid p-3 bg-light border-top">
+    <div class="row">
+      <div class="col-4">
+        <p class="lead">Timothy Delille</p>
+      </div>
+      <div class="col-4">
+        <!--<a class="u-email" href="mailto:timothydelille at aol dot com">timothydelille at aol dot com</a>-->
+        <p>timothydelille at aol dot com</p>
+        <br>
+        <a href='https://github.com/TimothyDelille' style="text-decoration:None;">
+          <i class="fab fa-github"></i> timothydelille
+        </a>
+        <br>
+        <a href='https://linkedin.com/in/timothydelille' style="text-decoration:None;">
+          <i class="fab fa-linkedin"></i> timothydelille
+        </a>
+      </div>
+
+    <div class="col-4">
+      <p class="text-justify">I&#39;m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts.  I hold a Masters in Computer Science from UC Berkeley.  Trying to uncover the truth in our world without creating unnecessary entropy.  &quot;What is not brought to consciousness comes to us as fate.&quot;</p>
+    </div>
+
+    </div>
+
+  </div>
+
+<!--</footer>-->
+<!-- Mathjax -->
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- scripts particles-->
+    <script src="../particles/particles.js"></script>
+    <script src="../particles/app.js"></script>
+  </body>
+
+</html>
+

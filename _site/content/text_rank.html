@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>TextRank | Timothy Delille</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="TextRank" />
+<meta name="author" content="University of Texas, 2004" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I’m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts. I hold a Masters in Computer Science from UC Berkeley. Trying to uncover the truth in our world without creating unnecessary entropy. “What is not brought to consciousness comes to us as fate.”" />
+<meta property="og:description" content="I’m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts. I hold a Masters in Computer Science from UC Berkeley. Trying to uncover the truth in our world without creating unnecessary entropy. “What is not brought to consciousness comes to us as fate.”" />
+<link rel="canonical" href="https://timothydelille.github.io/content/text_rank.html" />
+<meta property="og:url" content="https://timothydelille.github.io/content/text_rank.html" />
+<meta property="og:site_name" content="Timothy Delille" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-06-13T15:59:23-04:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="TextRank" />
+<script type="application/ld+json">
+{"url":"https://timothydelille.github.io/content/text_rank.html","headline":"TextRank","dateModified":"2021-06-13T15:59:23-04:00","datePublished":"2021-06-13T15:59:23-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://timothydelille.github.io/content/text_rank.html"},"author":{"@type":"Person","name":"University of Texas, 2004"},"description":"I’m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts. I hold a Masters in Computer Science from UC Berkeley. Trying to uncover the truth in our world without creating unnecessary entropy. “What is not brought to consciousness comes to us as fate.”","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!--<link rel="stylesheet" href="/assets/main.css">--><link type="application/atom+xml" rel="alternate" href="https://timothydelille.github.io/feed.xml" title="Timothy Delille" /><!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <!-- Fontawesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+
+  <!-- handle markdown images -->
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body><nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <div class="container-fluid">
+    <!--<img src="../assets/img/profile_pic.jpg" alt="" class="d-inline-block align-text-center rounded" width="30">-->
+    <a class="navbar-brand" href="/">Timothy Delille</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav"><li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/about/">About</a>
+          </li></ul>
+    </div>
+  </div>
+</nav><!--<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <p class="display-5" itemprop="name headline">TextRank</p><p class="text-muted">University of Texas, 2004</p></p>
+
+<ul id="markdown-toc">
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#textrank-model" id="markdown-toc-textrank-model">TextRank model</a>    <ul>
+      <li><a href="#weighted-graphs" id="markdown-toc-weighted-graphs">Weighted Graphs</a></li>
+      <li><a href="#text-as-a-graph" id="markdown-toc-text-as-a-graph">Text as a Graph</a></li>
+    </ul>
+  </li>
+  <li><a href="#keyword-extraction" id="markdown-toc-keyword-extraction">Keyword Extraction</a>    <ul>
+      <li><a href="#approach" id="markdown-toc-approach">Approach</a></li>
+      <li><a href="#results" id="markdown-toc-results">Results</a></li>
+    </ul>
+  </li>
+  <li><a href="#sentence-extraction" id="markdown-toc-sentence-extraction">Sentence Extraction</a></li>
+  <li><a href="#notes" id="markdown-toc-notes">Notes</a></li>
+</ul>
+
+<ul>
+  <li>unsupervised graph-based ranking model for text processing</li>
+  <li>applied to two tasks: (1) extract keyphrases representative for a given text and (2) sentence extraction task (most important sentences in a text), used to build extractive summaries</li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+<p>A graph-based ranking algorithm is a way of deciding on the importance of a vertex within a graph, by taking into account global information recursively computed from the entire graph, rather than relying only on local vertex-specific information.</p>
+
+<p>Applications: automated extraction of keyphrases, extractive summarization and word sense disambiguation</p>
+
+<h2 id="textrank-model">TextRank model</h2>
+<ul>
+  <li>when one vertex links to another, it is basically casting a vote for that other vertex</li>
+  <li>the importance of the vertex casting the vote determines how important the vote itself is</li>
+</ul>
+
+<p>Let \(G = (V, E)\) be a directed graph. Let \(In(V_i)\) be the set of vertices that point to \(V_i\) (predecessors) and \(Out(V_i)\) those that \(V_i\) points to (successors). By Google’s PageRank (Brin and Page, 1998):
+\(score(V_i) = (1-d) + d\sum_{j\in In(V_i)} \frac{1}{\lvert Out(V_j) \rvert} score(V_j)\)</p>
+
+<p>\(d\) is a damping factor between 0 and 1 (set to 0.85) and represents the probability of jumping from a given vertex to another random vertex in the graph (“random surfer model”) where a user clicks on links at random with a probability \(d\) and jumps to a completely new page with probability \(1 - d\).</p>
+
+<p>Starting from arbitrary score values, computation iterates until convergence. Convergence is achieved when error rate for any vertex falls below given threshold. Error rate is defined as difference between “real” score \(S(V_i)\) and score computed at iteration \(k\), \(S^k (V_i)\). Since “real” score is not known a priori, it is approximated with \(S^{k+1}(V_i) - S^k(V_i)\).</p>
+
+<p>As number of edges increases, converge is achieved after fewer iterations.</p>
+
+<p>For undirected graphs, in-degree of a vertex is equal to the out-degree of the vertex.</p>
+
+<h3 id="weighted-graphs">Weighted Graphs</h3>
+<p>Incorporate strength (due to multiple or partial links between vertices) of the connection between two vertices \(V_i\) and \(V_j\) as weight \(w_ij\).</p>
+
+<p>Formula becomes:</p>
+
+\[score(V_i) = (1-d) + d\sum_{V_j\in In(V_i)} \frac{w_ji}{\sum_{V_k \in Out(V_i)} w_{jk}} score(V_j)\]
+
+<h3 id="text-as-a-graph">Text as a Graph</h3>
+<p>Depending on application:</p>
+<ul>
+  <li>text units can have various sizes: words, collocations, sentences, …</li>
+  <li>type of relations: lexical, semantic, contextual overlap, …</li>
+</ul>
+
+<h2 id="keyword-extraction">Keyword Extraction</h2>
+<h3 id="approach">Approach</h3>
+<ul>
+  <li>co-occurence relation, controlled by the distance between word occurences (two vertices are connected if the lexical units co-occur within a window of maximum \(2 \leq N \leq 10\) words)</li>
+  <li>to avoid excessive growth of graph size, only consider single words</li>
+  <li>vertices are restricted with syntactic filters using part of speech tags: best results observed by considering nouns and adjectives only for addition to the graph</li>
+  <li>after convergence, top \(T = \frac{\lvert V \rvert}{3}\) vertices are retained for post-processing (sequences of adjacent key-words are collapsed into a multi-word keyword)</li>
+</ul>
+
+<h3 id="results">Results</h3>
+<ul>
+  <li>the larger the window, the lower the precision (relation between words that are further apart is not strong enough to define a connection in the text graph).</li>
+  <li>linguistic information such as part of speech tags helps the process of keyword extraction</li>
+  <li>results obtained with directed graphs are worse then results obtained with undirected graphs: despite a natural flow in running text, there is no natural direction that can be established co-occuring words</li>
+</ul>
+
+<h2 id="sentence-extraction">Sentence Extraction</h2>
+<ul>
+  <li>same as keyword extraction except text units are entire sentences</li>
+  <li>used in automatic summarization</li>
+  <li>a vertex is added to the graph for each sentence in the text</li>
+  <li><em>co-occurence</em> is not a meaningful relationship for large contexts</li>
+  <li>instead we use <em>similarity</em> measured as a function of their content overlap (number of common tokens / or count words of certain syntactic categories only)</li>
+  <li>normalization factor to avoid promoting long sentences: divide the content overlap with the length of each sentence</li>
+</ul>
+
+\[similarity(S_i, S_j) = \frac{\lvert \{ w_k \vert w_k \in S_i\cap S_j \} \rvert}{\log (\lvert S_i \rvert) + \log(\lvert S_j \rvert)}\]
+
+<ul>
+  <li>other sentence similarity measures: string kernels, cosine similarity, longest common subsequence</li>
+  <li>graph is weighted with strength of the association</li>
+  <li>evaluated using ROUGE (published after BLEU for machine translation), which is based on ngram statistics, found to be highly correlated with human evaluations</li>
+</ul>
+
+<h2 id="notes">Notes</h2>
+<ul>
+  <li><em>knitting phenomenon</em>: words aree shared in different parts of the discourse and serve to knit the discourse together</li>
+  <li><em>text surfing</em>: (text cohesion) from a certain concept in a text, we are likely to follow links to connected concepts (lexical or semantic relation)</li>
+  <li>sentences / words that are highly recommended by other units in the text are likely to be more informative for the given text</li>
+</ul>
+<a class="u-url" href="/content/text_rank.html" hidden></a>
+      </div>
+    </main>--><div class='container-fluid bg-transparent'>
+      <div class='row'>
+        <div class="col-lg-6 offset-lg-3 col-sm-8 offset-sm-2 col-xs-12 bg-body border-start border-end p-5">
+          <p class="display-5" itemprop="name headline">TextRank</p><p class="text-muted">University of Texas, 2004</p></p>
+
+<ul id="markdown-toc">
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#textrank-model" id="markdown-toc-textrank-model">TextRank model</a>    <ul>
+      <li><a href="#weighted-graphs" id="markdown-toc-weighted-graphs">Weighted Graphs</a></li>
+      <li><a href="#text-as-a-graph" id="markdown-toc-text-as-a-graph">Text as a Graph</a></li>
+    </ul>
+  </li>
+  <li><a href="#keyword-extraction" id="markdown-toc-keyword-extraction">Keyword Extraction</a>    <ul>
+      <li><a href="#approach" id="markdown-toc-approach">Approach</a></li>
+      <li><a href="#results" id="markdown-toc-results">Results</a></li>
+    </ul>
+  </li>
+  <li><a href="#sentence-extraction" id="markdown-toc-sentence-extraction">Sentence Extraction</a></li>
+  <li><a href="#notes" id="markdown-toc-notes">Notes</a></li>
+</ul>
+
+<ul>
+  <li>unsupervised graph-based ranking model for text processing</li>
+  <li>applied to two tasks: (1) extract keyphrases representative for a given text and (2) sentence extraction task (most important sentences in a text), used to build extractive summaries</li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+<p>A graph-based ranking algorithm is a way of deciding on the importance of a vertex within a graph, by taking into account global information recursively computed from the entire graph, rather than relying only on local vertex-specific information.</p>
+
+<p>Applications: automated extraction of keyphrases, extractive summarization and word sense disambiguation</p>
+
+<h2 id="textrank-model">TextRank model</h2>
+<ul>
+  <li>when one vertex links to another, it is basically casting a vote for that other vertex</li>
+  <li>the importance of the vertex casting the vote determines how important the vote itself is</li>
+</ul>
+
+<p>Let \(G = (V, E)\) be a directed graph. Let \(In(V_i)\) be the set of vertices that point to \(V_i\) (predecessors) and \(Out(V_i)\) those that \(V_i\) points to (successors). By Google’s PageRank (Brin and Page, 1998):
+\(score(V_i) = (1-d) + d\sum_{j\in In(V_i)} \frac{1}{\lvert Out(V_j) \rvert} score(V_j)\)</p>
+
+<p>\(d\) is a damping factor between 0 and 1 (set to 0.85) and represents the probability of jumping from a given vertex to another random vertex in the graph (“random surfer model”) where a user clicks on links at random with a probability \(d\) and jumps to a completely new page with probability \(1 - d\).</p>
+
+<p>Starting from arbitrary score values, computation iterates until convergence. Convergence is achieved when error rate for any vertex falls below given threshold. Error rate is defined as difference between “real” score \(S(V_i)\) and score computed at iteration \(k\), \(S^k (V_i)\). Since “real” score is not known a priori, it is approximated with \(S^{k+1}(V_i) - S^k(V_i)\).</p>
+
+<p>As number of edges increases, converge is achieved after fewer iterations.</p>
+
+<p>For undirected graphs, in-degree of a vertex is equal to the out-degree of the vertex.</p>
+
+<h3 id="weighted-graphs">Weighted Graphs</h3>
+<p>Incorporate strength (due to multiple or partial links between vertices) of the connection between two vertices \(V_i\) and \(V_j\) as weight \(w_ij\).</p>
+
+<p>Formula becomes:</p>
+
+\[score(V_i) = (1-d) + d\sum_{V_j\in In(V_i)} \frac{w_ji}{\sum_{V_k \in Out(V_i)} w_{jk}} score(V_j)\]
+
+<h3 id="text-as-a-graph">Text as a Graph</h3>
+<p>Depending on application:</p>
+<ul>
+  <li>text units can have various sizes: words, collocations, sentences, …</li>
+  <li>type of relations: lexical, semantic, contextual overlap, …</li>
+</ul>
+
+<h2 id="keyword-extraction">Keyword Extraction</h2>
+<h3 id="approach">Approach</h3>
+<ul>
+  <li>co-occurence relation, controlled by the distance between word occurences (two vertices are connected if the lexical units co-occur within a window of maximum \(2 \leq N \leq 10\) words)</li>
+  <li>to avoid excessive growth of graph size, only consider single words</li>
+  <li>vertices are restricted with syntactic filters using part of speech tags: best results observed by considering nouns and adjectives only for addition to the graph</li>
+  <li>after convergence, top \(T = \frac{\lvert V \rvert}{3}\) vertices are retained for post-processing (sequences of adjacent key-words are collapsed into a multi-word keyword)</li>
+</ul>
+
+<h3 id="results">Results</h3>
+<ul>
+  <li>the larger the window, the lower the precision (relation between words that are further apart is not strong enough to define a connection in the text graph).</li>
+  <li>linguistic information such as part of speech tags helps the process of keyword extraction</li>
+  <li>results obtained with directed graphs are worse then results obtained with undirected graphs: despite a natural flow in running text, there is no natural direction that can be established co-occuring words</li>
+</ul>
+
+<h2 id="sentence-extraction">Sentence Extraction</h2>
+<ul>
+  <li>same as keyword extraction except text units are entire sentences</li>
+  <li>used in automatic summarization</li>
+  <li>a vertex is added to the graph for each sentence in the text</li>
+  <li><em>co-occurence</em> is not a meaningful relationship for large contexts</li>
+  <li>instead we use <em>similarity</em> measured as a function of their content overlap (number of common tokens / or count words of certain syntactic categories only)</li>
+  <li>normalization factor to avoid promoting long sentences: divide the content overlap with the length of each sentence</li>
+</ul>
+
+\[similarity(S_i, S_j) = \frac{\lvert \{ w_k \vert w_k \in S_i\cap S_j \} \rvert}{\log (\lvert S_i \rvert) + \log(\lvert S_j \rvert)}\]
+
+<ul>
+  <li>other sentence similarity measures: string kernels, cosine similarity, longest common subsequence</li>
+  <li>graph is weighted with strength of the association</li>
+  <li>evaluated using ROUGE (published after BLEU for machine translation), which is based on ngram statistics, found to be highly correlated with human evaluations</li>
+</ul>
+
+<h2 id="notes">Notes</h2>
+<ul>
+  <li><em>knitting phenomenon</em>: words aree shared in different parts of the discourse and serve to knit the discourse together</li>
+  <li><em>text surfing</em>: (text cohesion) from a certain concept in a text, we are likely to follow links to connected concepts (lexical or semantic relation)</li>
+  <li>sentences / words that are highly recommended by other units in the text are likely to be more informative for the given text</li>
+</ul>
+<a class="u-url" href="/content/text_rank.html" hidden></a>
+        </div>
+      </div>
+    </div><!--<footer class="site-footer h-card">-->
+  <!--<data class="u-url" href="/"></data>-->
+
+  <div class="container-fluid p-3 bg-light border-top">
+    <div class="row">
+      <div class="col-4">
+        <p class="lead">Timothy Delille</p>
+      </div>
+      <div class="col-4">
+        <!--<a class="u-email" href="mailto:timothydelille at aol dot com">timothydelille at aol dot com</a>-->
+        <p>timothydelille at aol dot com</p>
+        <br>
+        <a href='https://github.com/TimothyDelille' style="text-decoration:None;">
+          <i class="fab fa-github"></i> timothydelille
+        </a>
+        <br>
+        <a href='https://linkedin.com/in/timothydelille' style="text-decoration:None;">
+          <i class="fab fa-linkedin"></i> timothydelille
+        </a>
+      </div>
+
+    <div class="col-4">
+      <p class="text-justify">I&#39;m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts.  I hold a Masters in Computer Science from UC Berkeley.  Trying to uncover the truth in our world without creating unnecessary entropy.  &quot;What is not brought to consciousness comes to us as fate.&quot;</p>
+    </div>
+
+    </div>
+
+  </div>
+
+<!--</footer>-->
+<!-- Mathjax -->
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- scripts particles-->
+    <script src="../particles/particles.js"></script>
+    <script src="../particles/app.js"></script>
+  </body>
+
+</html>
+

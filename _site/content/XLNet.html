@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>XLNet | Timothy Delille</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="XLNet" />
+<meta name="author" content="Google AI Brain (NeurIPS 2019)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I’m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts. I hold a Masters in Computer Science from UC Berkeley. Trying to uncover the truth in our world without creating unnecessary entropy. “What is not brought to consciousness comes to us as fate.”" />
+<meta property="og:description" content="I’m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts. I hold a Masters in Computer Science from UC Berkeley. Trying to uncover the truth in our world without creating unnecessary entropy. “What is not brought to consciousness comes to us as fate.”" />
+<link rel="canonical" href="https://timothydelille.github.io/content/XLNet.html" />
+<meta property="og:url" content="https://timothydelille.github.io/content/XLNet.html" />
+<meta property="og:site_name" content="Timothy Delille" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-06-13T15:59:23-04:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="XLNet" />
+<script type="application/ld+json">
+{"url":"https://timothydelille.github.io/content/XLNet.html","headline":"XLNet","dateModified":"2021-06-13T15:59:23-04:00","datePublished":"2021-06-13T15:59:23-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://timothydelille.github.io/content/XLNet.html"},"author":{"@type":"Person","name":"Google AI Brain (NeurIPS 2019)"},"description":"I’m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts. I hold a Masters in Computer Science from UC Berkeley. Trying to uncover the truth in our world without creating unnecessary entropy. “What is not brought to consciousness comes to us as fate.”","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!--<link rel="stylesheet" href="/assets/main.css">--><link type="application/atom+xml" rel="alternate" href="https://timothydelille.github.io/feed.xml" title="Timothy Delille" /><!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <!-- Fontawesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+
+  <!-- handle markdown images -->
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body><nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <div class="container-fluid">
+    <!--<img src="../assets/img/profile_pic.jpg" alt="" class="d-inline-block align-text-center rounded" width="30">-->
+    <a class="navbar-brand" href="/">Timothy Delille</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav"><li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/about/">About</a>
+          </li></ul>
+    </div>
+  </div>
+</nav><!--<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <p class="display-5" itemprop="name headline">XLNet</p><p class="display-6">Generalized Autoregressive Pretraining for Language Understanding</p><p class="text-muted">Google AI Brain (NeurIPS 2019)</p></p>
+
+<ul id="markdown-toc">
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a>    <ul>
+      <li><a href="#ar-language-modeling" id="markdown-toc-ar-language-modeling">AR language modeling</a></li>
+      <li><a href="#ae-based-pretraining" id="markdown-toc-ae-based-pretraining">AE based pretraining</a></li>
+    </ul>
+  </li>
+  <li><a href="#proposed-method" id="markdown-toc-proposed-method">Proposed method</a>    <ul>
+      <li><a href="#background" id="markdown-toc-background">Background</a></li>
+      <li><a href="#objective-permutation-language-modeling" id="markdown-toc-objective-permutation-language-modeling">Objective: Permutation Language Modeling</a></li>
+      <li><a href="#architecture-two-stream-self-attention-for-target-aware-representations" id="markdown-toc-architecture-two-stream-self-attention-for-target-aware-representations">Architecture: Two-Stream Self-Attention for Target-Aware Representations</a>        <ul>
+          <li><a href="#partial-prediction" id="markdown-toc-partial-prediction">Partial Prediction</a></li>
+        </ul>
+      </li>
+      <li><a href="#incorporating-ideas-from-transformer-xl" id="markdown-toc-incorporating-ideas-from-transformer-xl">Incorporating Ideas from Transformer-XL</a></li>
+      <li><a href="#modeling-multiple-segments" id="markdown-toc-modeling-multiple-segments">Modeling Multiple Segments</a>        <ul>
+          <li><a href="#relative-segment-encoding-on-top-of-relative-positional-encoding" id="markdown-toc-relative-segment-encoding-on-top-of-relative-positional-encoding">Relative Segment Encoding (on top of relative positional encoding)</a></li>
+        </ul>
+      </li>
+      <li><a href="#experiments" id="markdown-toc-experiments">Experiments</a>        <ul>
+          <li><a href="#ablation-study" id="markdown-toc-ablation-study">Ablation Study</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+<ul>
+  <li>Unsupervised representation learning has been successful in natural language processing.</li>
+  <li><strong>Autoregressive (AR) language modeling</strong> and <strong>autoencoding (AE)</strong> are the most successful unsupervised pretraining objectives</li>
+</ul>
+
+<h3 id="ar-language-modeling">AR language modeling</h3>
+<ul>
+  <li>estimate the probability distribution of a text corpus with an autoregressive model</li>
+  <li>Given a text sequence \(x = (x_1, \dots, x_T)\), the likelihood is factorized into a forward product \(p(x) = \prod_{t=1}^T p(x_t \vert x_{&lt;t})\) or a backward one \(p(x) = \prod_{t=T}^1 p(x_t \vert x_{&gt;t})\).</li>
+  <li>A parametric model (e.g. a neural network) is trained to model each conditional distribution</li>
+  <li>only trained to encode a uni-directional context (forward or backward) therefore not effective at modeling deep bidirectional contexts.</li>
+  <li>ELMo concatenates forward and backward language models in a shallow manner, which is not sufficient for modeling deep interactions between the two directions.</li>
+</ul>
+
+<h3 id="ae-based-pretraining">AE based pretraining</h3>
+<ul>
+  <li>does not perform explicit density estimation but aims to reconstruct original data from corrupted input</li>
+  <li>e.g. BERT (has been the state-of-the-art approach): certain portion of tokens are replaced by a special symbol <code class="language-plaintext highlighter-rouge">[MASK]</code> and the model is trained to recover the original tokens</li>
+  <li>since density estimation is not part of the objective, BERT is allowed to utilized bidirectional contexts for reconstruction. Results in improved performance compared to AR language modeling</li>
+  <li>however, artificial symbols like <code class="language-plaintext highlighter-rouge">[MASK]</code> are <strong>absent from real data and finetuning time</strong> (while the model sort of expects it), resulting in a <strong>pretrain-finetune discrepancy.</strong></li>
+  <li>moreover, since the predicted tokens are masked, BERT is not able to model the joint probability using the product rule as in AR language modeling. I.e. <strong>BERT assumes that the masked tokens are independent given the unmasked ones</strong>. This is an oversimplification, as high-order, long-range dependency is prevalent in natural language.</li>
+</ul>
+
+<p>XLNet is a generalized autoregressive method that leverages the best of both AR language modeling and AE while avoiding their limitations:</p>
+<ul>
+  <li>XLNet maximizes the expected log likelihood of a sequence w.r.t. <strong>all possible permutations of the factorization order</strong>, not only forward or backward factorization. Thanks to the permutation operation, the context for each position consists of tokens from both left and right. In expectation, each position learns to utilize contextual information from all positions (thus it captures bidirectional context).</li>
+  <li>XLNet <strong>does not rely on data corruption</strong>. Hence, no pretrain-finetune discrepancy.</li>
+  <li>Uses the <strong>product rule for factorizing the joint probability of the predicted tokens, eliminating the independence assumption</strong> made in BERT</li>
+  <li>integrates the <strong>segment recurrence mechanism and relative encoding scheme of Transformer-XL</strong> (improves performance for tasks involving longer text sequences)</li>
+</ul>
+
+<h2 id="proposed-method">Proposed method</h2>
+<h3 id="background">Background</h3>
+<p>Given a text sequence \(x = [x_1, \dots, x_T]\), AR language modeling performs pretraining by  <strong>maximizing the likelihood under the forward autoregressive factorization</strong>:</p>
+
+\[\max_\theta \log p_\theta(x)=\sum_{t=1}^T \log p_\theta (x_t\vert x_{&lt;t})=\sum_{t=1}^T \log \frac{\exp (h_\theta(x_{1:t-1})^\top e(x_t))}{\sum_{x'}\exp(h_\theta(x_{1:t-1})^\top e(x')))}\]
+
+<p>where \(h_\theta(x_{1:t-1})\) is a context representation produced by neural models such as RNNs or Transformers and \(e(x)\) denotes the embedding of \(x\).</p>
+
+<p>In comparison, BERT is based on denoising auto-encoding. Given \(x\), BERT constructs a corrupted version \(\hat{x}\) by randomly setting a portion of tokens to a special symbol <code class="language-plaintext highlighter-rouge">[MASK]</code>. Let the masked tokens be \(\bar{x}\). The training objective is to reconstruct \(\bar{x}\) from \(\hat{x}\).</p>
+
+\[\max_\theta \log p_\theta (\bar{x}\vert \hat{x})\approx \sum_{t=1}^T m_t \log p_\theta (x_t \vert \hat{x}) = \sum_{t=1}^T m_t \log \frac{\exp(H_\theta (\hat{x})_t^\top e(x_t))}{\sum_{x'}\exp(H_\theta (\hat{x})_t^\top e(x'))}\]
+
+<p>where \(m_t = 1\) indicates \(x_t\) is masked and \(H_\theta\) is a Transformer that maps a length-\(T\) sequence \(x\) into a sequence of hidden vectors \(H_\theta (x) = [H_\theta (x)_1, \dots, H_\theta (x)_T]\)</p>
+
+<p>Pros and cons of the two pretraining objectives:</p>
+<ul>
+  <li><strong>Independence assumption</strong>: BERT factorizes the joint conditional probability \(p(\bar{x}\vert \hat{x})\) based on an independence assumption that all masked tokens \(\bar{x}\) are separately constructed (hence the \(\approx\) sign): the total probability of the assignment is the product of the probabilities of individual assignments (they’re not conditioned on each other) (\(m_t = 0\) for non-masked tokens before reconstructing it is trivial)</li>
+  <li><strong>Input noise</strong>: artificial symbols like <code class="language-plaintext highlighter-rouge">[MASK]</code> used in BERT never occur in downstream tasks, which creates a pretrain-finetune discrepancy.</li>
+  <li><strong>Context dependency</strong>: the AR representation \(h_\theta(x_{1:t-1})\) is only conditioned on the tokens up to position \(t\) (left tokens), while the BERT representation \(H_\theta(x)_t\) has access to the contextual information on both sides.</li>
+</ul>
+
+<h3 id="objective-permutation-language-modeling">Objective: Permutation Language Modeling</h3>
+<p>Borrowing ideas from orderless NADE.
+For a sequence \(x\) of length \(T\), there are \(T!\) different orders to perform a valid autoregressive factorization. Let \(\mathcal{Z}_T\) be the set of all possible permutations of length \(T\). The permutation language modeling objective can be expressed as follows:
+\(\max_\theta \mathbb{E}_{z\sim\mathcal{Z}_T}\bigg[ \sum_{t=1}^T \log p_\theta (x_{z_t}\vert x_{z_{&lt;t}}) \bigg]\)</p>
+
+<p>In expectation, \(x_t\) has seen every possible element \(x_i\ne x_t\) in the sequence (hence capture bidirectional context).<br />
+Moreover, as this objective fits into the AR framework, it avoids the independence assumption and the pretrain-finetune discrepancy.</p>
+
+<p>we only permute the factorization order, not the sequence order. I.e. we <strong>use the original positional encodings</strong> and rely on a proper <strong>attention mask</strong> in Transformers to achieve the desired permutation. This choice is necessary, since the model will only encounter text sequences with the natural order during finetuning.</p>
+
+<h3 id="architecture-two-stream-self-attention-for-target-aware-representations">Architecture: Two-Stream Self-Attention for Target-Aware Representations</h3>
+
+<p><strong>Naive implementation with the standard Transformer parameterization may not work.</strong> Why? Assume we parameterize the next-token distribution \(p_\theta (X_{z_t}\vert x_{z_{&lt;t}})\) using the standard Softmax formulation, i.e.</p>
+
+\[p_\theta (X_{z_t}\vert x_{z_{&lt;t}}) = \frac{\exp (e(x_t)^\top h_\theta(x_{z_{&lt;t}}))}{\sum_{x'}\exp (e(x')^\top h_\theta(x_{z_{&lt;t}}))}\]
+
+<p>where \(h_\theta(x_{z_{&lt;t}})\) denotes the hidden representation of \(x_{z_{&lt;t}}\) produced by the shared Transformer network after proper masking. Now, notice that the representation <strong>\(h_\theta(x_{z_{&lt;t}})\) does not depend on which position it will predict</strong>, i.e., the value of \(z_t\). Consequently, the <strong>same distribution is predicted regardless of the target position</strong>, which is not able to learn useful representations.</p>
+
+<p>Why? Let’s  consider two different permutations \(z^{(1)}\) and \(z^{(2)}\) satisfying: \(z^{(1)}_{&lt;t} = z^{(2)}_{&lt;t}=z_{&lt;t}\) but \(z^{(1)}_t = i \ne j = z^{(2))}_t\). Then:</p>
+
+\[p_\theta (X_i = x\vert x_{z_{&lt;t}}) = p_\theta (X_j = x\vert x_{z_{&lt;t}}) = \frac{\exp (e(x)^\top h_\theta(x_{z_{&lt;t}}))}{\sum_{x'}\exp (e(x')^\top h_\theta(x_{z_{&lt;t}}))}\]
+
+<p>Effectively, two different target positions \(i\) and \(j\) share exactly the same model prediction.</p>
+
+<p>Therefore, we re-parameterize the next-token distribution to be <strong>target position aware</strong>:</p>
+
+\[p_\theta (X_{z_t} = x\vert x_{z_{&lt;t}}) = \frac{\exp (e(x)^\top g_\theta(x_{z_{&lt;t}}, z_t))}{\sum_{x'}\exp (e(x')^\top g_\theta(x_{z_{&lt;t}}, z_t))}\]
+
+<p>where \(g_\theta(x_{z_{&lt;t}}, z_t)\) is a type of representations that <strong>also takes the target position \(z_t\) as input.</strong></p>
+
+<p>Two sets of hidden representation instead of one:</p>
+<ul>
+  <li><strong>content representation</strong> \(h_\theta(x_{z_{\leq t}})\) (abbr. \(h_{z_t}\)) serves the role of the standard hidden states in Transformer. Encodes <em>both</em> the context and \(x_{z_t}\) itself. Initialized to the corresponding word embedding, i.e. \(h_i^{(0)} = e(x_i)\)</li>
+  <li><strong>query representation</strong> \(g_\theta (x_{z_{&lt;t}}, z_t)\) (abbr. \(g_{z_t}\)) only has access to contextual information \(x_{z_{&lt;t}}\) and the position \(z_t\) but not the content \(x_{z_t}\). Initialized with trainable vector, i.e. \(g_i^{(0)} = w\).</li>
+</ul>
+
+<p><em>Note</em>: the standard self-attention in the Transformer is allowed to have access to the content of the position it is trying to predict, because in the encoder-decoder architecture (as opposed to language modeling), we are trying to predict the content of the target sequence, not the source sequence (thus, the target value of a certain position might depend on the source value at this position too).</p>
+
+<p><img src="../assets/img/XLNet_two_stream_self_attention.png" alt="figure1" />
+<em>a)</em>: content stream attention (same as standard self-attention)<br />
+<em>b)</em>: query stream attention (does not hav access to information about the content \(x_{z_t}\))<br />
+<em>c)</em>: permutation language modeling training with two-stream two_stream_self_attention</p>
+
+<p>For each self-attention layer \(m=1, \dots, M\), the two streams of representations are updated with a shared set of parameters as follows:</p>
+
+<p>\(g_{z_t}^{m} \leftarrow \text{Attention}(Q=g_{z_t}^{(m-1)}, KV = h_{z_{\leq t}}^{(m-1)}; \theta)\)
+\(h_{z_t}^{m} \leftarrow \text{Attention}(Q=h_{z_t}^{(m-1)}, KV = h_{z_{\leq t}}^{(m-1)}; \theta)\)</p>
+
+<p>The reason we need the content stream attention is because for positions \(j &lt; t\), we need to encode the context \(x_j\) (which should be allowed to attend itself, i.e. not mask the diagonal).</p>
+
+<p><em>Note</em>: implementation details such as multi-head attention, residual connection, layer normalization and position-wise feed-forward as used in Transformer(-XL) are omitted. Refer to appendix A.2 in the original paper.</p>
+
+<p>Finally, we can use the last-layer query representation \(g_{z_t}^{M}\) to compute the next-token distribution.</p>
+
+<p><em>Question</em>: masking the attention matrix to fit a particular permutation of the input sequence, over all permutations; doesn’t it amount to NOT masking the attention matrix at all? By not masking, one token would be able to get attention from all other tokens in the sequence, as opposed to the ones that fit the permuation order (albeit taken over all permutations).</p>
+
+<h4 id="partial-prediction">Partial Prediction</h4>
+<p>Permutation causes slow convergence. To reduce the optimization difficulty, we choose to only predict the last tokens in a factorization order. Formally, we split \(z\) into a non-target subsequence \(z_{\leq c}\) and a target subsequence \(z_{&gt;c}\) where \(c\) is the cutting point. The objective is to maximize the log-likelihood of the target subsequence conditioned on the non-target subsequence, i.e.:</p>
+
+\[\max_\theta \mathbb{E}_{z\sim\mathcal{Z}_T} \big[ \log p_\theta (x_{z_{&gt;c}} \vert x_{z_{\leq c}}) \big] = \mathbb{E}_{z\sim\mathcal{Z}_T} \bigg[ \sum_{t=c+1}^{\lvert z \rvert}\log p_\theta (x_{z_t} \vert x_{z_{\leq t}}) \bigg]\]
+
+<p>A hyperparameter \(K\) is used such that about \(1/K\) tokens are selected for predictions, i.e. \(\lvert z \rvert / (\lvert z \rvert - c) \approx K\). For unselected tokens, their query representations need not be computed, which saves speed and memory.</p>
+
+<h3 id="incorporating-ideas-from-transformer-xl">Incorporating Ideas from Transformer-XL</h3>
+<p>Transformer-XL is the state-of-the-art AR language model. We integrate <strong>relative positional encoding</strong> (straightforward) and <strong>segment recurrence mechanism</strong>, which we discuss now.</p>
+
+<p>Without loss of generality, suppose we have two segments taken from a long sequence \(s\); i.e. \(\tilde{x} = s_{1:T}\) and \(x=s_{T+1:2T}\) with permutations \(\tilde{z}\) and \(z\) respectively. We process the first segment based on permutation \(\tilde{z}\) and cache the obtained content representations \(\tilde{h}^{(m)}\) for each layer \(m\). Then for the next segment \(x\), the attention updae with memory can be written as:</p>
+
+\[h_{z_t}^{(m)}\leftarrow \text{Attention}(Q=h_{z_t}^{(m-1)}, KV=\underbrace{\big[ \tilde{h}^{(m-1)}, h_{z_{\leq t}}^{(m-1)} \big]}_{\text{concatenation}}; \theta)\]
+
+<p>Positional encodings only depend on the actual positions in the original sequence. Thus, the above attention update is independent of \(\tilde{z}\) once the representations \(\tilde{h}^{(m)}\) are obtained. In expectation, the model learns to utilize the memory over all factorization orders of the last segment. Query stream can be computed in the same way.</p>
+
+<h3 id="modeling-multiple-segments">Modeling Multiple Segments</h3>
+<p>Many downstream tasks have multiple input segments, e.g. a question and a context paragraph in question answering. During the pretraining phase, following BERT, we randomly sample two segments (either from the same context or not) and treat the concatenation of two segments as one sequence to perform permutation language modeling. The input is: <code class="language-plaintext highlighter-rouge">[CLS, A, SEP, B, SEP]</code> (where <code class="language-plaintext highlighter-rouge">SEP</code> and <code class="language-plaintext highlighter-rouge">CLS</code> are two special symbols, and <code class="language-plaintext highlighter-rouge">A</code> and <code class="language-plaintext highlighter-rouge">B</code> are the two segments).</p>
+
+<p>However, XLNet <strong>does not use the objective of next sentence prediction</strong>.</p>
+
+<h4 id="relative-segment-encoding-on-top-of-relative-positional-encoding">Relative Segment Encoding (on top of relative positional encoding)</h4>
+<p>BERT adds an absolute segment embedding to the word embedding at each position.
+We extend the idea of relative encoding from Transformer-XL to also encode segments. Given a pair of positions \(i\) and \(j\) in the sequence. If \(i\) and \(j\) are from the same segment, we use a segment encoding \(s_{ij} = s_+\) or otherwise \(s_{ij} = s_-\) where \(s_+\) and \(s_-\) are learnable model parameters for each attention head. I.e. <strong>we only consider whether two positions are within the same segment, as opposed to considering which specific segment they are from</strong>. When \(i\) attends to \(j\), the segment encoding \(s_ij\) is used to compute an attention weight \(a_{ij} = (q_i + b)^\top s_ij\) where \(q_i\) is the query vector as in a standard attention operation, \(b\) a learnable head-specific bias vector. \(a_{ij}\) is then added to the normal attention weight.</p>
+
+<p>Benefits or using relative segment encodings:</p>
+<ul>
+  <li>inductive bias of relative encodings improves generalization</li>
+  <li>opens the possibility of finetuning on tasks that have more than two input segments (not possible using absolute segment encodings)</li>
+</ul>
+
+<h3 id="experiments">Experiments</h3>
+<p><strong>Comparison with BERT</strong></p>
+
+<p>XLNet outperforms BERT by a sizable margin on a wide spectrum of problems including GLUE language understanding tasks, reading comprehension tasks like SQuAD and RACE, text classification tasks such as Yelp and IMDB, and the ClueWeb09-B document ranking task.</p>
+
+<p>Some attention patterns <strong>appear only in XLNet</strong>. They involve the <em>relative</em> positions rather than the absolute ones and are likely enabled by the “relative attention” mechanism in XLNet (see appendix A.6)</p>
+
+<p><strong>Comparison with RoBERTa</strong></p>
+
+<p>XLNet outperforms RoBERTa on reading comprehension and document ranking (<strong>RACE</strong>), question answering (<strong>SQuAD2.0</strong>), text classification (<strong>IMDB</strong>, <strong>Yelp</strong>, …) and natural language understanding (<strong>GLUE</strong>).</p>
+
+<h4 id="ablation-study">Ablation Study</h4>
+<ul>
+  <li>effectiveness ot he permutation language modeling alone (compared to denoising auto-encoding objective used by BERT)</li>
+  <li>importance of using Transformer-XL as the backbone</li>
+  <li>necessity of some implementation details including span-based prediction; bidirectional input pipeline, and next-sentence prediction</li>
+</ul>
+<a class="u-url" href="/content/XLNet.html" hidden></a>
+      </div>
+    </main>--><div class='container-fluid bg-transparent'>
+      <div class='row'>
+        <div class="col-lg-6 offset-lg-3 col-sm-8 offset-sm-2 col-xs-12 bg-body border-start border-end p-5">
+          <p class="display-5" itemprop="name headline">XLNet</p><p class="display-6">Generalized Autoregressive Pretraining for Language Understanding</p><p class="text-muted">Google AI Brain (NeurIPS 2019)</p></p>
+
+<ul id="markdown-toc">
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a>    <ul>
+      <li><a href="#ar-language-modeling" id="markdown-toc-ar-language-modeling">AR language modeling</a></li>
+      <li><a href="#ae-based-pretraining" id="markdown-toc-ae-based-pretraining">AE based pretraining</a></li>
+    </ul>
+  </li>
+  <li><a href="#proposed-method" id="markdown-toc-proposed-method">Proposed method</a>    <ul>
+      <li><a href="#background" id="markdown-toc-background">Background</a></li>
+      <li><a href="#objective-permutation-language-modeling" id="markdown-toc-objective-permutation-language-modeling">Objective: Permutation Language Modeling</a></li>
+      <li><a href="#architecture-two-stream-self-attention-for-target-aware-representations" id="markdown-toc-architecture-two-stream-self-attention-for-target-aware-representations">Architecture: Two-Stream Self-Attention for Target-Aware Representations</a>        <ul>
+          <li><a href="#partial-prediction" id="markdown-toc-partial-prediction">Partial Prediction</a></li>
+        </ul>
+      </li>
+      <li><a href="#incorporating-ideas-from-transformer-xl" id="markdown-toc-incorporating-ideas-from-transformer-xl">Incorporating Ideas from Transformer-XL</a></li>
+      <li><a href="#modeling-multiple-segments" id="markdown-toc-modeling-multiple-segments">Modeling Multiple Segments</a>        <ul>
+          <li><a href="#relative-segment-encoding-on-top-of-relative-positional-encoding" id="markdown-toc-relative-segment-encoding-on-top-of-relative-positional-encoding">Relative Segment Encoding (on top of relative positional encoding)</a></li>
+        </ul>
+      </li>
+      <li><a href="#experiments" id="markdown-toc-experiments">Experiments</a>        <ul>
+          <li><a href="#ablation-study" id="markdown-toc-ablation-study">Ablation Study</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+<ul>
+  <li>Unsupervised representation learning has been successful in natural language processing.</li>
+  <li><strong>Autoregressive (AR) language modeling</strong> and <strong>autoencoding (AE)</strong> are the most successful unsupervised pretraining objectives</li>
+</ul>
+
+<h3 id="ar-language-modeling">AR language modeling</h3>
+<ul>
+  <li>estimate the probability distribution of a text corpus with an autoregressive model</li>
+  <li>Given a text sequence \(x = (x_1, \dots, x_T)\), the likelihood is factorized into a forward product \(p(x) = \prod_{t=1}^T p(x_t \vert x_{&lt;t})\) or a backward one \(p(x) = \prod_{t=T}^1 p(x_t \vert x_{&gt;t})\).</li>
+  <li>A parametric model (e.g. a neural network) is trained to model each conditional distribution</li>
+  <li>only trained to encode a uni-directional context (forward or backward) therefore not effective at modeling deep bidirectional contexts.</li>
+  <li>ELMo concatenates forward and backward language models in a shallow manner, which is not sufficient for modeling deep interactions between the two directions.</li>
+</ul>
+
+<h3 id="ae-based-pretraining">AE based pretraining</h3>
+<ul>
+  <li>does not perform explicit density estimation but aims to reconstruct original data from corrupted input</li>
+  <li>e.g. BERT (has been the state-of-the-art approach): certain portion of tokens are replaced by a special symbol <code class="language-plaintext highlighter-rouge">[MASK]</code> and the model is trained to recover the original tokens</li>
+  <li>since density estimation is not part of the objective, BERT is allowed to utilized bidirectional contexts for reconstruction. Results in improved performance compared to AR language modeling</li>
+  <li>however, artificial symbols like <code class="language-plaintext highlighter-rouge">[MASK]</code> are <strong>absent from real data and finetuning time</strong> (while the model sort of expects it), resulting in a <strong>pretrain-finetune discrepancy.</strong></li>
+  <li>moreover, since the predicted tokens are masked, BERT is not able to model the joint probability using the product rule as in AR language modeling. I.e. <strong>BERT assumes that the masked tokens are independent given the unmasked ones</strong>. This is an oversimplification, as high-order, long-range dependency is prevalent in natural language.</li>
+</ul>
+
+<p>XLNet is a generalized autoregressive method that leverages the best of both AR language modeling and AE while avoiding their limitations:</p>
+<ul>
+  <li>XLNet maximizes the expected log likelihood of a sequence w.r.t. <strong>all possible permutations of the factorization order</strong>, not only forward or backward factorization. Thanks to the permutation operation, the context for each position consists of tokens from both left and right. In expectation, each position learns to utilize contextual information from all positions (thus it captures bidirectional context).</li>
+  <li>XLNet <strong>does not rely on data corruption</strong>. Hence, no pretrain-finetune discrepancy.</li>
+  <li>Uses the <strong>product rule for factorizing the joint probability of the predicted tokens, eliminating the independence assumption</strong> made in BERT</li>
+  <li>integrates the <strong>segment recurrence mechanism and relative encoding scheme of Transformer-XL</strong> (improves performance for tasks involving longer text sequences)</li>
+</ul>
+
+<h2 id="proposed-method">Proposed method</h2>
+<h3 id="background">Background</h3>
+<p>Given a text sequence \(x = [x_1, \dots, x_T]\), AR language modeling performs pretraining by  <strong>maximizing the likelihood under the forward autoregressive factorization</strong>:</p>
+
+\[\max_\theta \log p_\theta(x)=\sum_{t=1}^T \log p_\theta (x_t\vert x_{&lt;t})=\sum_{t=1}^T \log \frac{\exp (h_\theta(x_{1:t-1})^\top e(x_t))}{\sum_{x'}\exp(h_\theta(x_{1:t-1})^\top e(x')))}\]
+
+<p>where \(h_\theta(x_{1:t-1})\) is a context representation produced by neural models such as RNNs or Transformers and \(e(x)\) denotes the embedding of \(x\).</p>
+
+<p>In comparison, BERT is based on denoising auto-encoding. Given \(x\), BERT constructs a corrupted version \(\hat{x}\) by randomly setting a portion of tokens to a special symbol <code class="language-plaintext highlighter-rouge">[MASK]</code>. Let the masked tokens be \(\bar{x}\). The training objective is to reconstruct \(\bar{x}\) from \(\hat{x}\).</p>
+
+\[\max_\theta \log p_\theta (\bar{x}\vert \hat{x})\approx \sum_{t=1}^T m_t \log p_\theta (x_t \vert \hat{x}) = \sum_{t=1}^T m_t \log \frac{\exp(H_\theta (\hat{x})_t^\top e(x_t))}{\sum_{x'}\exp(H_\theta (\hat{x})_t^\top e(x'))}\]
+
+<p>where \(m_t = 1\) indicates \(x_t\) is masked and \(H_\theta\) is a Transformer that maps a length-\(T\) sequence \(x\) into a sequence of hidden vectors \(H_\theta (x) = [H_\theta (x)_1, \dots, H_\theta (x)_T]\)</p>
+
+<p>Pros and cons of the two pretraining objectives:</p>
+<ul>
+  <li><strong>Independence assumption</strong>: BERT factorizes the joint conditional probability \(p(\bar{x}\vert \hat{x})\) based on an independence assumption that all masked tokens \(\bar{x}\) are separately constructed (hence the \(\approx\) sign): the total probability of the assignment is the product of the probabilities of individual assignments (they’re not conditioned on each other) (\(m_t = 0\) for non-masked tokens before reconstructing it is trivial)</li>
+  <li><strong>Input noise</strong>: artificial symbols like <code class="language-plaintext highlighter-rouge">[MASK]</code> used in BERT never occur in downstream tasks, which creates a pretrain-finetune discrepancy.</li>
+  <li><strong>Context dependency</strong>: the AR representation \(h_\theta(x_{1:t-1})\) is only conditioned on the tokens up to position \(t\) (left tokens), while the BERT representation \(H_\theta(x)_t\) has access to the contextual information on both sides.</li>
+</ul>
+
+<h3 id="objective-permutation-language-modeling">Objective: Permutation Language Modeling</h3>
+<p>Borrowing ideas from orderless NADE.
+For a sequence \(x\) of length \(T\), there are \(T!\) different orders to perform a valid autoregressive factorization. Let \(\mathcal{Z}_T\) be the set of all possible permutations of length \(T\). The permutation language modeling objective can be expressed as follows:
+\(\max_\theta \mathbb{E}_{z\sim\mathcal{Z}_T}\bigg[ \sum_{t=1}^T \log p_\theta (x_{z_t}\vert x_{z_{&lt;t}}) \bigg]\)</p>
+
+<p>In expectation, \(x_t\) has seen every possible element \(x_i\ne x_t\) in the sequence (hence capture bidirectional context).<br />
+Moreover, as this objective fits into the AR framework, it avoids the independence assumption and the pretrain-finetune discrepancy.</p>
+
+<p>we only permute the factorization order, not the sequence order. I.e. we <strong>use the original positional encodings</strong> and rely on a proper <strong>attention mask</strong> in Transformers to achieve the desired permutation. This choice is necessary, since the model will only encounter text sequences with the natural order during finetuning.</p>
+
+<h3 id="architecture-two-stream-self-attention-for-target-aware-representations">Architecture: Two-Stream Self-Attention for Target-Aware Representations</h3>
+
+<p><strong>Naive implementation with the standard Transformer parameterization may not work.</strong> Why? Assume we parameterize the next-token distribution \(p_\theta (X_{z_t}\vert x_{z_{&lt;t}})\) using the standard Softmax formulation, i.e.</p>
+
+\[p_\theta (X_{z_t}\vert x_{z_{&lt;t}}) = \frac{\exp (e(x_t)^\top h_\theta(x_{z_{&lt;t}}))}{\sum_{x'}\exp (e(x')^\top h_\theta(x_{z_{&lt;t}}))}\]
+
+<p>where \(h_\theta(x_{z_{&lt;t}})\) denotes the hidden representation of \(x_{z_{&lt;t}}\) produced by the shared Transformer network after proper masking. Now, notice that the representation <strong>\(h_\theta(x_{z_{&lt;t}})\) does not depend on which position it will predict</strong>, i.e., the value of \(z_t\). Consequently, the <strong>same distribution is predicted regardless of the target position</strong>, which is not able to learn useful representations.</p>
+
+<p>Why? Let’s  consider two different permutations \(z^{(1)}\) and \(z^{(2)}\) satisfying: \(z^{(1)}_{&lt;t} = z^{(2)}_{&lt;t}=z_{&lt;t}\) but \(z^{(1)}_t = i \ne j = z^{(2))}_t\). Then:</p>
+
+\[p_\theta (X_i = x\vert x_{z_{&lt;t}}) = p_\theta (X_j = x\vert x_{z_{&lt;t}}) = \frac{\exp (e(x)^\top h_\theta(x_{z_{&lt;t}}))}{\sum_{x'}\exp (e(x')^\top h_\theta(x_{z_{&lt;t}}))}\]
+
+<p>Effectively, two different target positions \(i\) and \(j\) share exactly the same model prediction.</p>
+
+<p>Therefore, we re-parameterize the next-token distribution to be <strong>target position aware</strong>:</p>
+
+\[p_\theta (X_{z_t} = x\vert x_{z_{&lt;t}}) = \frac{\exp (e(x)^\top g_\theta(x_{z_{&lt;t}}, z_t))}{\sum_{x'}\exp (e(x')^\top g_\theta(x_{z_{&lt;t}}, z_t))}\]
+
+<p>where \(g_\theta(x_{z_{&lt;t}}, z_t)\) is a type of representations that <strong>also takes the target position \(z_t\) as input.</strong></p>
+
+<p>Two sets of hidden representation instead of one:</p>
+<ul>
+  <li><strong>content representation</strong> \(h_\theta(x_{z_{\leq t}})\) (abbr. \(h_{z_t}\)) serves the role of the standard hidden states in Transformer. Encodes <em>both</em> the context and \(x_{z_t}\) itself. Initialized to the corresponding word embedding, i.e. \(h_i^{(0)} = e(x_i)\)</li>
+  <li><strong>query representation</strong> \(g_\theta (x_{z_{&lt;t}}, z_t)\) (abbr. \(g_{z_t}\)) only has access to contextual information \(x_{z_{&lt;t}}\) and the position \(z_t\) but not the content \(x_{z_t}\). Initialized with trainable vector, i.e. \(g_i^{(0)} = w\).</li>
+</ul>
+
+<p><em>Note</em>: the standard self-attention in the Transformer is allowed to have access to the content of the position it is trying to predict, because in the encoder-decoder architecture (as opposed to language modeling), we are trying to predict the content of the target sequence, not the source sequence (thus, the target value of a certain position might depend on the source value at this position too).</p>
+
+<p><img src="../assets/img/XLNet_two_stream_self_attention.png" alt="figure1" />
+<em>a)</em>: content stream attention (same as standard self-attention)<br />
+<em>b)</em>: query stream attention (does not hav access to information about the content \(x_{z_t}\))<br />
+<em>c)</em>: permutation language modeling training with two-stream two_stream_self_attention</p>
+
+<p>For each self-attention layer \(m=1, \dots, M\), the two streams of representations are updated with a shared set of parameters as follows:</p>
+
+<p>\(g_{z_t}^{m} \leftarrow \text{Attention}(Q=g_{z_t}^{(m-1)}, KV = h_{z_{\leq t}}^{(m-1)}; \theta)\)
+\(h_{z_t}^{m} \leftarrow \text{Attention}(Q=h_{z_t}^{(m-1)}, KV = h_{z_{\leq t}}^{(m-1)}; \theta)\)</p>
+
+<p>The reason we need the content stream attention is because for positions \(j &lt; t\), we need to encode the context \(x_j\) (which should be allowed to attend itself, i.e. not mask the diagonal).</p>
+
+<p><em>Note</em>: implementation details such as multi-head attention, residual connection, layer normalization and position-wise feed-forward as used in Transformer(-XL) are omitted. Refer to appendix A.2 in the original paper.</p>
+
+<p>Finally, we can use the last-layer query representation \(g_{z_t}^{M}\) to compute the next-token distribution.</p>
+
+<p><em>Question</em>: masking the attention matrix to fit a particular permutation of the input sequence, over all permutations; doesn’t it amount to NOT masking the attention matrix at all? By not masking, one token would be able to get attention from all other tokens in the sequence, as opposed to the ones that fit the permuation order (albeit taken over all permutations).</p>
+
+<h4 id="partial-prediction">Partial Prediction</h4>
+<p>Permutation causes slow convergence. To reduce the optimization difficulty, we choose to only predict the last tokens in a factorization order. Formally, we split \(z\) into a non-target subsequence \(z_{\leq c}\) and a target subsequence \(z_{&gt;c}\) where \(c\) is the cutting point. The objective is to maximize the log-likelihood of the target subsequence conditioned on the non-target subsequence, i.e.:</p>
+
+\[\max_\theta \mathbb{E}_{z\sim\mathcal{Z}_T} \big[ \log p_\theta (x_{z_{&gt;c}} \vert x_{z_{\leq c}}) \big] = \mathbb{E}_{z\sim\mathcal{Z}_T} \bigg[ \sum_{t=c+1}^{\lvert z \rvert}\log p_\theta (x_{z_t} \vert x_{z_{\leq t}}) \bigg]\]
+
+<p>A hyperparameter \(K\) is used such that about \(1/K\) tokens are selected for predictions, i.e. \(\lvert z \rvert / (\lvert z \rvert - c) \approx K\). For unselected tokens, their query representations need not be computed, which saves speed and memory.</p>
+
+<h3 id="incorporating-ideas-from-transformer-xl">Incorporating Ideas from Transformer-XL</h3>
+<p>Transformer-XL is the state-of-the-art AR language model. We integrate <strong>relative positional encoding</strong> (straightforward) and <strong>segment recurrence mechanism</strong>, which we discuss now.</p>
+
+<p>Without loss of generality, suppose we have two segments taken from a long sequence \(s\); i.e. \(\tilde{x} = s_{1:T}\) and \(x=s_{T+1:2T}\) with permutations \(\tilde{z}\) and \(z\) respectively. We process the first segment based on permutation \(\tilde{z}\) and cache the obtained content representations \(\tilde{h}^{(m)}\) for each layer \(m\). Then for the next segment \(x\), the attention updae with memory can be written as:</p>
+
+\[h_{z_t}^{(m)}\leftarrow \text{Attention}(Q=h_{z_t}^{(m-1)}, KV=\underbrace{\big[ \tilde{h}^{(m-1)}, h_{z_{\leq t}}^{(m-1)} \big]}_{\text{concatenation}}; \theta)\]
+
+<p>Positional encodings only depend on the actual positions in the original sequence. Thus, the above attention update is independent of \(\tilde{z}\) once the representations \(\tilde{h}^{(m)}\) are obtained. In expectation, the model learns to utilize the memory over all factorization orders of the last segment. Query stream can be computed in the same way.</p>
+
+<h3 id="modeling-multiple-segments">Modeling Multiple Segments</h3>
+<p>Many downstream tasks have multiple input segments, e.g. a question and a context paragraph in question answering. During the pretraining phase, following BERT, we randomly sample two segments (either from the same context or not) and treat the concatenation of two segments as one sequence to perform permutation language modeling. The input is: <code class="language-plaintext highlighter-rouge">[CLS, A, SEP, B, SEP]</code> (where <code class="language-plaintext highlighter-rouge">SEP</code> and <code class="language-plaintext highlighter-rouge">CLS</code> are two special symbols, and <code class="language-plaintext highlighter-rouge">A</code> and <code class="language-plaintext highlighter-rouge">B</code> are the two segments).</p>
+
+<p>However, XLNet <strong>does not use the objective of next sentence prediction</strong>.</p>
+
+<h4 id="relative-segment-encoding-on-top-of-relative-positional-encoding">Relative Segment Encoding (on top of relative positional encoding)</h4>
+<p>BERT adds an absolute segment embedding to the word embedding at each position.
+We extend the idea of relative encoding from Transformer-XL to also encode segments. Given a pair of positions \(i\) and \(j\) in the sequence. If \(i\) and \(j\) are from the same segment, we use a segment encoding \(s_{ij} = s_+\) or otherwise \(s_{ij} = s_-\) where \(s_+\) and \(s_-\) are learnable model parameters for each attention head. I.e. <strong>we only consider whether two positions are within the same segment, as opposed to considering which specific segment they are from</strong>. When \(i\) attends to \(j\), the segment encoding \(s_ij\) is used to compute an attention weight \(a_{ij} = (q_i + b)^\top s_ij\) where \(q_i\) is the query vector as in a standard attention operation, \(b\) a learnable head-specific bias vector. \(a_{ij}\) is then added to the normal attention weight.</p>
+
+<p>Benefits or using relative segment encodings:</p>
+<ul>
+  <li>inductive bias of relative encodings improves generalization</li>
+  <li>opens the possibility of finetuning on tasks that have more than two input segments (not possible using absolute segment encodings)</li>
+</ul>
+
+<h3 id="experiments">Experiments</h3>
+<p><strong>Comparison with BERT</strong></p>
+
+<p>XLNet outperforms BERT by a sizable margin on a wide spectrum of problems including GLUE language understanding tasks, reading comprehension tasks like SQuAD and RACE, text classification tasks such as Yelp and IMDB, and the ClueWeb09-B document ranking task.</p>
+
+<p>Some attention patterns <strong>appear only in XLNet</strong>. They involve the <em>relative</em> positions rather than the absolute ones and are likely enabled by the “relative attention” mechanism in XLNet (see appendix A.6)</p>
+
+<p><strong>Comparison with RoBERTa</strong></p>
+
+<p>XLNet outperforms RoBERTa on reading comprehension and document ranking (<strong>RACE</strong>), question answering (<strong>SQuAD2.0</strong>), text classification (<strong>IMDB</strong>, <strong>Yelp</strong>, …) and natural language understanding (<strong>GLUE</strong>).</p>
+
+<h4 id="ablation-study">Ablation Study</h4>
+<ul>
+  <li>effectiveness ot he permutation language modeling alone (compared to denoising auto-encoding objective used by BERT)</li>
+  <li>importance of using Transformer-XL as the backbone</li>
+  <li>necessity of some implementation details including span-based prediction; bidirectional input pipeline, and next-sentence prediction</li>
+</ul>
+<a class="u-url" href="/content/XLNet.html" hidden></a>
+        </div>
+      </div>
+    </div><!--<footer class="site-footer h-card">-->
+  <!--<data class="u-url" href="/"></data>-->
+
+  <div class="container-fluid p-3 bg-light border-top">
+    <div class="row">
+      <div class="col-4">
+        <p class="lead">Timothy Delille</p>
+      </div>
+      <div class="col-4">
+        <!--<a class="u-email" href="mailto:timothydelille at aol dot com">timothydelille at aol dot com</a>-->
+        <p>timothydelille at aol dot com</p>
+        <br>
+        <a href='https://github.com/TimothyDelille' style="text-decoration:None;">
+          <i class="fab fa-github"></i> timothydelille
+        </a>
+        <br>
+        <a href='https://linkedin.com/in/timothydelille' style="text-decoration:None;">
+          <i class="fab fa-linkedin"></i> timothydelille
+        </a>
+      </div>
+
+    <div class="col-4">
+      <p class="text-justify">I&#39;m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts.  I hold a Masters in Computer Science from UC Berkeley.  Trying to uncover the truth in our world without creating unnecessary entropy.  &quot;What is not brought to consciousness comes to us as fate.&quot;</p>
+    </div>
+
+    </div>
+
+  </div>
+
+<!--</footer>-->
+<!-- Mathjax -->
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- scripts particles-->
+    <script src="../particles/particles.js"></script>
+    <script src="../particles/app.js"></script>
+  </body>
+
+</html>
+

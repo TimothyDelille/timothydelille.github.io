@@ -1,0 +1,17 @@
+---
+layout: default
+---
+<p class="display-5" itemprop="name headline">{{ page.title | escape }}</p>
+{%- if page.subtitle -%}
+  <p class="display-6">{{ page.subtitle | escape}}</p>
+{%- endif -%}
+{%- if page.author -%}
+  <p class="text-muted">{{ page.author }}</p>
+{%- endif -%}</p>
+
+{{ content }}
+
+{%- if site.disqus.shortname -%}
+  {%- include disqus_comments.html -%}
+{%- endif -%}
+<a class="u-url" href="{{ page.url | relative_url }}" hidden></a>

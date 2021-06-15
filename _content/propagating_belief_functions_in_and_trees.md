@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Propagating Belief Functions in AND-Trees
-author: Srivastave & Shenoy, 1995
+author: Srivastava & Shenoy, 1995
 tag: Dempster-Shafer Theory
 ---
 * TOC
@@ -13,9 +13,13 @@ Consider simple evidential network with binary variables $$X$$, $$O_1$$ and $$O_
 
 ![simple network](../assets/img/propagating_belief_functions_in_and_trees_simple_network.png)
 
-We assume $$O_1, O_2$$ are related to $$X$$ through and AND node: $$X=x$$ iff $$O_1=o_1$$ and $$O_2=o_2$$. This relationship is incorporated by assuming that the frame of the relational node $$R$$ is: $$\Theta_R=\{(x, o_1, o_2), (\sim x, \sim o_1, \sim o_2), (\sim x, o_1, \sim o_2), (\sim x, o_1, \sim o_2)\}$$
+We assume $$O_1, O_2$$ are related to $$X$$ through and AND node: $$X=x$$ iff $$O_1=o_1$$ and $$O_2=o_2$$. This relationship is incorporated by assuming that the frame of the relational node $$R$$ is:
 
-Evidence for a variable is represented by a basic probability assignment (bpa) function: $$m_X = \big(m(x), m(\sim x), m(\{x, \sim x\})\big)$$
+$$\Theta_R=\{(x, o_1, o_2), (\sim x, \sim o_1, \sim o_2), (\sim x, o_1, \sim o_2), (\sim x, o_1, \sim o_2)\}$$
+
+Evidence for a variable is represented by a basic probability assignment (bpa) function:
+
+$$m_X = \big(m(x), m(\sim x), m(\{x, \sim x\})\big)$$
 
 We assumed one item of evidence for each variable. If more than one item of evidence bear on a node, we need to first combine the items of evidence using Dempster's rule of combination.
 
@@ -26,14 +30,19 @@ Whenever a set of m-values is propagated from a smaller node (fewer variables) t
 Suppose we have $$m_{O_1}(o_1), m_{O_1}(\sim o_1), m_{O_1}(\{o_1, \sim o_1\})$$ defined on the frame $$\Theta_{O_1} = \{o_1, \sim o_1\}$$
 
 We want to vacuously extend them to a bigger node consisting of $$O_1$$ and $$O_2$$. Entire frame of combined node is given by cartesian product: $$\Theta_{O_1O_2}=\{(o_1, o_2), (\sim o_1, o_2), (o_1, \sim o_2), (\sim o_1, \sim o_2)\}$$. The vacuous extension gives:
+
 $$m(\{(o_1, o_2), (o_1, \sim o_2)\}) = m_{O_1}(o_1)$$
+
 $$m(\{(\sim o_1, o_2), (\sim o_1, \sim o_2)\}) = m_{O_1}(\sim o_1)$$
+
 $$m(\Theta_{O_1O_2}) = m_{O_1}(\Theta_{O_1}) \text{ (entire frame=uncertainty)}$$
 
 m-values for other subsets of $$\Theta_{O_1O_2}$$ are zero.
 ### Marginalization
 Propagating m-values from a node to a smaller node. Suppose we are marginalizing $$\Theta_{O_1O_2}$$ onto $$\Theta_{O_1}$$. Similar to marginalization of probabilities, we sum all m-values over elements of the bigger frame that intersect with elements of the smaller frame:
+
 $$m(o_1) = m(o_1, o_2) + m(o_1, \sim o_2) + m(\{(o_1, o_2), (o_1, \sim o_2)\})$$
+
 Same for $$\sim o_1$$ and $$\{o_1, \sim o_1\}$$
 
 ## Propagation in AND-tree
@@ -55,18 +64,24 @@ $$m_{X\leftarrow \{O_1, \dots, O_n\}}$$ denotes bpa function for $$X$$ represent
 Propagation of m-values from sub-objectives $$O_i$$ to main objective $$X$$.
 
 $$m_{X\leftarrow \text{all O's}} (x) = \prod_{i=1}^n m_{O_i}(o_i)$$
+
 $$m_{X\leftarrow \text{all O's}} (\sim x) = 1-\prod_{i=1}^n \underbrace{[1-m_{O_i}(\sim o_i)]}_{\text{plausibility of }o_i}$$
+
 $$m_{X\leftarrow \text{all O's}}(\{x, \sim x\}) = 1-m_{X\leftarrow \text{all O's}} (x)-m_{X\leftarrow \text{all O's}} (\sim x)$$
 
 ## Proof of Proposition 1
+See paper
 
 ## Proposition 2
 Propagation of m-values to a given sub-objective $$O_i$$ from the main objective $$X$$ and other subobjectives $$O_j, j\ne i$$.
 
 $$m_{O_i\leftarrow \text{X & all other O's}}(o_i) = K_i^{-1} m_X(x)\prod_{j\ne i}[1-m_{o_j}(\sim o_j)]$$
+
 $$m_{O_i\leftarrow \text{X & all other O's}} (\sim o_i) = K_i^{-1} m_X(\sim x)\prod_{j\ne i}m_{O_j}(o_j)$$
+
 $$m_{O_i\leftarrow \text{X & all other O's}}(\{o_i, \sim o_i\}) = 1-m_{O_i\leftarrow \text{X & all other O's}}(o_i) - m_{O_i\leftarrow \text{X & all other O's}}(\sim o_i)$$
 
 where $$K_i$$ is the normalization constant given by $$K_i=[1-m_X(x)C_i]$$ and $$C_i = 1-\prod_{j\ne i}[1-m_{o_j}(\sim o_j)]$$ (measure of conflict).
 
 ## Proof of Proposition 2
+See paper

@@ -36,3 +36,35 @@ Applications developped with the most/best data win.
 * Privacy: GDPR-compliant (General Data Protection Regulation)? See [PySyft](https://github.com/OpenMined/PySyft)
 * Data manipulation: see [Dask](https://github.com/dask/dask) (parallel computation in Python, mimicking pandas)
 * Data format: row-based data formats like CSV require to load all features even if using a subset of them. Columnar file formats like PARQUET and ORC are optimized for that use case.
+
+## ML systems design
+Defining interface, algorithms, data, infrastructure and hardware.
+
+Many cloud services enable autoscaling the number of machines depending on usage.
+
+Subject matter experts (auditors, bankers, doctors, lawyers etc...) are overlooked developers of ML systems. We only think of them to label data but they are useful for: problem formulation, model evaluation, developping user interface...
+
+### Online prediction (a.k.a. HTTP prediction) vs batch prediction
+* **batch prediction**:
+  * asynchronous
+  * periodical
+  * high throughput
+  * processing accumulated data when you don’t need immediate results (e.g. recommendation systems)
+* **online prediction**: instantaneous (e.g. autocomplete)
+
+**Batch prediction is a workaround for when online prediction isn’t cheap enough or isn’t fast enough**
+
+### Edge computing vs cloud computing
+Edge computing: computation done on the edge (= on device) as opposed to cloud computing (on servers).
+
+Cloud computing is used when ML model requires too much compute and memory to be run on device.
+
+Disadvantages of cloud computing:
+* network latency is a bigger bottleneck than inference latency.
+* storing data of many users in the same place means a breach can affect many people
+* servers are costly
+
+**The future of ML is online and on-device** (+ see federated learning for training over edge devices).
+
+### Online learning vs offline learning
+Data becomes available sequentially vs in batch. E.g. Ordinary Least Squares vs Recursive Least Squares.

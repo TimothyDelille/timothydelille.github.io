@@ -22,8 +22,7 @@ title: "Timothy Delille"
 email: "timothydelille at aol dot com"
 description: >- # this means to ignore newlines until "baseurl:"
   I'm a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts. 
-  I hold a Masters in Computer Science from UC Berkeley. 
-  Trying to uncover the truth in our world without creating unnecessary entropy. 
+  I hold a Masters in EECS from UC Berkeley.
   "What is not brought to consciousness comes to us as fate."
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://timothydelille.github.io" # the base hostname & protocol for your site, e.g. http://example.com

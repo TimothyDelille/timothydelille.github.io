@@ -55,7 +55,7 @@ Much like the previous dataset, this one cannot be separated without using $$n+1
 Example of an unlink:
 ![unlink](../assets/img/manifold_hypothesis_unlink.png)
 
-An **ambient isotopy** is a procedure for untangling links. Formally, an ambient isotopy between manifolds $$A$$ and $$B$$ is a continuous function $$F: [0,1]\times X\rightarrow Y$$ such that each $$F(t)$$ is a homeomorphism from $X$$ to its range. $$F(0)$$ is the identity and $$F1$$ maps $$A$$ to $$B$$. $$F$$ continuously transitions from mapping $$A$$ to itself to mapping $$A$$ to $$B$$.
+An **ambient isotopy** is a procedure for untangling links. Formally, an ambient isotopy between manifolds $$A$$ and $$B$$ is a continuous function $$F: [0,1]\times X\rightarrow Y$$ such that each $$F(t)$$ is a homeomorphism from $$X$$ to its range. $$F(0)$$ is the identity and $$F1$$ maps $$A$$ to $$B$$. $$F$$ continuously transitions from mapping $$A$$ to itself to mapping $$A$$ to $$B$$.
 
 **Theorem**: There is an ambient isotopy between the input and a network layer's representation if:
 * a) $$W$$ isn't singular
@@ -68,7 +68,7 @@ An **ambient isotopy** is a procedure for untangling links. Formally, an ambient
 3. We can continually transition from the identity function to the pointwise use of $$\sigma$$ with the function: $$x \rightarrow (1-t)x + t\sigma(x)$$.
 
 Determining if knots are trivial is NP.
-Links and knots are $$1$$-dimensional manifolds but we need 4 dimensions to untangle them. **All $$n$$-dimensional manifolds can be untangled in  $$2n + 2$$ dimensions.
+Links and knots are $$1$$-dimensional manifolds but we need 4 dimensions to untangle them. **All $$n$$-dimensional manifolds can be untangled in  $$2n + 2$$ dimensions.**
 
 The natural thing for a neural net to do is to pull the manifolds apart naively and stretch the parts that are tangled as thin as possible (can achieve high classification accuracy). This would present high gradients on the regions it is trying to stretch near-discontinuities. Contractive penalties, penalizing the derivatives of the layers at data points is a way to fight this.
 

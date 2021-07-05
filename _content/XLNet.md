@@ -88,7 +88,7 @@ Two sets of hidden representation instead of one:
 
 *Note*: the standard self-attention in the Transformer is allowed to have access to the content of the position it is trying to predict, because in the encoder-decoder architecture (as opposed to language modeling), we are trying to predict the content of the target sequence, not the source sequence (thus, the target value of a certain position might depend on the source value at this position too).
 
-![figure1](../assets/img/XLNet_two_stream_self_attention.png)
+![figure1](../assets/img/xlnet/XLNet_two_stream_self_attention.png)
 *a)*: content stream attention (same as standard self-attention)\
 *b)*: query stream attention (does not hav access to information about the content $$x_{z_t}$$)\
 *c)*: permutation language modeling training with two-stream two_stream_self_attention

@@ -99,7 +99,7 @@ $$F_m(x) = F_{m-1}(x) + \rho_m h(x; a_m)$$
 ## 4. Applications: additive modeling
 ### 4.1. Least-squares regression
 $$L(y,F)=(y-F)^2/2$$ thus $$\tilde{y}_i = y_i - F_{m-1}(x_i)$$. Therefore, $$a_m, \beta_m$$ are fitting the residuals and line search produces $$\rho_m = \beta_m$$ (we can thus skip the $$\rho_m$$ optimization step)
-![least squares](../assets/img/gradient_boosting_least_squares.png)
+![least squares](../assets/img/gradient_boosting/gradient_boosting_least_squares.png)
 
 (using any base learner $$h$$)
 

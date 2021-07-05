@@ -1,7 +1,7 @@
 ---
 layout: post
 title: MLOps
-tag: MLOps
+tag: ML Ops
 ---
 Apply DevOps principles to ML systems (MLOps)
 

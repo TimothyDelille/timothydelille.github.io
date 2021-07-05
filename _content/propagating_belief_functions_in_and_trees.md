@@ -11,7 +11,7 @@ General propagation method is quite complex and can be simplified when the netwo
 
 Consider simple evidential network with binary variables $$X$$, $$O_1$$ and $$O_2$$ with frames (values) $$\Theta_X=\{x, \sim x\}$$, $$\Theta_{O_1}=\{o_1, \sim o_1\}$$, $$\Theta_{O_2}=\{o_2, \sim o_2\}$$.
 
-![simple network](../assets/img/propagating_belief_functions_in_and_trees_simple_network.png)
+![simple network](../assets/img/propagating_belief_functions_in_and_trees/simple_network.png)
 
 We assume $$O_1, O_2$$ are related to $$X$$ through and AND node: $$X=x$$ iff $$O_1=o_1$$ and $$O_2=o_2$$. This relationship is incorporated by assuming that the frame of the relational node $$R$$ is:
 

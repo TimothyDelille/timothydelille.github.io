@@ -29,7 +29,7 @@ Including language modeling as **auxiliary objective** to the fine-tuning improv
 
 Pre-trained model is trained on contiguous sequences of text, thus inputs for fine-tuning tasks need to be adapted to a *traversal-style* approach:
 
-![input transformations](../assets/img/openai_gpt_input_transformations.png)
+![input transformations](../assets/img/openai_gpt/openai_gpt_input_transformations.png)
 
 Embeddings for delimiter tokens are parameters that arise during fine-tuning.
 

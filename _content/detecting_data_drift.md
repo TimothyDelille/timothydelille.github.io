@@ -14,7 +14,7 @@ Four types of drift:
 * **feature drift**: change in $$P(X)$$
 
 "Virtual concept drift" has no influence on performance:
-![concept drift](../assets/img/concept_drift.png)
+![concept drift](../assets/img/concept_drift/concept_drift.png)
 
 ## Causes
 * **externalities** cause real change in data distribution

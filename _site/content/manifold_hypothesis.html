@@ -4,22 +4,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>Manifold Hypothesis | Timothy Delille</title>
-<meta name="generator" content="Jekyll v4.2.0" />
+<meta name="generator" content="Jekyll v3.9.0" />
 <meta property="og:title" content="Manifold Hypothesis" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Source: Colah’s blog post" />
 <meta property="og:description" content="Source: Colah’s blog post" />
-<link rel="canonical" href="https://timothydelille.github.io/content/manifold_hypothesis.html" />
-<meta property="og:url" content="https://timothydelille.github.io/content/manifold_hypothesis.html" />
+<link rel="canonical" href="http://localhost:4000/content/manifold_hypothesis.html" />
+<meta property="og:url" content="http://localhost:4000/content/manifold_hypothesis.html" />
 <meta property="og:site_name" content="Timothy Delille" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-06-13T15:59:23-04:00" />
+<meta property="article:published_time" content="2021-06-30T13:00:32-04:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Manifold Hypothesis" />
 <script type="application/ld+json">
-{"url":"https://timothydelille.github.io/content/manifold_hypothesis.html","headline":"Manifold Hypothesis","dateModified":"2021-06-13T15:59:23-04:00","datePublished":"2021-06-13T15:59:23-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://timothydelille.github.io/content/manifold_hypothesis.html"},"description":"Source: Colah’s blog post","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"headline":"Manifold Hypothesis","url":"http://localhost:4000/content/manifold_hypothesis.html","dateModified":"2021-06-30T13:00:32-04:00","datePublished":"2021-06-30T13:00:32-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/content/manifold_hypothesis.html"},"description":"Source: Colah’s blog post","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<!--<link rel="stylesheet" href="/assets/main.css">--><link type="application/atom+xml" rel="alternate" href="https://timothydelille.github.io/feed.xml" title="Timothy Delille" /><!-- Bootstrap CSS -->
+<!--<link rel="stylesheet" href="/assets/main.css">--><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Timothy Delille" /><!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
   <!-- Fontawesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
@@ -66,7 +66,7 @@
 <p>\(A = \{x \vert d(x, 0)  &lt; 1/3 \}\)
 \(B = \{x\vert 2/3 &lt; d(x, 0) &lt; 1 \}\)</p>
 
-<p><img src="../assets/img/manifold_hypothesis_binary_dataset.png" alt="two dimensional dataset" /></p>
+<p><img src="../assets/img/manifold_hypothesis/manifold_hypothesis_binary_dataset.png" alt="two dimensional dataset" /></p>
 
 <p><strong>Claim</strong>: it is impossible for a neural network to classify this dataset without having a layer that has 3 or more hidden units, regardless of depth.</p>
 
@@ -74,7 +74,7 @@
 
 <p>Why? Let a parallelepiped in \(\mathbb{R}^n\) be the set of points \(\mathcal{P} = \{a_1 \vec{x_1} +\dots + a_n \vec{x_n} \vert 0 \leq a_1 \dots a_n \leq 1 \}\)</p>
 
-<p><img src="../assets/img/manifold_hypothesis_parallelepiped.png" alt="parallelepiped" /></p>
+<p><img src="../assets/img/manifold_hypothesis/manifold_hypothesis_parallelepiped.png" alt="parallelepiped" /></p>
 
 <p>A parallelepiped has zero volume when it’s flat i.e. it is squashed into a <strong>lower</strong> dimension, that is when \(\{\vec{x_1}\dots\vec{x_n}\}\) are linearly dependent.</p>
 
@@ -84,23 +84,23 @@
 
 <p>Adding a third hidden unit, the problem becomes trivial:</p>
 
-<p><img src="../assets/img/manifold_hypothesis_topology_3d.png" alt="topology 3D" /></p>
+<p><img src="../assets/img/manifold_hypothesis/manifold_hypothesis_topology_3d.png" alt="topology 3D" /></p>
 
 <h2 id="the-manifold-hypothesis">The Manifold Hypothesis</h2>
 <p>Manifold hypothesis is that natural data forms lower-dimensional manifolds in its embedding space. There are theoretical and experimental reasons to believe this is true. Task of a claassification algorithm is fundamentally to <strong>separate tangled manifolds</strong> (for example, separate the “cat” manifold from the “dog” manifold in the space of images \(\in \mathbb{R}^{n\times n}\)).</p>
 
 <h2 id="links-and-homotopy">Links and homotopy</h2>
 <p>Consider two linked tori \(A\) and \(B\).
-<img src="../assets/img/manifold_hypothesis_link.png" alt="unlink" /></p>
+<img src="../assets/img/manifold_hypothesis/manifold_hypothesis_link.png" alt="unlink" /></p>
 
 <p>Much like the previous dataset, this one cannot be separated without using \(n+1\) dimensions (i.e. 4 in this case)</p>
 
 <p><strong>Links</strong> are studied in <strong>knot theory</strong>, an area of topology. Is a link an unlink (i.e. separable by continuous deformation) or not.</p>
 
 <p>Example of an unlink:
-<img src="../assets/img/manifold_hypothesis_unlink.png" alt="unlink" /></p>
+<img src="../assets/img/manifold_hypothesis/manifold_hypothesis_unlink.png" alt="unlink" /></p>
 
-<p>An <strong>ambient isotopy</strong> is a procedure for untangling links. Formally, an ambient isotopy between manifolds \(A\) and \(B\) is a continuous function \(F: [0,1]\times X\rightarrow Y\) such that each \(F(t)\) is a homeomorphism from $X\(to its range.\)F(0)\(is the identity and\)F1\(maps\)A\(to\)B\(.\)F\(continuously transitions from mapping\)A\(to itself to mapping\)A\(to\)B$$.</p>
+<p>An <strong>ambient isotopy</strong> is a procedure for untangling links. Formally, an ambient isotopy between manifolds \(A\) and \(B\) is a continuous function \(F: [0,1]\times X\rightarrow Y\) such that each \(F(t)\) is a homeomorphism from \(X\) to its range. \(F(0)\) is the identity and \(F1\) maps \(A\) to \(B\). \(F\) continuously transitions from mapping \(A\) to itself to mapping \(A\) to \(B\).</p>
 
 <p><strong>Theorem</strong>: There is an ambient isotopy between the input and a network layer’s representation if:</p>
 <ul>
@@ -117,7 +117,7 @@
 </ol>
 
 <p>Determining if knots are trivial is NP.
-Links and knots are \(1\)-dimensional manifolds but we need 4 dimensions to untangle them. **All \(n\)-dimensional manifolds can be untangled in  \(2n + 2\) dimensions.</p>
+Links and knots are \(1\)-dimensional manifolds but we need 4 dimensions to untangle them. <strong>All \(n\)-dimensional manifolds can be untangled in  \(2n + 2\) dimensions.</strong></p>
 
 <p>The natural thing for a neural net to do is to pull the manifolds apart naively and stretch the parts that are tangled as thin as possible (can achieve high classification accuracy). This would present high gradients on the regions it is trying to stretch near-discontinuities. Contractive penalties, penalizing the derivatives of the layers at data points is a way to fight this.</p>
 
@@ -151,7 +151,7 @@ https://paperswithcode.com/paper/facenet-a-unified-embedding-for-face</p>
 <p>\(A = \{x \vert d(x, 0)  &lt; 1/3 \}\)
 \(B = \{x\vert 2/3 &lt; d(x, 0) &lt; 1 \}\)</p>
 
-<p><img src="../assets/img/manifold_hypothesis_binary_dataset.png" alt="two dimensional dataset" /></p>
+<p><img src="../assets/img/manifold_hypothesis/manifold_hypothesis_binary_dataset.png" alt="two dimensional dataset" /></p>
 
 <p><strong>Claim</strong>: it is impossible for a neural network to classify this dataset without having a layer that has 3 or more hidden units, regardless of depth.</p>
 
@@ -159,7 +159,7 @@ https://paperswithcode.com/paper/facenet-a-unified-embedding-for-face</p>
 
 <p>Why? Let a parallelepiped in \(\mathbb{R}^n\) be the set of points \(\mathcal{P} = \{a_1 \vec{x_1} +\dots + a_n \vec{x_n} \vert 0 \leq a_1 \dots a_n \leq 1 \}\)</p>
 
-<p><img src="../assets/img/manifold_hypothesis_parallelepiped.png" alt="parallelepiped" /></p>
+<p><img src="../assets/img/manifold_hypothesis/manifold_hypothesis_parallelepiped.png" alt="parallelepiped" /></p>
 
 <p>A parallelepiped has zero volume when it’s flat i.e. it is squashed into a <strong>lower</strong> dimension, that is when \(\{\vec{x_1}\dots\vec{x_n}\}\) are linearly dependent.</p>
 
@@ -169,23 +169,23 @@ https://paperswithcode.com/paper/facenet-a-unified-embedding-for-face</p>
 
 <p>Adding a third hidden unit, the problem becomes trivial:</p>
 
-<p><img src="../assets/img/manifold_hypothesis_topology_3d.png" alt="topology 3D" /></p>
+<p><img src="../assets/img/manifold_hypothesis/manifold_hypothesis_topology_3d.png" alt="topology 3D" /></p>
 
 <h2 id="the-manifold-hypothesis">The Manifold Hypothesis</h2>
 <p>Manifold hypothesis is that natural data forms lower-dimensional manifolds in its embedding space. There are theoretical and experimental reasons to believe this is true. Task of a claassification algorithm is fundamentally to <strong>separate tangled manifolds</strong> (for example, separate the “cat” manifold from the “dog” manifold in the space of images \(\in \mathbb{R}^{n\times n}\)).</p>
 
 <h2 id="links-and-homotopy">Links and homotopy</h2>
 <p>Consider two linked tori \(A\) and \(B\).
-<img src="../assets/img/manifold_hypothesis_link.png" alt="unlink" /></p>
+<img src="../assets/img/manifold_hypothesis/manifold_hypothesis_link.png" alt="unlink" /></p>
 
 <p>Much like the previous dataset, this one cannot be separated without using \(n+1\) dimensions (i.e. 4 in this case)</p>
 
 <p><strong>Links</strong> are studied in <strong>knot theory</strong>, an area of topology. Is a link an unlink (i.e. separable by continuous deformation) or not.</p>
 
 <p>Example of an unlink:
-<img src="../assets/img/manifold_hypothesis_unlink.png" alt="unlink" /></p>
+<img src="../assets/img/manifold_hypothesis/manifold_hypothesis_unlink.png" alt="unlink" /></p>
 
-<p>An <strong>ambient isotopy</strong> is a procedure for untangling links. Formally, an ambient isotopy between manifolds \(A\) and \(B\) is a continuous function \(F: [0,1]\times X\rightarrow Y\) such that each \(F(t)\) is a homeomorphism from $X\(to its range.\)F(0)\(is the identity and\)F1\(maps\)A\(to\)B\(.\)F\(continuously transitions from mapping\)A\(to itself to mapping\)A\(to\)B$$.</p>
+<p>An <strong>ambient isotopy</strong> is a procedure for untangling links. Formally, an ambient isotopy between manifolds \(A\) and \(B\) is a continuous function \(F: [0,1]\times X\rightarrow Y\) such that each \(F(t)\) is a homeomorphism from \(X\) to its range. \(F(0)\) is the identity and \(F1\) maps \(A\) to \(B\). \(F\) continuously transitions from mapping \(A\) to itself to mapping \(A\) to \(B\).</p>
 
 <p><strong>Theorem</strong>: There is an ambient isotopy between the input and a network layer’s representation if:</p>
 <ul>
@@ -202,7 +202,7 @@ https://paperswithcode.com/paper/facenet-a-unified-embedding-for-face</p>
 </ol>
 
 <p>Determining if knots are trivial is NP.
-Links and knots are \(1\)-dimensional manifolds but we need 4 dimensions to untangle them. **All \(n\)-dimensional manifolds can be untangled in  \(2n + 2\) dimensions.</p>
+Links and knots are \(1\)-dimensional manifolds but we need 4 dimensions to untangle them. <strong>All \(n\)-dimensional manifolds can be untangled in  \(2n + 2\) dimensions.</strong></p>
 
 <p>The natural thing for a neural net to do is to pull the manifolds apart naively and stretch the parts that are tangled as thin as possible (can achieve high classification accuracy). This would present high gradients on the regions it is trying to stretch near-discontinuities. Contractive penalties, penalizing the derivatives of the layers at data points is a way to fight this.</p>
 
@@ -236,7 +236,7 @@ https://paperswithcode.com/paper/facenet-a-unified-embedding-for-face</p>
       </div>
 
     <div class="col-4">
-      <p class="text-justify">I&#39;m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts.  I hold a Masters in Computer Science from UC Berkeley.  Trying to uncover the truth in our world without creating unnecessary entropy.  &quot;What is not brought to consciousness comes to us as fate.&quot;</p>
+      <p class="text-justify">I&#39;m a data scientist working at PwC AI Labs with a passion for jazz piano and martial arts.  I hold a Masters in EECS from UC Berkeley. &quot;What is not brought to consciousness comes to us as fate.&quot;</p>
     </div>
 
     </div>

@@ -1,11 +1,12 @@
 ---
 layout: post
-title: Zero to One - Peter Thiel
-tag: Mental models
+title: Zero to One
+author: Peter Thiel, 2014
+tag: Books
 ---
 
-# ZERO to ONE
-Peter Thiel - 2014
+* TOC
+{:toc}
 
 ## Preface
 * Doing what we already know takes the world from 1 to *n*. Every time we create something new, we go from 0 to 1.

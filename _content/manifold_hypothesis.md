@@ -21,7 +21,7 @@ Consider two dimensional dataset with two classes $$A, B \subset \mathbb{R}^2$$.
 $$A = \{x \vert d(x, 0)  < 1/3 \}$$
 $$B = \{x\vert 2/3 < d(x, 0) < 1 \}$$
 
-![two dimensional dataset](../assets/img/manifold_hypothesis_binary_dataset.png)
+![two dimensional dataset](../assets/img/manifold_hypothesis/manifold_hypothesis_binary_dataset.png)
 
 **Claim**: it is impossible for a neural network to classify this dataset without having a layer that has 3 or more hidden units, regardless of depth.
 
@@ -29,7 +29,7 @@ $$B = \{x\vert 2/3 < d(x, 0) < 1 \}$$
 
 Why? Let a parallelepiped in $$\mathbb{R}^n$$ be the set of points $$\mathcal{P} = \{a_1 \vec{x_1} +\dots + a_n \vec{x_n} \vert 0 \leq a_1 \dots a_n \leq 1 \}$$
 
-![parallelepiped](../assets/img/manifold_hypothesis_parallelepiped.png)
+![parallelepiped](../assets/img/manifold_hypothesis/manifold_hypothesis_parallelepiped.png)
 
 A parallelepiped has zero volume when it's flat i.e. it is squashed into a **lower** dimension, that is when $$\{\vec{x_1}\dots\vec{x_n}\}$$ are linearly dependent.
 
@@ -39,21 +39,21 @@ See https://textbooks.math.gatech.edu/ila/determinants-volumes.html.
 
 Adding a third hidden unit, the problem becomes trivial:
 
-![topology 3D](../assets/img/manifold_hypothesis_topology_3d.png)
+![topology 3D](../assets/img/manifold_hypothesis/manifold_hypothesis_topology_3d.png)
 
 ## The Manifold Hypothesis
 Manifold hypothesis is that natural data forms lower-dimensional manifolds in its embedding space. There are theoretical and experimental reasons to believe this is true. Task of a claassification algorithm is fundamentally to **separate tangled manifolds** (for example, separate the "cat" manifold from the "dog" manifold in the space of images $$\in \mathbb{R}^{n\times n}$$).
 
 ## Links and homotopy
 Consider two linked tori $$A$$ and $$B$$.
-![unlink](../assets/img/manifold_hypothesis_link.png)
+![unlink](../assets/img/manifold_hypothesis/manifold_hypothesis_link.png)
 
 Much like the previous dataset, this one cannot be separated without using $$n+1$$ dimensions (i.e. 4 in this case)
 
 **Links** are studied in **knot theory**, an area of topology. Is a link an unlink (i.e. separable by continuous deformation) or not.
 
 Example of an unlink:
-![unlink](../assets/img/manifold_hypothesis_unlink.png)
+![unlink](../assets/img/manifold_hypothesis/manifold_hypothesis_unlink.png)
 
 An **ambient isotopy** is a procedure for untangling links. Formally, an ambient isotopy between manifolds $$A$$ and $$B$$ is a continuous function $$F: [0,1]\times X\rightarrow Y$$ such that each $$F(t)$$ is a homeomorphism from $$X$$ to its range. $$F(0)$$ is the identity and $$F1$$ maps $$A$$ to $$B$$. $$F$$ continuously transitions from mapping $$A$$ to itself to mapping $$A$$ to $$B$$.
 

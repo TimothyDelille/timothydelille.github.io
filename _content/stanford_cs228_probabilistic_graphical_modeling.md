@@ -140,6 +140,7 @@ $$p(x_1, \dots, x_n) = \frac{1}{Z} \prod_{c\in C}\phi_c(x_c)$$
 *Note*: we do not need to specify a factor for each clique.
 
 ####Example
+
 we are modeling preferences among $$A, B, C, D$$. $$(A,B), (B,C), (C,D), (D,A)$$ are friends and friends have similar voting preferences.
 $$\tilde{p}(A,B,C,D) = \phi(A,B)\phi(B,C)\phi(C,D)\phi(D,A)$$
 where $$\phi(X,Y) = 10\text{ if }X=Y=1, 5\text{ if }X=Y=0, 1 \text{ otherwise}$$.
@@ -324,6 +325,7 @@ Two types of messages:
 ![factor graph messages](../assets/img/stanford_cs228_probabilistic_graphical_modeling/factor-graph-messages.png)
 
 $$\nu_{var(i)\rightarrow fac(s)} (x_i) = \prod_{t\in N(i)\setminus s} \mu_{fac(t)\rightarrow var(i)} (x_i)$$
+
 $$\mu_{fac(s)\rightarrow var(i)}(x_i) = \sum_{x_{N(s)\setminus i}} f_s(x_{N(s)})\prod_{j\in N(s)\setminus i} \nu_{var(j)\rightarrow fac(s)}(x_j)$$
 
 As long as there is a factor (or variable) ready to transmit to a variable (or factor), send message as defined above. Therefore, an edge receives exactly two messages (from variable to factor and factor to variable)
@@ -366,7 +368,7 @@ Special case: when $$G$$ itself is a tree, define a cluster for each edge.
 
 ![jt-over-tree](../assets/img/stanford_cs228_probabilistic_graphical_modeling/jt-over-tree.png)
 
-Example of invalid junction tree that does not satisfy running intersection property:
+Example of invalid junction tree that does not satisfy running intersection property (green cluster should contain intersection of red and purple):
 
 ![badjunctiontree](../assets/img/stanford_cs228_probabilistic_graphical_modeling/badjunctiontree.png)
 
@@ -502,17 +504,28 @@ Introduce two types of indicator variables:
 * $$\mu_{ij}(x_i, x_j)$$ for each edge $$(i,j)\in \mathcal{E}$$ and pair of states $$x_i, x_j$$
 
 MAP objective becomes:
+
 $$\max_{\mu} \sum_{i\in V}\sum_{x_i} \theta_i(x_i)\mu_i(x_i) + \sum_{i,j\in E}\sum_{x_i, x_j}\theta_{ij}(x_i, x_j)\mu_{ij}(x_i, x_j)$$
 
+(function $theta$ represents $log \phi$)
+
 With constraints:
+
 $$\mu_i(x_i)\in \{0, 1\}\forall i, x_i$$
+
 $$\sum_{x_i}\mu_i(x_i)=1\forall i$$
+
 $$\mu_{ij}(x_i, x_j)\in \{0, 1\}\forall i,j \in E, x_i, x_j$$
+
 $$\sum_{x_i, x_j}\mu_{ij}(x_i, x_j) = 1 \forall i,j \in E$$
+
 Assignments must also be consistent:
+
 $$\sum_{x_i} \mu_{ij}(x_i, x_j) = \mu_j(x_j) \forall i,j \in E, x_j$$
+
 $$\sum_{x_j} \mu_{ij}(x_i, x_j) = \mu_i(x_i) \forall i,j \in E, x_i$$
 
+(we have to optimize over the edges too because an edge between two variables at given states contributes to the cost)
 
 * solution to this linear program equals MAP assignment
 * NP-hard but can transform this into an LP via relaxation
@@ -529,10 +542,11 @@ Where $$F$$ denote arbitrary factors (e.g. edge potentials in pairwise MRF)
 
 Consider decoupled objective:
 $$\sum_{i\in V}\max_{x_i} \theta_i(x_i) + \sum_{f\in F}\max_{x^f} \theta_f (x^f)$$
-Constraints that encourage consistency between potentials:
-$$x_i^f - x_i = 0 \forall f,\forall i\in f$$
 
-*Lagrangian* of the constrained problem:
+Should encourage consistency between potentials:
+$$x_i^f - x_i = 0 \forall f,\forall i\in f$$ (i.e. variable assignments chosen for an edge should be the same as for the corresponding nodes)
+
+*Lagrangian* of the constrained problem ($x^f$ and $x$ are assignments of the variable):
 $$L(\delta, x^f, x)=\sum_{i\in V}\theta_i (x_i) + \sum_{f\in F}\theta_f(x^f) + \sum_{f\in F}\sum_{i\in f}\sum_{x_i'} \underbrace{\delta_{f_i}(x_i')}_{\text{Lagrange multiplier}}\bigg( \mathbb{I}_{x_i' = x_i} - \mathbb{I}_{x_i' = x_i^f}\bigg)$$
 
 
@@ -567,6 +581,8 @@ As shown above, if a solution $$x,x^f$$ agrees for some $$\delta$$, it is optima
 
 If each $$\bar \theta_i^{\delta^*}$$ has a unique maximum, problem is decodable. If some variables do not have a unique maximum, then we assign their optimal values to the ones that can be uniquely decoded to their optimal values and use exact inference to find the remaining variables' values. (NP-hard but usually not a big problem)
 
+How can we decouple variables from each other? Isn't that impossible due to the edges costs?
+
 ### Local search
 Start with arbitrary assignment and perform "moves" on the joint assignment that locally increases the probability. No guarantees but prior knowledge makes effective moves.
 
@@ -588,7 +604,7 @@ Idea of simulated annealing is to run sampling algorithm starting with high $$t$
 ## Sampling methods
 Interesting classes of models may not admit exact polynomial-time solutions at all.
 Two families of approximate algorithms:
-* *variational* methods (take their name from *calculus of variations* which deals with optimizing functions that take other functions as arguments): formulate inference as an optimization problem
+* *variational* methods (take their name from *calculus of variations* = optimizing functions that take other functions as arguments): formulate inference as an optimization problem
 * *sampling* methods: main way of performing approximate inference over the past 15 years before variational methods emerged as viable and superior alternatives
 
 ### Forward (aka ancestral) sampling
@@ -622,12 +638,13 @@ Since samples are i.i.d., MC estimate is unbiased and variance is inversely prop
 Special case of Monte Carlo integration. Compute area of a region $$R$$ by sampling in a larger region with known area and recording the fraction of samples that falls within $$R$$.
 
 E.g., Bayesian network over set of variables $$X=Z\cup E$$. We use rejection sampling to compute marginal probabilities $$p(E=e)$$:
+
 $$p(E=e)=\sum_z p(Z=z, E=e)=\sum_x p(x)\mathbb{I}(E=e)=\mathbb{E}_{x\sim p}\big[\mathbb{I}(E=e)\big]$$
 
 and then take the Monte Carlo approximation.
 
 ### Importance sampling
-See [lecture notes about importance sampling](../importance_sampling.pdf)
+See [Art Owen's lecture notes about importance sampling](https://statweb.stanford.edu/~owen/mc/Ch-var-is.pdf)
 
 Suppose we want to compute $$\mu = \mathbb{E}[f(X)]$$ where $$f(x)$$ is nearly zero outside a region $$A$$ for which $$P(X\in A)$$ is small. A plain Monte Carlo sample would be very wasteful and could fail to have even one point inside the region $$A$$.
 
@@ -646,6 +663,8 @@ Therefore, the numerator is small when $$q$$ is nearly proportional to $$fp$$. S
 Having $$q$$ follow a uniform distribution collapses to plain Monte Carlo.
 
 ### Normalized importance sampling
+When estimating fraction of two probabilities (e.g. a conditional proba), if we sample each proba separately, errors compound and variance can be high. If we use the same samples to evaluate the fraction, estimator is biased but asymptotically unbiased and we avoid the issue of compounding errors.
+
 See [notes on website](https://ermongroup.github.io/cs228-notes/inference/sampling/)
 
 ### Markov Chain Monte Carlo
@@ -685,7 +704,7 @@ For two distributions with discrete support:
 $$KL(q \Vert p)=\sum_{x\sim q}  q(x) \log \frac{q(x)}{\log p(x)} $$
 with properties:
 $$KL(q\Vert p) \geq 0 \forall q,p$$
-$$KL(q\Vert p) = 0 iff q=p$$
+$$KL(q\Vert p) = 0$$ iff $$q=p$$
 
 It is however asymmetric: $$KL(q\Vert p) \ne KL(p \Vert q)$$. That is why it is called a divergence and not a distance.
 
@@ -762,7 +781,7 @@ Work on generalizing hinge loss (from SVM) to CRFs which leads to *structured su
 ### Maximum likelihood learning in Bayesian networks
 Given Bayesian network $$p(x)=\prod_{i=1}^n \theta_{x_i \vert x_{\text{parents}(i)}}$$ and i.i.d. samples $$D=\{x^{(1)}, \dots,x^{(m)}\}$$ ($$\theta$$ parameters are the conditional probabilities)
 
-Likelihood is $$L(\theta, D) = \prod_{i=1}^n \prod_{j=1}^m \theta_{x_i}^{(j)} \vert x_{\text{parents}(i)}^{(j)}$$
+Likelihood is $$L(\theta, D) = \prod_{i=1}^n \prod_{j=1}^m \theta_{x_i^{(j)} \vert x_{\text{parents}(i)}^{(j)}}$$
 
 Taking log and combinining same values: $$\log L(\theta, D) = \sum_{i=1}^n \sum_{x_{\text{parents}(i)}} \sum_{x_i} \lvert (x_i, x_{\text{parents}(i)})\rvert \cdot \log \theta_{x_i \vert x_{\text{parents}(i)}}$$
 
@@ -852,7 +871,7 @@ Conditional log-likelihood is still concave, but computing the gradient now requ
 
 One should try to limit the number of variables or make sure that the model's graph is not too densely connected.
 
-Popular objective for training CRFs: max-margin loss, a generalization of the objective for training SVMs. Models trained using this loss are called *structured support vector machines* or *max-margin networks*. Thiis loss is more widely used in practice. Only reauires MAP inference rather than general (e.g. marginal inference).
+Popular objective for training CRFs: max-margin loss, a generalization of the objective for training SVMs. Models trained using this loss are called *structured support vector machines* or *max-margin networks*. This loss is more widely used in practice. Only requires MAP inference rather than general (e.g. marginal inference).
 
 ## Learning in latent variables models (LVMs)
 * LVMs enable us to **leverage prior knowledge**. E.g. language model of news articles. We know our set of news articles is a mixture of $$K$$ distinct distributions (one for each topic). Let $$x$$ be an article and $$t$$ a topic (unobserved variable), we may build a more accurate model $$p(x\vert t)p(t)$$. We now learn a separate $$p(x\vert t)$$ for each topic rather than trying to model everything with one $$p(x)$$. However, since $$t$$ is unobserved we cannot use the previous learning methods.
@@ -1019,7 +1038,7 @@ complexity: $$O(n^2)$$
 #### Search algorithms
 * **local search**: start with empty/complete graph. at each step, perform single operation on graph strucure (add/remove/reverse edge, while preserving acyclic property). If score increases, then adopt attempt otherwise, make other attempt.
 
-* **greedy search** (K3 algorithm): assume topological order of graph in advance (for every directed edge uv from vertex u to vertex v, u comes before v in the ordering). Restrict parent set to variables with a higher order. While searching for parent set for each variable, add parent that increases the score most until no improvement can be made. (Doesn't that create an overfitting graph?). When specified topological order is a poor one, results in bad graph structure (low graph score).
+* **greedy search** (K3 algorithm): assume topological order of graph in advance (for every directed edge uv from vertex u to vertex v, u comes before v in the ordering). Restrict parent set to variables with a higher order. While searching for parent set for each variable, add parent that increases the score most until no improvement can be made. (Doesn't that create a complete graph? No: restricted by the topological order). When specified topological order is a poor one, results in bad graph structure (low graph score).
 
 Space is highly non-convex and both algos might get stuck at sub-optimal regions.
 
@@ -1033,3 +1052,97 @@ E.g.: distinguish V-structure and fork-structure by doing independence test for 
 * **ILP**: encodes graph structure, scoring and acyclic constraint into ILP problem and uses solver. Approach requires a bound on the maximum number of parents of any node. Otherwise, number of constraints explodes and problem becomes intractable
 
 ## Variational auto-encoder
+Deep learning technique for learning latent representations.
+
+Directed latent-variable model: $$p(x,z)=p(x\vert z)p(z)$$
+
+Deep generative model with $$m$$ layers: $$p(x, z_1, \dots, z_m) = p(x \vert z_1)p(z_1\vert z_2)\dotsp(z_{m-1}\vert z_m)p(z_m)$$
+
+Objectives:
+* learning parameters $$\theta$$ of $$p$$
+* approximate posterior inference over $$z$$ (given image $$x$$, what are its latent factors)
+* approximate marginal inference over $$x$$ (given image $$x$$ with missing parts, how do we fill them in)
+
+Assumptions:
+* intractable posterior probability $$p(z\vert x)$$
+* dataset is too large to fit in memory
+
+Standard approaches?
+* EM: need to compute posterior $$p(z\ver x)$$ (intractable) + would need to use online version of EM to perform M-step.
+* mean field: requires us to compute expectation. Time complexity scales exponentially with size of Markov blanket of target variable. For $$z$$, if at least one component of $$x$$ depends on each component of $$z$$, this introduces V-structure ($$x$$ explains away differences among $$z$$) and Markov blanket of some $$z_i$$ contains all the other $$z$$-variables (intractable)
+* sampling-based methods: authors (Kingma and Welling) found that they don't scale well on large datasets
+
+### Auto-encoding variational Bayes
+* seminal paper by Kingma and Welling
+* variational auto-encoder is one instantation of this algo
+
+ELBO:
+
+$$\mathcal{L}(p_\theta, q_\phi) = \mathbb{E}_{q_\phi (z\vert x)}[\log p_\theta (x,z) - \log q_\phi (z\vert x)]$$
+
+satisfies equation:
+
+$$\log p_\theta (x) = KL(q_\phi(z\vert x) \Vert p(z\vert x)) + \mathcal{L}(p_\theta, q_\phi)$$
+
+We are conditioning $$q(z)$$ on $$x$$. Could we optimize over $$q(z \vert x)$$ using mean field? No, assumption that $$q$$ is fully factored is too strong.
+
+Approach: **black-box variational inference**
+* gradient descent over $$\phi$$ (only assumption: $$q_\phi$$ differentiable as opposed to coordinate descent)
+* simultaneously perform learning via gradient descent on both $$\phi$$ (keep ELBO tight around $$\log p(x)$$) and $$\theta$$ (push up lower bound (hence $$\log p(x)$$)). Similar to EM algo.
+
+We need to compute gradient:
+
+$$\nabla_{\theta, \phi} \mathbb{E}_{q_\phi(z)}[\log p_\theta (x,z) - \log q_\phi(z)]$$
+
+For gradient over $$\theta$$ we can swap with expectation and estimate $$\mathbb{E}_{q_\phi(z)}[\nabla_\theta \log p_\theta (x,z)]$$ via Monte Carlo.
+
+Gradient w.r.t. $$\phi$$ via the **score function estimator** (see Appendix B of [Neural Variational Inference and Learning in Belief Networks](https://www.cs.toronto.edu/~amnih/papers/nvil.pdf)):
+
+$$\nabla_\phi \mathbb{E}_{q_\phi(z)}[\log p_\theta (x,z) - \log q_\phi(z)] = \mathbb{E}_{q_\phi(z)}[(\log p_\theta (x,z) - \log q_\phi(z))\nabla_\phi \log q_\phi (z)]$$
+
+(can evaluate using Monte-Carlo)
+
+However, score function estimator has high variance. VAE paper proposes alternative estimator that is much better behaved.
+
+**SGVB estimator**
+$$\mathcal{L}(p_\theta, q_\phi) = \mathbb{E}_q[\log p_\theta (x,z) - \log q_\phi(z\vert x)] = \mathbb{E}_q[\log p_\theta (x\vert z)p_\theta(z)] - \mathbb{E}_q [\log q_\phi(z\vert x)] = \mathbb{E}_q \log p_\theta (z) - KL(q_\phi (z\vert x) \Vert p(z))$$
+
+Thus the ELBO becomes:
+$$\log p_\theta (x) \geq \mathbb{E}_{q_\phi(z\vert x)} \log p_\theta (z) - KL(q_\phi (z\vert x) \Vert p(z))$$
+
+Interpretation:
+* calling $$q$$ the **encoder**, both terms take sample $$z\sim q(z\vert x)$$ which we interpret as a code describing $$x$$
+* first term is log-likelihood of observed $$x$$ given code $$z$$. $$p$$ is called **decoder network** and the term is called the **reconstruction error**
+* second term is divergence between $$q(z\vert x)$$ and prior $$p(z)$$, which is fixed to be a unit Normal. Encourages the codes $$z$$ to look Gaussian. It's a **regularization term** that prevents $$q(z\vert x)$$ to encode a simple identity mapping.
+* reminiscent of **auto-encoder** neural networks (learn $$\bar{x} = f(g(x))$$ by minimizing reconstruction loss $$\lVert \bar{x} - x \rVert$$), hence the name.
+
+Main contribution of the paper is a low-variance gradient estimator based on the **reparameterization trick**:
+
+$$ \nabla_\phi \E_{z \sim q_\phi(z\mid x)}\left[ f(x,z) \right] = \nabla_\phi \E_{\epsilon \sim p(\epsilon)}\left[ f(x, g_\phi(\epsilon, x)) \right] = \E_{\epsilon \sim p(\epsilon)}\left[ \nabla_\phi f(x, g_\phi(\epsilon, x)) \right]. $$
+
+where noise variable $$\epsilon$$ is sampled from a simple distribution $$p(\epsilon)$$ (e.g. standard normal) and deterministic transformation $$g_\phi(\epsilon, x)$$ maps random noise into more complex distribution $$q_\phi(z\vert x)$$.
+
+This approach has much lower variance (see appendix of [this paper by Rezende et al.](https://arxiv.org/pdf/1401.4082.pdf)) than the score function estimator.
+
+$$q$$ and $$p$$ are parameterized by neural networks (bridge between classical machine learning method (approximate Bayesian inference here) and modern deep learning):
+
+$$q(z\vert x) = \mathcal{N}(z; \vec{\mu}(x), \text{diag}(\vec{\sigma}(x))^2)$$
+
+$$p(x\vert z) = \mathcal{N}(z; \vec{\mu}(z), \text{diag}(\vec{\sigma}(z))^2)$$
+
+$$p(z) = \mathcal{N}(z; 0, I)$$
+
+where the \vec{\mu} and \vec{\sigma} functions are neural nets (two dense hidden layers of 500 units each).
+
+Experimental results:
+* Monte-Carlo EM and hybrid Monte-Carlo are quite accurate, but don’t scale well to large datasets.
+* Wake-sleep is a variational inference algorithm that scales much better; however it does not use the exact gradient of the ELBO (it uses an approximation), and hence it is not as accurate as AEVB.
+
+See original [paper](https://arxiv.org/abs/1312.6114)
+
+Papers that use VAE:
+* [DRAW](https://arxiv.org/pdf/1502.04623.pdf)
+* [Auxiliary Deep Generative Models](https://arxiv.org/pdf/1602.05473.pdf)
+* [Generating Sentences from a Continuous Space](https://arxiv.org/abs/1511.06349)
+
+## [Further readings](https://ermongroup.github.io/cs228-notes/extras/readings/)

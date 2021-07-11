@@ -9,8 +9,7 @@ tag: ML Ops
 {:toc}
 
 ## ML in research vs production: misalignment of interests
-* objective: state-of-the-art (SOTA) at the cost of complexity
-* e.g. ensembling is popular to win competitions but increases complexity
+* objective: state-of-the-art (SOTA) at the cost of complexity: e.g. ensembling is popular to win competitions but increases complexity
 * **risks of complexity**: more error-prone to deploy, slower to serve, harder to interpret (interpretability: allows you to detect biases and debug a model)
 * benchmarks incentivize accuracy at the expense of compactness, fairness, energy efficiency, interpretability
 * research prioritizes **fast training** (high throughput), production prioritizes **fast inference** (low latency)
@@ -24,7 +23,7 @@ In 2019, Booking.com found increasing latency by 30% in latency costs about 0.5%
 Majority of ML-related jobs are in productionizing ML as off-the-shelf models become more accessible and the "bigger, better" approach the research community is taking requires short-term business applications ($10+M in compute alone).
 
 ## Challenges in ML production
-* Data testing: is sample useful ?
+* Data testing: is sample useful?
 * Data and model versioning: see [DVC](https://github.com/iterative/dvc)
 * Monitoring for data-drift: see [Dessa](https://www.dessa.com/) (acquired by Square)
 * Data labeling: see [Snorkel](https://www.snorkel.org/)
@@ -109,9 +108,10 @@ Better algorithms vs more data:
 * Third party data: data that someone else collects about the general public
 
 ## Formats
-json, csv (row-based, access samples), parquet (column-based, access features; Hadoop, Amazon Redshift), avro (Hadoop), protobuf (TensorFlow), pickle (python, PyTorch)
+**Row-based is best to access samples, continuously write transactions. Column-based is best to access features.**
 
-Row-based is best to access samples, continuously write transactions. Column-based is best to access features.
+Examples of formats:
+json, csv (row-based, access samples), parquet (column-based, access features; Hadoop, Amazon Redshift), avro (Hadoop), protobuf (TensorFlow), pickle (python, PyTorch)
 
 CSV is text, Parquet is binary (more compact, but not human readable)
 
@@ -119,12 +119,14 @@ Pandas is column-based, whereas NumPy is row-based. Accessing a row in pandas is
 
 OLTP (OnLine Transaction Processing) vs. OLAP (OnLine Analytical Processing) databases.
 
-A repository for storing structured data (processed) is called a data warehouse. A repository for storing unstructured data (raw) is called a data lake.
+A repository for storing structured data (processed) is called a *data warehouse*. A repository for storing unstructured data (raw) is called a *data lake*.
 
-Stream storage: Apache Kafka, Amazon Kinesis. Stream processing: Apache Flink.
+Stream storage: Apache Kafka, Amazon Kinesis.\
+Stream processing: Apache Flink.
 
 **Having two different pipelines to process data is a common cause for bugs in ML production.**
 
+Readings:
 * [Uber’s Big Data Platform: 100+ Petabytes with Minute Latency](https://eng.uber.com/uber-big-data-platform/)
 * [Keystone Real-time Stream Processing Platform](https://netflixtechblog.com/keystone-real-time-stream-processing-platform-a3ee651812a)
 * [A Beginner’s Guide to Data Engineering](https://medium.com/@rchang/a-beginners-guide-to-data-engineering-part-i-4227c5c457d7)
@@ -152,3 +154,110 @@ zero-shot (no example, no gradient update) vs few-shot (few examples as input, n
 Model queries labels that are most helpful to its learning. See [Active Learning Litterature Survey](http://burrsettles.com/pub/settles.activelearning.pdf)
 
 # Model development and training - part I
+## Sampling
+Samples of real world data. Two families: *non-probability sampling* and *random sampling*.
+
+### Random sampling
+#### Simple random sample (SRS)
+Each sample has equal probability of being selected. Con: rare class is undersampled.
+
+#### Stratified sampling
+Divide population into groups (strata) and sample a certain percentage from each group. Challenging for multilabel class.
+
+#### Weighted sampling
+Each sample is given a probability of being selected. Embed subject matter expertise.
+
+Different from sample weights: sample weights are used to weight samples in the training loss, after being selected.
+
+#### Importance sampling
+See [Stanford CS228 Lecture Notes]({{ site.baseurl }}{% link content/stanford_cs228_probabilistic_graphical_modeling.html#importance-sampling.html %}).
+
+#### Reservoir sampling
+Imagine you have to sample $$k$$ tweets from an incoming stream of tweets with constraints:
+* you don't know how many tweets there are
+* you can't fit them all in memory
+* you want every tweet to have equal probability of being selected
+
+Solution:
+* first $$k$$ elements are put in the reservoir
+* for each incoming $$i$$-th element, generate random number $$j$$ between $$1$$ and $$i$$.
+* if $$1 \leq j \leq k$$, replace $$j$$-th element in reservoir with $$i$$-th
+
+Each incoming $$i$$-th has probability $$k/i$$ of being put in the reservoir and has a probability of $$(1/k)$$ of being placed at any position, given that it was sampled$$.
+Let's say there are $$n$$ elements in total (we don't know $$n$$). The probability of the $$i$$-th element of being put in the reservoir and staying in there (thus, in effect, probability of being sampled) once the stream has finished running is:
+
+$$k/i\times(1-k/(i+1)*1/k)\times\dots\times(1-k/n*1/k)$$
+
+$$= (k\times(i+1-1)\times\dots\times(n-1))/(i\times(i+1)\times\dots\times n)$$
+
+$$= \frac{k\times !(n-1)/!(i-1)} {!n/!(i-1)} = k/n$$
+
+Each item in the population has equal probability $$k/n$$ of being sampled.
+
+### Non-probability sampling
+See [personal notes](#)
+
+No probability rule for selecting a sample. Not representative of real world data and embedded with **selection bias**:
+* convenience sampling: (based on what is available, popular because convenient)
+* snowball sampling: future samples based on existing samples
+* judgment sampling: experts decide which sample to include
+* quota sampling: select sample based on quotas
+
+## Class imbalance
+Insufficient signal for minority class (effectively becomes few shot learning). Trivial solution (always predict majority class) can have high accuracy but is of no use.
+
+### Solutions
+Note: some argue that you should not try to fix class imbalance if that's how the data is in the real world. Why?
+#### Resampling
+
+**Undersampling: Tomek links**
+
+Find pairs of samples from opposite class that are close and rome the majority class. Clear decision boundary but possible under-fitting:
+
+![Tomek links](../assets/img/stanford_cs329s_machine_learning_systems_design/tomek_links.png)
+
+**Oversampling: SMOTE (Synthetic Minority Oversampling TEchnique)**
+
+Sample convex (=linear) combinations of existing data points within the minority class.
+
+![SMOTE](../assets/img/stanford_cs329s_machine_learning_systems_design/smote.png)
+
+**Oversampling: Data augmentation**
+
+For CV: random cropping, flipping, erasing, etc...
+
+Mixup (for speech and tabular data): mix X% of class A and Y% of class B. Incentivizes model to learn linear relationsips (assumption is that linear behavior reduces variance outside training set)
+
+#### Loss adjustment: weight balancing
+**Biasing towards rare class**
+* Naive version: weigth is inversely proportional to cardinality of the class
+* More sophisticated version: [Balanced Loss Based on Effective Number of Samples](https://openaccess.thecvf.com/content_CVPR_2019/papers/Cui_Class-Balanced_Loss_Based_on_Effective_Number_of_Samples_CVPR_2019_paper.pdf)
+
+**Biasing towards difficult samples**
+
+See [Focal Loss](https://arxiv.org/abs/1708.02002)
+
+![focal loss](../assets/img/stanford_cs329s_machine_learning_systems_design/focal_loss.png)
+
+#### Algorithms
+Ensembling methods such as boosting and bagging, together with resampling, perform well on imbalanced datasets.
+
+Papers:
+* [A Review on Ensembles for the Class Imbalance Problem: Bagging-, Boosting-, and Hybrid-Based Approaches](https://sci2s.ugr.es/keel/pdf/algorithm/articulo/2011-IEEE%20TSMC%20partC-%20GalarFdezBarrenecheaBustinceHerrera.pdf)
+* [Solving class imbalance problem using bagging, boosting techniques, with and without using noise filtering method](https://content.iospress.com/articles/international-journal-of-hybrid-intelligent-systems/his190261)
+
+**Bagging (bootstrap aggregating)**
+
+Sample bootstraps with replacement and learn one model per bootstrap. If classification, final prediction is majority vote. If regression, final prediction is average.
+
+Reduces variance (=prevents overfitting)
+
+**Boosting**
+
+Iteratively combine weak learners.
+
+See:
+* Adaboost (reweight samples and learners based on performance)
+* [Gradient Boosting Machine]({{ site.baseurl }}{% link content/gradient_boosting.html %}) (gradient descent in function space)
+* XGBoost (variant of Gradient Boosting Machine): used to be algorithm of choice for winning competitions
+* LightGBM: dethroned XGBoost in competitions. Faster training for similar accuracy.

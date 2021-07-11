@@ -21,5 +21,3 @@ layout: home
   </dl>
 {% endfor %}
 </div>
-
-<p class="display-4">Projects</p>

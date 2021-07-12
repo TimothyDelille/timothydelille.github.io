@@ -170,7 +170,7 @@ Each sample is given a probability of being selected. Embed subject matter exper
 Different from sample weights: sample weights are used to weight samples in the training loss, after being selected.
 
 #### Importance sampling
-See [Stanford CS228 Lecture Notes]({{ site.baseurl }}{% link content/stanford_cs228_probabilistic_graphical_modeling.html#importance-sampling.html %}).
+See [Stanford CS228 Lecture Notes](timothydelille.github.io/content/stanford_cs228_probabilistic_graphical_modeling.html#importance-sampling.html).
 
 #### Reservoir sampling
 Imagine you have to sample $$k$$ tweets from an incoming stream of tweets with constraints:
@@ -258,6 +258,6 @@ Iteratively combine weak learners.
 
 See:
 * Adaboost (reweight samples and learners based on performance)
-* [Gradient Boosting Machine]({{ site.baseurl }}{% link content/gradient_boosting.html %}) (gradient descent in function space)
+* [Gradient Boosting Machine](timothydelille.github.io/content/gradient_boosting.html) (gradient descent in function space)
 * XGBoost (variant of Gradient Boosting Machine): used to be algorithm of choice for winning competitions
 * LightGBM: dethroned XGBoost in competitions. Faster training for similar accuracy.
